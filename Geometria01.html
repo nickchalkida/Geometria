@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title>Geometria</title>
+<link rel="stylesheet" type="text/css" href="styles/styles.css" />
+<link rel="stylesheet" type="text/css" href="http://jsxgraph.uni-bayreuth.de/distrib/jsxgraph.css" />
+<script type="text/javascript" src="http://jsxgraph.uni-bayreuth.de/distrib/jsxgraphcore.js"></script>
+
+</head>
+
+<body>
+
+<div id="menu_left_container">
+<input class="toolitem" id="tool01" type="image" src="images/A1.svg" onclick="onToolClick('tool01')">
+<input class="toolitem" id="tool02" type="image" src="images/A2.svg" onclick="onToolClick('tool02')">
+<input class="toolitem" id="tool03" type="image" src="images/A1.svg" onclick="onToolClick('tool03')">
+</div>
+<div id="box" class="jxgbox" style="width:512px; height:512px;"></div>
+
+	
+<script src="js/globals.js"></script>
+<script src="js/tool_functions.js"></script>
+<script type="text/javascript">
+ //var board = JXG.JSXGraph.initBoard('box', {boundingbox: [-10, 10, 10, -10], axis:true});
+ 
+ 
+ var getMouseCoords = function(e, i) {
+        var cPos = board.getCoordsTopLeftCorner(e, i),
+            absPos = JXG.getPosition(e, i),
+            dx = absPos[0]-cPos[0],
+            dy = absPos[1]-cPos[1];
+
+        return new JXG.Coords(JXG.COORDS_BY_SCREEN, [dx, dy], board);
+    }
+    
+    var down = function(e) {
+        var canCreate = true, i, coords, el;
+
+        if (e[JXG.touchProperty]) {
+            // index of the finger that is used to extract the coordinates
+            i = 0;
+        }
+        coords = getMouseCoords(e, i);
+
+        for (el in board.objects) {
+            if(JXG.isPoint(board.objects[el]) && board.objects[el].hasPoint(coords.scrCoords[1], coords.scrCoords[2])) {
+                canCreate = false;
+                break;
+            }
+        }
+
+        if (canCreate) {
+            board.create('point', [coords.usrCoords[1], coords.usrCoords[2]]);
+        } 
+        
+        else {
+        //alert("1");
+            board.objects[el].setAttribute({ visible: true, fillColor:'#ffff00' });
+        } 
+    }
+    
+   
+    var board = JXG.JSXGraph.initBoard('box', {boundingbox: [-10,10,10,-10], axis: true});
+
+    board.on('down', down);
+    
+    window.oncontextmenu = function (){
+  alert('Right Click')
+    }
+</script>
+
+</body> 
+</html>     

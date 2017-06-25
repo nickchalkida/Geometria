@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title>Toolbar</title>
+<style type="text/css">
+#menu_left_container {
+    float: left;
+    padding: 2px;
+    background-color: lightgrey;
+    width: 60px;
+}
+
+.actitem {
+    width: 50px;
+    height: 50px;
+    padding: 5px;
+    background-color:yellow;
+    margin: auto;
+    display: block;
+}
+
+.actitem1 {
+    width: 50px;
+    height: 50px;
+    padding: 5px;
+    background-color:green;
+    margin: auto;
+    display: block;
+}
+
+</style>
+
+<script>
+function myFunction(id) {
+    //document.getElementById("demo").innerHTML = "Hello World";
+    //var id = "act01";
+    var x = document.getElementById(id).className = "actitem1"
+    //alert(x);
+    //document.getElementById("act01").style.width = 20;
+}
+</script>
+</head>
+
+<body>
+
+<div id="menu_left_container">
+<input class="actitem" id="act01" type="image" src="A1.svg" onclick="myFunction('id')">
+<input class="actitem" id="act02" type="image" src="A2.svg" onclick="myFunction()">
+<input class="actitem" id="act03" type="image" src="A1.svg" onclick="myFunction()">
+</div>
+	
+</body> 
+</html>     
