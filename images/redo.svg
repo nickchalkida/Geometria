@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg2"
+   sodipodi:docname="redo.svg"
+   inkscape:export-filename="C:\Users\Joshua\Documents\Visual Studio 2005\Projects\Flash-cards_share_code\Flash-Cards Wpf\Flash-Cards Wpf\Svg Package\Undo Blue.png"
+   viewBox="0 0 503.17 401.17"
+   sodipodi:version="0.32"
+   inkscape:export-xdpi="22.468403"
+   version="1.0"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   inkscape:export-ydpi="22.468403"
+   inkscape:version="0.91 r13725">
+  <defs
+     id="defs4">
+    <linearGradient
+       id="linearGradient3182"
+       y2="873.23"
+       gradientUnits="userSpaceOnUse"
+       x2="586.27"
+       gradientTransform="matrix(-1,0,0,1,1135.35,18)"
+       y1="527.36"
+       x1="691.99"
+       inkscape:collect="always">
+      <stop
+         id="stop3186"
+         style="stop-color:#cdd5ff"
+         offset="0" />
+      <stop
+         id="stop3188"
+         style="stop-color:#7070e5"
+         offset="1" />
+    </linearGradient>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     bordercolor="#666666"
+     inkscape:pageshadow="2"
+     guidetolerance="10"
+     pagecolor="#ffffff"
+     gridtolerance="10000"
+     inkscape:window-height="1026"
+     inkscape:zoom="1.2463544"
+     objecttolerance="10"
+     showgrid="false"
+     borderopacity="1.0"
+     inkscape:current-layer="layer1"
+     inkscape:cx="251.58501"
+     inkscape:cy="200.58501"
+     inkscape:window-y="24"
+     inkscape:window-x="65"
+     inkscape:window-width="1615"
+     inkscape:pageopacity="0.0"
+     inkscape:document-units="px"
+     inkscape:window-maximized="1" />
+  <g
+     id="layer1"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     transform="translate(-317.7 -490.06)">
+    <path
+       id="path2390"
+       sodipodi:nodetypes="ccccccc"
+       style="fill:url(#linearGradient3182);fill-rule:evenodd"
+       d="m 712.49,613.22 92.86,-92.86 0,358.57 -350,0 112.86,-112.85 c 0,0 -43.13,-176.41 -241.43,-104.29 164.37,-180.68 269.89,-75.27 385.71,-48.57 z"
+       inkscape:connector-curvature="0" />
+    <path
+       id="path3190"
+       sodipodi:nodetypes="cccccsssccc"
+       style="fill:none;stroke:#ffffff;stroke-width:19.29199982;stroke-opacity:0.17552999"
+       d="m 719.26,638.05 63.74,-63.91 0,284.05 -273.76,-1.78 83.21,-83.46 c 0,0 -6.27,-41.18 -33.57,-76.05 -14.48,-18.5 -32.99,-40.66 -60.34,-54.05 -12.13,-5.94 -26.06,-12.16 -42.38,-16.13 -16.32,-3.97 -34.04,-5.18 -54.01,-2.88 71.09,-52.65 117.51,-47.06 160.89,-36.95 54.47,14.66 101.82,38.73 156.22,51.16 z"
+       inkscape:connector-curvature="0" />
+    <path
+       id="path2396"
+       style="fill:#000080;fill-rule:evenodd;fill-opacity:1"
+       d="m 817.66,490.66 0,29.72 0,358.56 0,12.28 -12.31,0 -350,0 -29.69,0 21,-20.97 107.63,-107.66 C 550.13,750.04 538.41,720.5 513.23,695.66 480.44,663.32 426.83,638.48 330.97,673.34 L 317.69,653.5 c 83.87,-92.19 156.68,-113.48 221.57,-105.97 62.38,7.22 116.41,38.22 169.59,51.94 l 87.81,-87.81 21,-21 z m -24.62,59.4 -71.85,71.85 -4.81,4.84 -6.65,-1.53 c -60.57,-13.96 -115.37,-46.55 -173.29,-53.25 -49.87,-5.77 -102.92,5.64 -168.09,65.41 77.03,-15.35 129.85,8.88 162.16,40.74 38.35,37.84 49.65,85.04 49.65,85.04 l 1.63,6.72 -4.88,4.9 -91.87,91.84 308,0 0,-316.56 z"
+       inkscape:connector-curvature="0" />
+  </g>
+  <metadata
+     id="metadata15">
+    <rdf:RDF>
+      <cc:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
+        <dc:publisher>
+          <cc:Agent
+             rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:title>Undo Blue</dc:title>
+        <dc:date>2010-04-07T19:46:15</dc:date>
+        <dc:description />
+        <dc:source>https://openclipart.org/detail/38971/undo-blue-by-mightyman</dc:source>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>mightyman</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>arrow</rdf:li>
+            <rdf:li>blue undo</rdf:li>
+            <rdf:li>button icon</rdf:li>
+            <rdf:li>icon</rdf:li>
+            <rdf:li>toolbar</rdf:li>
+            <rdf:li>toolbar icon</rdf:li>
+            <rdf:li>undo</rdf:li>
+            <rdf:li>undo blue</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+</svg>
