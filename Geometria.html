@@ -1,0 +1,158 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title>Geometria</title>
+<link rel="stylesheet" type="text/css" href="styles/styles.css" />
+<link rel="stylesheet" type="text/css" href="http://jsxgraph.uni-bayreuth.de/distrib/jsxgraph.css" />
+<script type="text/javascript" src="http://jsxgraph.uni-bayreuth.de/distrib/jsxgraphcore.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+</head>
+
+<body>
+
+<div id="top_container">
+<input class="baritem"  id="idNewFile" type="image" src="images/new_file.svg" onclick="NewFile()"              title="NewFile"/>
+<a href="javascript:void(0)" id="dlbtn">
+<input class="baritem"  id="idSave"    type="image" src="images/save.svg"     onclick="Save()"                 title="Save"/>
+</a>
+<input class="baritem"  id="idUnDo"    type="image" src="images/undo.svg"     onclick="UnDo()"                 title="Undo"/>
+<input class="baritem"  id="idReDo"    type="image" src="images/redo.svg"     onclick="ReDo()"                 title="Redo"/>
+<input class="toolitem" id="TDelete"   type="image" src="images/delete.svg"   onclick="onToolClick('TDelete')" title="Delete"/>
+<input class="baritem"  id="idAxis"    type="image" src="images/axis.svg"     onclick="ToggleAxis()"           title="Toggle Axis"/>
+<input class="toolitem" id="TText"     type="image" src="images/text.svg"     onclick="onToolClick('TText')"   title="Text"/>
+<input                  id="idTextIn"  type="text"  value="Hello!"                                             title="Text Input"/> 
+</div>
+
+<div id="middle_container">
+<div id="menu_left_container">
+<input class="toolitem" id="TPoint"         type="image" src="images/point.svg"         onclick="onToolClick('TPoint')"         title="Point - Click on board"/>
+<input class="toolitem" id="TSelect"        type="image" src="images/select.svg"        onclick="onToolClick('TSelect')"        title="Drag or Select objects"/>
+<input class="toolitem" id="TMidPoint"      type="image" src="images/midpoint.svg"      onclick="onToolClick('TMidPoint')"      title="Midpoint - Select two points"/>
+<input class="toolitem" id="TSegment"       type="image" src="images/segment.svg"       onclick="onToolClick('TSegment')"       title="Segment - Select two points"/>
+<input class="toolitem" id="TLine"          type="image" src="images/line.svg"          onclick="onToolClick('TLine')"          title="Line - Select two points"/>
+<input class="toolitem" id="TSemiLine"      type="image" src="images/line.svg"          onclick="onToolClick('TSemiLine')"      title="SemiLine - Select start point, point towards infinity"/>
+<input class="toolitem" id="TIntersection"  type="image" src="images/intersection.svg"  onclick="onToolClick('TIntersection')"  title="Intersection - Click on two curves"/>
+<input class="toolitem" id="TAngle"         type="image" src="images/anglebisector.svg" onclick="onToolClick('TAngle')"         title="Angle - Select three points"/>
+<input class="toolitem" id="TAngleBisector" type="image" src="images/anglebisector.svg" onclick="onToolClick('TAngleBisector')" title="AngleBisector - Select three points"/>
+<input class="toolitem" id="TParallel"      type="image" src="images/parallel.svg"      onclick="onToolClick('TParallel')"      title="Parallel - Select a point and a line"/>
+<input class="toolitem" id="TPerpendicular" type="image" src="images/perpendicular.svg" onclick="onToolClick('TPerpendicular')" title="Perpendicular - Select a point and a line"/>
+<input class="toolitem" id="TCircle3Points" type="image" src="images/circle3points.svg" onclick="onToolClick('TCircle3Points')" title="Circle - Select three points"/>
+<input class="toolitem" id="TCircle"        type="image" src="images/circle.svg"        onclick="onToolClick('TCircle')"        title="Circle - Select two points"/>
+<input class="toolitem" id="TSemicircle"    type="image" src="images/semicircle.svg"    onclick="onToolClick('TSemicircle')"    title="Semicircle - Select two points"/>
+<input class="toolitem" id="TEllipse3P"     type="image" src="images/circle3points.svg" onclick="onToolClick('TEllipse3P')"     title="Ellipse - Select three points"/>
+<input class="toolitem" id="THyperbola3P"   type="image" src="images/circle3points.svg" onclick="onToolClick('THyperbola3P')"   title="Hyperbola - Select three points"/>
+<input class="toolitem" id="TConic5P"       type="image" src="images/circle3points.svg" onclick="onToolClick('TConic5P')"       title="Conic - Select five points"/>
+<input class="toolitem" id="TIncircle"      type="image" src="images/incircle.svg"      onclick="onToolClick('TIncircle')"      title="Inscribed Circle - Select three points"/>
+<input class="toolitem" id="TPolygon"       type="image" src="images/polygon.svg"       onclick="onToolClick('TPolygon')"       title="Polygon - Select points"/>
+</div>
+
+<div id="mainbox" class="jxgbox" style="width:768px; height:768px; display: inline-block; float: left;"></div>
+
+<div id="properties_container">
+<table>
+<colgroup>
+	<col style="width:42%">
+	<col style="width:58%">
+</colgroup>  
+<tr>
+	<th>Object Editor</th>
+	<th><select id="objSelector" style="width:150px" onchange="ObjectSelectorChanged()"></select></th>
+</tr>
+<tr>
+	<th>Property</th>
+	<th>Value</th>
+</tr>
+<tr>
+    <td>Object ID</td>
+    <td><input id="EDObjID" type="text" value="" style="width:150px; background-color: lightgrey;" readonly title="Object ID"/></td>
+</tr>
+<tr>
+    <td>Object Name</td>
+    <td><input id="EDObjName" type="text" value="" style="width:150px" title="Object Name"/></td>
+</tr>
+<tr>
+    <td>Type</td>
+    <td><input id="EDObjType" type="text" value="" style="width:150px; background-color: lightgrey;" readonly title="Object Type"/></td>
+</tr>
+<tr>
+    <td>Size</td>
+    <td><input id="EDObjSize" type="text" value="" style="width:150px" title="Object Size"/></td>
+</tr>
+<tr>
+    <td></td>
+	<td><input type="checkbox" id="EDVisibility" value=""/><label>Visible</label></td>
+</tr>
+<tr>
+    <td>Fill Color - % </td>
+    <td>
+	<input id="EDobjfillcolor" type="color" value="#123456" title="Fill Color"/>
+	<input id="hiddenspace02" type="text"/>
+	<input type="number" id="EDfillopacity" min="0" max="100" step="1" value="" style="vertical-align: top;" title="Fill Opacity" />
+	</td>
+</tr>
+<tr>
+    <td>Stroke Color - % </td>
+    <td>
+	<input id="EDobjstrokecolor" type="color" value="#00ff77" title="Stroke Color"/>
+	<input id="hiddenspace02" type="text"/>
+	<input type="number" id="EDstrokeopacity" min="0" max="100" step="1" value="" style="vertical-align: top;" title="Stroke Opacity" />
+	</td>
+</tr>
+<tr>
+    <td>Stroke Size</td>
+    <td><input id="EDObjStrokeWidth" type="text" value="" style="width:150px" title="Stroke Width"/></td>
+</tr>
+<tr>
+    <td></td>
+    <td></td>
+</tr>
+<tr>
+    <td></td>
+    <td>
+	<input type="button" value="Apply" onclick="ApplyObjectChanges()">
+	</td>
+</tr>
+</table>
+</div>
+
+</div>
+
+<div id="bottom_container">
+<input id="checkfill" type="checkbox" checked onclick="GetCurrentDrawParams()"/><label>Fill</label>
+<input class="readonlylabel" id="TFfillcolor" type="text" value="#ffff00" readonly title="Fill Color"/> 
+<input id="fillcolor" type="color" value="#ffff00" />
+<input type="number" id="fillopacity" min="0" max="100" step="1" value="50" title="Fill Opacity" />
+<input id="hiddenspace01" type="text"/>
+ 
+<input id="checkstroke" type="checkbox" checked onclick="GetCurrentDrawParams()"/><label>Stroke</label>
+<input class="readonlylabel" id="TFstrokecolor" type="text" value="#000060" readonly title="Stroke Color"/> 
+<input id="strokecolor" type="color" value="#000060" />
+<input type="number" id="strokeopacity" min="0" max="100" step="1" value="100" title="Stroke Opacity" />
+<input type="number" id="strokewidth" min="0" max="100" step="1" value="2" title="Stroke Width" />
+<input id="hiddenspace01" type="text"/>
+
+<input class="baritem" id="idFunction" type="image" src="images/function.svg" style="margin-bottom:-15px" onclick="CalcFunction()" title="Function"/>
+<input id="idFunctionInput" type="text" value="x*pow(e,sin(x))+pi*cos(x)/x" style="width:220px" title="Input function expression"/> 
+<label>[</label>
+<input id="idLBound" type="text" value="-10" style="width:20px" title="Left Bound"/> 
+<label>,</label>
+<input id="idRBound" type="text" value="10" style="width:20px" title="Right Bound"/> 
+<label>]</label>
+</div>
+	
+<script src="js/globals.js"></script>
+<script src="js/tool_functions.js"></script>
+<script src="js/nquery.js"></script>
+<script src="js/events.js"></script>
+<script type="text/javascript">
+    NewFile();
+    mainboard.on('mousedown', onboardmousedown);
+    //mainboard.on('down', onboardmousedown);
+	//mainboard.on('up', onboardmouseup);
+	mainbox.addEventListener("contextmenu", onboardrightmouseclick);
+</script>
+
+</body> 
+</html>     
