@@ -1,0 +1,579 @@
+
+function onTDeleteClick() {
+    boardDelete();
+}
+
+function onTSelectClick() {
+    //alert("onTSelectClick");
+}
+
+function onTPointClick() {
+    //alert("onTPointClick");
+}
+
+function onTMidPointClick() {
+	var p0, p1, m0;
+	var slen = SELECTED_OBJECTS.length;
+    if (slen < 2)
+        return;
+	// Check there are not points
+	if (!isLikePoint(SELECTED_OBJECTS[slen-1]) || !isLikePoint(SELECTED_OBJECTS[slen-2]))
+        return UnDraftBoard();
+
+    p1 = SELECTED_OBJECTS.pop();
+    p0 = SELECTED_OBJECTS.pop();
+
+    boardCreate('midpoint',[p0,p1], '');
+
+}
+
+function onTSegmentClick() {
+    var p0, p1;
+	var slen = SELECTED_OBJECTS.length;
+    if (slen < 2)
+        return;
+	// Check for point-point semantics
+	if (!isLikePoint(SELECTED_OBJECTS[slen-1]) || !isLikePoint(SELECTED_OBJECTS[slen-2]))
+        return UnDraftBoard();
+
+    p1 = SELECTED_OBJECTS.pop();
+    p0 = SELECTED_OBJECTS.pop();
+
+    boardCreate('segment', [p0, p1], getDrawAttrs());
+
+}
+
+function onTLineClick() {
+    //alert("onTLineClick");
+    var p0, p1;
+	var slen = SELECTED_OBJECTS.length;
+    if (slen < 2)
+        return;
+	// Check for point-point semantics
+	if (!isLikePoint(SELECTED_OBJECTS[slen-1]) || !isLikePoint(SELECTED_OBJECTS[slen-2]))
+        return UnDraftBoard();
+
+    p1 = SELECTED_OBJECTS.pop();
+    p0 = SELECTED_OBJECTS.pop();
+
+    boardCreate('line', [p0, p1], getDrawAttrs());
+
+}
+
+function onTSemiLineClick() {
+    //alert("onTLineClick");
+    var p0, p1;
+	var slen = SELECTED_OBJECTS.length;
+    if (slen < 2)
+        return;
+	// Check for point-point semantics
+	if (!isLikePoint(SELECTED_OBJECTS[slen-1]) || !isLikePoint(SELECTED_OBJECTS[slen-2]))
+        return UnDraftBoard();
+
+    p1 = SELECTED_OBJECTS.pop();
+    p0 = SELECTED_OBJECTS.pop();
+
+	var attrs = getDrawAttrs();
+	var extattrs = {
+	fillColor: attrs.fillColor,
+	fillOpacity: attrs.fillOpacity,
+	strokeColor: attrs.strokeColor,
+	strokeOpacity: attrs.strokeOpacity,
+	strokeWidth: attrs.strokeWidth,
+	straightFirst: false, 
+	straightLast: true	
+	};
+    boardCreate('line', [p0, p1], extattrs);
+
+}
+
+
+function onTIntersectionClick() {
+	var p0, p1, I0, I1;
+	var slen = SELECTED_OBJECTS.length;
+    if (slen < 2)
+        return;
+	// Check there are not points
+	if (isLikePoint(SELECTED_OBJECTS[slen-1]) || isLikePoint(SELECTED_OBJECTS[slen-2]))
+        return UnDraftBoard();
+
+    p1 = SELECTED_OBJECTS.pop();
+    p0 = SELECTED_OBJECTS.pop();
+	
+	I0 = boardCreate('intersection',[p0,p1,0],'');
+	I1 = boardCreate('otherintersection',[p0,p1,I0],'');
+
+}
+
+function onTCircleClick() {
+    //alert("onTCircleClick");
+    var p0, p1;
+	var slen = SELECTED_OBJECTS.length;
+    if (slen < 2)
+        return;
+	// Check for point-point semantics
+	if (!isLikePoint(SELECTED_OBJECTS[slen-1]) || !isLikePoint(SELECTED_OBJECTS[slen-2]))
+        return UnDraftBoard();
+
+    p1 = SELECTED_OBJECTS.pop();
+    p0 = SELECTED_OBJECTS.pop();
+
+    boardCreate('circle', [p0, p1], getDrawAttrs());
+}
+
+function onTSemicircleClick() {
+    //alert("onTSemicircleClick");
+    var p0, p1;
+	var slen = SELECTED_OBJECTS.length;
+    if (slen < 2)
+        return;
+	// Check for point-point semantics
+	if (!isLikePoint(SELECTED_OBJECTS[slen-1]) || !isLikePoint(SELECTED_OBJECTS[slen-2]))
+        return UnDraftBoard();
+
+    p1 = SELECTED_OBJECTS.pop();
+    p0 = SELECTED_OBJECTS.pop();
+
+    boardCreate('semicircle', [p0, p1], getDrawAttrs());
+}
+
+function onTAngleBisectorClick() {
+    //alert("onTCircle3PointsClick");
+	
+    var p0, p1, p2;
+	var slen = SELECTED_OBJECTS.length;
+    if (slen < 3)
+        return;
+
+	// Check for point-point-point semantics
+	if (!isLikePoint(SELECTED_OBJECTS[slen-1]) || 
+		!isLikePoint(SELECTED_OBJECTS[slen-2]) ||
+		!isLikePoint(SELECTED_OBJECTS[slen-3]) )
+        return UnDraftBoard();
+	
+    p2 = SELECTED_OBJECTS.pop();
+    p1 = SELECTED_OBJECTS.pop();
+    p0 = SELECTED_OBJECTS.pop();
+
+    boardCreate('bisector', [p0, p1, p2], getDrawAttrs());
+}
+
+function onTAngleClick() {
+    //alert("onTAngleClick");
+	
+    var p0, p1, p2;
+	var slen = SELECTED_OBJECTS.length;
+    if (slen < 3)
+        return;
+
+	// Check for point-point-point semantics
+	if (!isLikePoint(SELECTED_OBJECTS[slen-1]) || 
+		!isLikePoint(SELECTED_OBJECTS[slen-2]) ||
+		!isLikePoint(SELECTED_OBJECTS[slen-3]) )
+        return UnDraftBoard();
+	
+    p2 = SELECTED_OBJECTS.pop();
+    p1 = SELECTED_OBJECTS.pop();
+    p0 = SELECTED_OBJECTS.pop();
+
+    boardCreate('angle', [p0, p1, p2], getDrawAttrs());
+}
+
+function onTParallelClick() {
+    //alert("onTParallelClick");
+    var a0, a1, p0, p1;
+	var slen = SELECTED_OBJECTS.length;
+    if (slen < 2)
+        return;
+
+	if (!(
+		(isLikePoint(SELECTED_OBJECTS[slen-1]) && isLikeLine (SELECTED_OBJECTS[slen-2])) ||
+		(isLikeLine (SELECTED_OBJECTS[slen-1]) && isLikePoint(SELECTED_OBJECTS[slen-2])) ))
+		return UnDraftBoard();
+		
+    a1 = SELECTED_OBJECTS.pop();
+    a0 = SELECTED_OBJECTS.pop();
+    // Toggle the order if necessary
+    if (isLikePoint(a0)) {
+        p0 = a0;
+        p1 = a1;
+    } else {
+        p0 = a1;
+        p1 = a0;
+    }
+
+    boardCreate('parallel', [p0, p1], getDrawAttrs());
+
+}
+
+function onTPerpendicularClick() {
+    //alert("onTPerpendicularClick");
+    var a0, a1, p0, p1;
+	var slen = SELECTED_OBJECTS.length;
+    if (slen < 2)
+        return;
+
+	if (!(
+		(isLikePoint(SELECTED_OBJECTS[slen-1]) && isLikeLine (SELECTED_OBJECTS[slen-2])) ||
+		(isLikeLine (SELECTED_OBJECTS[slen-1]) && isLikePoint(SELECTED_OBJECTS[slen-2])) ))
+		return UnDraftBoard();
+		
+    a1 = SELECTED_OBJECTS.pop();
+    a0 = SELECTED_OBJECTS.pop();
+
+    // Toggle the order if necessary
+    if (isLikePoint(a0)) {
+        p0 = a0;
+        p1 = a1;
+    } else {
+        p0 = a1;
+        p1 = a0;
+    }
+
+    var pp = boardCreate('perpendicularpoint', [p0, p1], getDrawAttrs());
+    var li = boardCreate('segment', [p0, pp], getDrawAttrs());
+
+}
+
+function onTCircle3PointsClick() {
+    //alert("onTCircle3PointsClick");
+    var p0, p1, p2;
+	var slen = SELECTED_OBJECTS.length;
+    if (slen < 3)
+        return;
+
+	// Check for point-point-point semantics
+	if (!isLikePoint(SELECTED_OBJECTS[slen-1]) || 
+		!isLikePoint(SELECTED_OBJECTS[slen-2]) ||
+		!isLikePoint(SELECTED_OBJECTS[slen-3]) )
+        return UnDraftBoard();
+	
+    p2 = SELECTED_OBJECTS.pop();
+    p1 = SELECTED_OBJECTS.pop();
+    p0 = SELECTED_OBJECTS.pop();
+
+    boardCreate('circumcircle', [p0, p1, p2], getDrawAttrs());
+}
+
+function onTConic3PClick(conictype) {
+    //alert("onTCircle3PointsClick");
+    var p0, p1, p2;
+	var slen = SELECTED_OBJECTS.length;
+    if (slen < 3)
+        return;
+
+	// Check for point-point-point semantics
+	if (!isLikePoint(SELECTED_OBJECTS[slen-1]) || 
+		!isLikePoint(SELECTED_OBJECTS[slen-2]) ||
+		!isLikePoint(SELECTED_OBJECTS[slen-3]) )
+        return UnDraftBoard();
+	
+    p2 = SELECTED_OBJECTS.pop();
+    p1 = SELECTED_OBJECTS.pop();
+    p0 = SELECTED_OBJECTS.pop();
+
+   switch (conictype) {
+        case 'Ellipse':
+            boardCreate('ellipse', [p0, p1, p2], getDrawAttrs());
+            break;
+        case 'Hyperbola':
+            boardCreate('hyperbola', [p0, p1, p2], getDrawAttrs());
+            break;
+        //case 'Parabola':
+        //    boardCreate('parabola', [p0, p1, p2], getDrawAttrs());
+        //    break;
+		default:;
+   }
+    
+}
+
+function onTConic5PClick() {
+    //alert("onTConic5PClick");
+    var p0, p1, p2, p3, p4;
+	var slen = SELECTED_OBJECTS.length;
+    if (slen < 5)
+        return;
+
+	// Check for point-point-point semantics
+	if (!isLikePoint(SELECTED_OBJECTS[slen-1]) || 
+		!isLikePoint(SELECTED_OBJECTS[slen-2]) ||
+		!isLikePoint(SELECTED_OBJECTS[slen-3]) ||
+		!isLikePoint(SELECTED_OBJECTS[slen-4]) ||
+		!isLikePoint(SELECTED_OBJECTS[slen-5]) )
+        return UnDraftBoard();
+	
+    p4 = SELECTED_OBJECTS.pop();
+    p3 = SELECTED_OBJECTS.pop();
+    p2 = SELECTED_OBJECTS.pop();
+    p1 = SELECTED_OBJECTS.pop();
+    p0 = SELECTED_OBJECTS.pop();
+
+    boardCreate('conic', [p0, p1, p2, p3, p4], getDrawAttrs());
+}
+
+
+function onTPolygonClick() {
+    //alert("onTPolygonClick");
+    var p0,v0;
+    var found="false", el;
+    var V = [];
+    
+    if (SELECTED_OBJECTS.length < 3)
+        return;
+
+    V.length = 0;
+    for (el in SELECTED_OBJECTS) {
+        p0 = SELECTED_OBJECTS[el];
+        if (isLikePoint(p0))
+            V.push(p0);
+    }
+    
+    if (V.length < 3)
+        return;
+        
+    v0 = V.pop(); 
+    for (el in V) {
+        if (v0.id == V[el].id) {
+            found = "true";
+            break;
+        }
+    }
+    
+    if (found=="true") {
+        boardCreate('polygon', V, getDrawAttrs());
+    }
+}
+
+function onTIncircleClick() {
+	var p0, p1, p2;
+	var slen = SELECTED_OBJECTS.length;
+    if (slen < 3)
+        return;
+
+	// Check for point-point-point semantics
+	if (!isLikePoint(SELECTED_OBJECTS[slen-1]) || 
+		!isLikePoint(SELECTED_OBJECTS[slen-2]) ||
+		!isLikePoint(SELECTED_OBJECTS[slen-3]) )
+        return UnDraftBoard();
+	
+    p2 = SELECTED_OBJECTS.pop();
+    p1 = SELECTED_OBJECTS.pop();
+    p0 = SELECTED_OBJECTS.pop();
+
+    boardCreate('incircle', [p0, p1, p2], getDrawAttrs());
+}
+
+function onTTextClick(x0,y0,textstr) {
+	
+	//alert("onTTextClick");
+	var SPoint = mainboard.create('point',[x0,y0],{name:textstr, size:2});
+
+	var func0str = "return " + SPoint.X + ";";
+	var f0 = new Function('', func0str);
+
+	var func1str = "return " + SPoint.Y + ";";
+	var f1 = new Function('', func1str);
+	
+	//var func2str = "return " + textstr + ";";
+	//var f2 = new Function('', func2str);
+	
+	var FA = [];
+	FA.push(f0);
+	FA.push(f1);
+	FA.push(f0);
+	
+    var txt = boardCreate('text', FA, getDrawAttrs());
+}
+
+function onTImageClick() {
+	//alert("onTImageClick");
+	var urlImg = "http://jsxgraph.uni-bayreuth.de/distrib/images/uccellino.jpg";
+	//var urlImg = "file:\/\/C:\/Users\/nlk\/DEVELOP_HTML\/Geometria\/images\/image.svg";
+	var im = mainboard.create('image',[urlImg, [-1,-1], [3,3] ]);
+
+}
+
+function onToolClick(tid) {
+    if (CUR_TOOL_ID != "") {
+        document.getElementById(CUR_TOOL_ID).className = "toolitem"
+    }
+
+    CUR_TOOL_ID = tid;
+    document.getElementById(CUR_TOOL_ID).className = "toolitem_selected"
+
+	try {
+    switch (CUR_TOOL_ID) {
+        case 'TDelete':
+            onTDeleteClick();
+            break;
+        case 'TSelect':
+            onTSelectClick();
+            break;
+        case 'TPoint':
+            onTPointClick();
+            break;
+        case 'TMidPoint':
+            onTMidPointClick();
+            break;
+        case 'TLine':
+            onTLineClick();
+            break;
+        case 'TSemiLine':
+            onTSemiLineClick();
+            break;
+        case 'TIntersection':
+            onTIntersectionClick();
+            break;
+        case 'TAngleBisector':
+            onTAngleBisectorClick();
+            break;
+        case 'TAngle':
+            onTAngleClick();
+            break;
+        case 'TParallel':
+            onTParallelClick();
+            break;
+        case 'TPerpendicular':
+            onTPerpendicularClick();
+            break;
+        case 'TSegment':
+            onTSegmentClick();
+            break;
+        case 'TCircle':
+            onTCircleClick();
+            break;
+        case 'TSemicircle':
+            onTSemicircleClick();
+            break;
+        case 'TCircle3Points':
+            onTCircle3PointsClick();
+            break;
+        case 'TEllipse3P':
+            onTConic3PClick('Ellipse');
+            break;
+        case 'THyperbola3P':
+            onTConic3PClick('Hyperbola');
+            break;
+        case 'TConic5P':
+            onTConic5PClick();
+            break;
+        case 'TPolygon':
+            onTPolygonClick();
+            break;
+        case 'TIncircle':
+            onTIncircleClick();
+            break;
+        default: ;
+        case 'TImage':
+            onTImageClick();
+            break;
+        case 'TText':
+            //onTTextClick();
+            break;
+    } // end select
+	} catch (err) {
+		alert("Exception caught " + err);
+	}
+
+}
+
+function getHittedObject(x,y) {
+    var hittonobject = false;
+	var hittedobject = null;
+    var i, coords, el, hel;
+
+    
+	near_hitted_objects.length = 0;
+    for (el in mainboard.objects) {
+        if (mainboard.objects[el].hasPoint(x,y)) {
+			hittonobject = true;
+			hittedobject = mainboard.objects[el];
+			near_hitted_objects.push(mainboard.objects[el]);
+        }
+    }
+    // If there are many hits take as hitted the first point
+    if (hittonobject) {
+        for (hel in near_hitted_objects) {
+			//if (JXG.isPoint(near_hitted_objects[hel])) {
+			if (isLikePoint(near_hitted_objects[hel])) {
+                hittedobject = near_hitted_objects[hel];
+				break;
+            }
+        }
+    }
+	
+	return hittedobject;
+}
+
+var onboardmousedown = function(e) {
+//function onboardmousedown(e) {
+    var hittonobject = false;
+	var hittedobject = null;
+    var i, coords, el, hel;
+	
+	var testobject;
+
+	if (e[JXG.touchProperty]) {
+        // index of the finger that is used to extract the coordinates
+        i = 0;
+    }
+    coords = getMouseCoords(e, i);
+
+	hittedobject = getHittedObject(coords.scrCoords[1], coords.scrCoords[2]);
+	if (hittedobject && hittedobject !== "null" && hittedobject !== "undefined" ){
+		hittonobject = true;
+		DisplayObjectToEdit(hittedobject);
+	}
+
+	if (hittonobject == true && CUR_TOOL_ID != 'TPoint' && CUR_TOOL_ID != 'TText') {
+		var obj = hittedobject;
+        obj.setAttribute({
+            draft: true
+        });
+        SELECTED_OBJECTS.push(obj);
+		onToolClick(CUR_TOOL_ID);
+    } else if (hittonobject == true && CUR_TOOL_ID == 'TPoint' && !isLikePoint(hittedobject)) {
+        boardCreate('glider', [coords.usrCoords[1], coords.usrCoords[2],hittedobject],{size:2});
+    } else if (hittonobject == false && CUR_TOOL_ID == 'TPoint') {
+        boardCreate('point', [coords.usrCoords[1], coords.usrCoords[2]],{size:2});
+    } else if (hittonobject == false && CUR_TOOL_ID == 'TText') {
+        onTTextClick(coords.usrCoords[1], coords.usrCoords[2], document.getElementById("idTextIn").value);
+    } else {
+        UnDraftBoard();
+    }
+    return true;
+}
+
+var onboardmouseup = function(e) {
+	//alert("onboardmouseup");
+}
+
+var onobjectmousedown = function(e) {
+    alert(obj.elType + " id:" + obj.id + " attrs:" + obj.getAttributes());
+    //alert("Great on onobjectmousedown");
+}
+
+var onboardrightmouseclick = function(e) {
+    var hittonobject = false;
+	var hittedobject = null;
+    var i, coords, el, hel;
+
+	if (e[JXG.touchProperty]) {
+        // index of the finger that is used to extract the coordinates
+        i = 0;
+    }
+    coords = getMouseCoords(e, i);
+
+	hittedobject = getHittedObject(coords.scrCoords[1], coords.scrCoords[2]);
+	if (hittedobject && hittedobject !== "null" && hittedobject !== "undefined" ){
+		hittonobject = true;
+		// alert(hittedobject.id);
+	}
+	
+	if (!hittonobject)
+		return;
+		
+	DisplayObjectToEdit(hittedobject);
+	
+}
+
