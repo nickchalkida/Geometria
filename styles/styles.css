@@ -1,28 +1,124 @@
+#top_container {
+    padding: 5px;
+    background-color: lightgrey;
+}
 
+#middle_container {
+
+}
 
 #menu_left_container {
     float: left;
     padding: 2px;
     background-color: lightgrey;
+    width: 36px;
+	height: 768px;
+}
+
+#properties_container {
+	position: absolute;
+    left: 810px;
+    padding: 2px;
+    background-color: #CCCCCC;
+    width: 350px;
+	height: 768px;
+	vertical-align: top;
+	display: inline-block;
+}
+
+#bottom_container {
+    padding: 5px;
+    background-color: lightgrey;
+	position: absolute;
+	left:0px;
+	top:830px;
+}
+
+#hiddenspace01 {
+	width: 10px;
+	visibility: hidden;
+}
+
+#hiddenspace02 {
+	width: 22px;
+	visibility: hidden;
+}
+
+#fillopacity,#strokeopacity,#strokewidth{
+    width: 40px;
+    background-color:lightgreen;
+}
+
+#idTextIn{
+	margin-top:-25px;
+	display: table-cell;
+    vertical-align: middle;
+	width: 100px;
+    height: 22px;
+	float:top;
+
+}
+
+body {
+    background-color: lightgrey;
+}
+
+table {
+    font-family: arial, sans-serif;
+	font-size:16px;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #AAAAAA;
+}
+
+.readonlylabel{
     width: 60px;
+	height: 20px;
+    background-color:lightgreen;
+}
+
+.baritem {
+    width: 32px;
+    height: 32px;
+    padding: 2px;
+    display: inline-block;
+    background-color:lightgrey;
+}
+
+.bottomitem {
+	margin-bottom:0px;
+    width: 25px;
+    height: 25px;
+    padding: 2px;
+    display: inline-block;
+    background-color:lightgrey;
 }
 
 .toolitem {
-    width: 50px;
-    height: 50px;
-    padding: 5px;
+    width: 32px;
+    height: 32px;
+    padding: 2px;
     margin: auto;
-    display: block;
-    background-color:yellow;
+    display: inline-block;
+    background-color:lightgrey;
 }
 
 .toolitem_selected {
-    width: 50px;
-    height: 50px;
-    padding: 5px;
+    width: 32px;
+    height: 32px;
+    padding: 2px;
     margin: auto;
-    display: block;
-    background-color:orange;
+    display: inline-block;
+    background-color:lightgreen;
 }
 
 
