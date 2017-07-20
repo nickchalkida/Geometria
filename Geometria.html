@@ -8,6 +8,8 @@
 <link rel="stylesheet" type="text/css" href="http://jsxgraph.uni-bayreuth.de/distrib/jsxgraph.css" />
 <script type="text/javascript" src="http://jsxgraph.uni-bayreuth.de/distrib/jsxgraphcore.js"></script>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"> </script>
+<script type="text/x-mathjax-config"> MathJax.Hub.Config({   tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]} }); </script>
 </head>
 
 <body>
@@ -17,12 +19,15 @@
 <a href="javascript:void(0)" id="dlbtn">
 <input class="baritem"  id="idSave"    type="image" src="images/save.svg"     onclick="Save()"                 title="Save"/>
 </a>
+<a href="javascript:void(0)" id="dltikz">
+<input class="baritem"  id="idSave"    type="image" src="images/save.svg"     onclick="SaveTikz()"             title="Save"/>
+</a>
 <input class="baritem"  id="idUnDo"    type="image" src="images/undo.svg"     onclick="UnDo()"                 title="Undo"/>
 <input class="baritem"  id="idReDo"    type="image" src="images/redo.svg"     onclick="ReDo()"                 title="Redo"/>
 <input class="toolitem" id="TDelete"   type="image" src="images/delete.svg"   onclick="onToolClick('TDelete')" title="Delete"/>
 <input class="baritem"  id="idAxis"    type="image" src="images/axis.svg"     onclick="ToggleAxis()"           title="Toggle Axis"/>
 <input class="toolitem" id="TText"     type="image" src="images/text.svg"     onclick="onToolClick('TText')"   title="Text"/>
-<input                  id="idTextIn"  type="text"  value="Hello!"                                             title="Text Input"/> 
+<input                  id="idTextIn"  type="text"  value="$\sum_{k=1}^n k^2$"     style="width:220px"         title="Text Input"/> 
 </div>
 
 <div id="middle_container">
@@ -32,18 +37,18 @@
 <input class="toolitem" id="TMidPoint"      type="image" src="images/midpoint.svg"      onclick="onToolClick('TMidPoint')"      title="Midpoint - Select two points"/>
 <input class="toolitem" id="TSegment"       type="image" src="images/segment.svg"       onclick="onToolClick('TSegment')"       title="Segment - Select two points"/>
 <input class="toolitem" id="TLine"          type="image" src="images/line.svg"          onclick="onToolClick('TLine')"          title="Line - Select two points"/>
-<input class="toolitem" id="TSemiLine"      type="image" src="images/line.svg"          onclick="onToolClick('TSemiLine')"      title="SemiLine - Select start point, point towards infinity"/>
+<input class="toolitem" id="TSemiLine"      type="image" src="images/semiline.svg"      onclick="onToolClick('TSemiLine')"      title="SemiLine - Select start point, point towards infinity"/>
 <input class="toolitem" id="TIntersection"  type="image" src="images/intersection.svg"  onclick="onToolClick('TIntersection')"  title="Intersection - Click on two curves"/>
-<input class="toolitem" id="TAngle"         type="image" src="images/anglebisector.svg" onclick="onToolClick('TAngle')"         title="Angle - Select three points"/>
+<input class="toolitem" id="TAngle"         type="image" src="images/angle.svg"         onclick="onToolClick('TAngle')"         title="Sector - Select three points"/>
 <input class="toolitem" id="TAngleBisector" type="image" src="images/anglebisector.svg" onclick="onToolClick('TAngleBisector')" title="AngleBisector - Select three points"/>
 <input class="toolitem" id="TParallel"      type="image" src="images/parallel.svg"      onclick="onToolClick('TParallel')"      title="Parallel - Select a point and a line"/>
 <input class="toolitem" id="TPerpendicular" type="image" src="images/perpendicular.svg" onclick="onToolClick('TPerpendicular')" title="Perpendicular - Select a point and a line"/>
 <input class="toolitem" id="TCircle3Points" type="image" src="images/circle3points.svg" onclick="onToolClick('TCircle3Points')" title="Circle - Select three points"/>
 <input class="toolitem" id="TCircle"        type="image" src="images/circle.svg"        onclick="onToolClick('TCircle')"        title="Circle - Select two points"/>
 <input class="toolitem" id="TSemicircle"    type="image" src="images/semicircle.svg"    onclick="onToolClick('TSemicircle')"    title="Semicircle - Select two points"/>
-<input class="toolitem" id="TEllipse3P"     type="image" src="images/circle3points.svg" onclick="onToolClick('TEllipse3P')"     title="Ellipse - Select three points"/>
-<input class="toolitem" id="THyperbola3P"   type="image" src="images/circle3points.svg" onclick="onToolClick('THyperbola3P')"   title="Hyperbola - Select three points"/>
-<input class="toolitem" id="TConic5P"       type="image" src="images/circle3points.svg" onclick="onToolClick('TConic5P')"       title="Conic - Select five points"/>
+<input class="toolitem" id="TBezier"        type="image" src="images/bezier.svg"        onclick="onToolClick('TBezier')"        title="Bezier - Select four points"/>
+<input class="toolitem" id="TEllipse3P"     type="image" src="images/ellipse.svg"       onclick="onToolClick('TEllipse3P')"     title="Ellipse - Select three points"/>
+<input class="toolitem" id="TConic5P"       type="image" src="images/conic5p.svg"       onclick="onToolClick('TConic5P')"       title="Conic - Select five points"/>
 <input class="toolitem" id="TIncircle"      type="image" src="images/incircle.svg"      onclick="onToolClick('TIncircle')"      title="Inscribed Circle - Select three points"/>
 <input class="toolitem" id="TPolygon"       type="image" src="images/polygon.svg"       onclick="onToolClick('TPolygon')"       title="Polygon - Select points"/>
 </div>
@@ -144,6 +149,7 @@
 	
 <script src="js/globals.js"></script>
 <script src="js/tool_functions.js"></script>
+<script src="js/files.js"></script>
 <script src="js/nquery.js"></script>
 <script src="js/events.js"></script>
 <script type="text/javascript">
