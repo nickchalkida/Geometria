@@ -118,7 +118,9 @@ function onTCircleClick() {
     p1 = SELECTED_OBJECTS.pop();
     p0 = SELECTED_OBJECTS.pop();
 
-    boardCreate('circle', [p0, p1], getDrawAttrs());
+    var obj = boardCreate('circle', [p0, p1], getDrawAttrs());
+//	alert(obj.center.X() + " " + obj.center.Y());
+//	alert("radius " + obj.getRadius() );
 }
 
 function onTSemicircleClick() {
@@ -135,6 +137,11 @@ function onTSemicircleClick() {
     p0 = SELECTED_OBJECTS.pop();
 
     boardCreate('semicircle', [p0, p1], getDrawAttrs());
+
+	//var klisi = (p1.Y() - p0.Y()) / (p1.X() - p0.X());
+	//var rotation = Math.atan( klisi ) * (180 / Math.PI);
+	//alert(klisi + "  " + rotation);
+	
 }
 
 function onTAngleBisectorClick() {
@@ -176,7 +183,8 @@ function onTAngleClick() {
     p1 = SELECTED_OBJECTS.pop();
     p0 = SELECTED_OBJECTS.pop();
 
-    boardCreate('angle', [p0, p1, p2], getDrawAttrs());
+    //boardCreate('angle', [p0, p1, p2], getDrawAttrs());
+    boardCreate('sector', [p0, p1, p2], getDrawAttrs());
 }
 
 function onTParallelClick() {
@@ -203,6 +211,14 @@ function onTParallelClick() {
     }
 
     boardCreate('parallel', [p0, p1], getDrawAttrs());
+	//var parentids = obj.getParents();
+    //var P0 = mainboard.objects[parentids[0]];
+//alert(P0.X() + " " + P0.Y());
+	//var P1 = mainboard.objects[parentids[1]];
+//alert(P1.X() + " " + P1.Y());
+	//var PP = mainboard.objects[obj.point.id];
+//alert(PP.X() + " " + PP.Y());
+
 
 }
 
@@ -255,8 +271,59 @@ function onTCircle3PointsClick() {
     boardCreate('circumcircle', [p0, p1, p2], getDrawAttrs());
 }
 
+function onTBezierClick() {
+    //alert("onTBezierClick");
+    var p0, p1, p2, p3;
+	var slen = SELECTED_OBJECTS.length;
+    if (slen < 4)
+        return;
+
+	// Check for point-point-point-point semantics
+	if (!isLikePoint(SELECTED_OBJECTS[slen-1]) || 
+		!isLikePoint(SELECTED_OBJECTS[slen-2]) ||
+		!isLikePoint(SELECTED_OBJECTS[slen-3]) ||
+		!isLikePoint(SELECTED_OBJECTS[slen-4]) )
+        return UnDraftBoard();
+	
+    p3 = SELECTED_OBJECTS.pop();
+    p2 = SELECTED_OBJECTS.pop();
+    p1 = SELECTED_OBJECTS.pop();
+    p0 = SELECTED_OBJECTS.pop();
+
+    //var obj = mainboard.create('curve', JXG.Math.Numerics.bezier([p0, p1, p2, p3]), getDrawAttrs());
+	//mainboard.objects.push({obj.id,obj});
+	
+	boardCreate('bezier', [p0, p1, p2, p3], getDrawAttrs());
+	
+	//var bez1;
+	//bez1 = JXG.Math.Numerics.bezier([p0, p1, p2, p3]);
+	//var obj = boardCreate('curve', bez1, getDrawAttrs());
+	//obj.setAttribute({infoboxtext:"bezier"});
+	//obj.addParents(p0.id);
+	//obj.addParents(p1.id);
+	//obj.addParents(p2.id);
+	//obj.addParents(p3.id);
+
+	//var obj = JXG.Math.Numerics.bezier([p0, p1, p2, p3]);
+	//alert(obj.getAttribute("infoboxtext"));
+	//var parentids = obj.getParents();
+	//var N0 = mainboard.objects[parentids[0]];
+	
+	//alert(N0.getName());
+
+	//var attr1str = objToString(N0);
+	//alert(attr1str);
+	
+	//var attr2str = objToString(obj.symbolic);
+	//alert(attr1str);
+	
+}
+
+
+
 function onTConic3PClick(conictype) {
     //alert("onTCircle3PointsClick");
+	var obj;
     var p0, p1, p2;
 	var slen = SELECTED_OBJECTS.length;
     if (slen < 3)
@@ -274,16 +341,25 @@ function onTConic3PClick(conictype) {
 
    switch (conictype) {
         case 'Ellipse':
-            boardCreate('ellipse', [p0, p1, p2], getDrawAttrs());
+            obj = boardCreate('ellipse', [p0, p1, p2], getDrawAttrs());
             break;
         case 'Hyperbola':
-            boardCreate('hyperbola', [p0, p1, p2], getDrawAttrs());
+            obj = boardCreate('hyperbola', [p0, p1, p2], getDrawAttrs());
             break;
         //case 'Parabola':
         //    boardCreate('parabola', [p0, p1, p2], getDrawAttrs());
         //    break;
 		default:;
-   }
+	}
+
+	//var parentids = obj.getParents();
+	//alert(parentids[0]);
+	//var F1obj = mainboard.objects[parentids[0]];
+	//var F2obj = mainboard.objects[parentids[1]];
+	//var F3obj = mainboard.objects[parentids[2]];
+	  
+	//var attr1str = objToString(obj.visProp);
+	//alert(attr1str);
     
 }
 
@@ -294,7 +370,7 @@ function onTConic5PClick() {
     if (slen < 5)
         return;
 
-	// Check for point-point-point semantics
+	// Check for point-point-point-point-point semantics
 	if (!isLikePoint(SELECTED_OBJECTS[slen-1]) || 
 		!isLikePoint(SELECTED_OBJECTS[slen-2]) ||
 		!isLikePoint(SELECTED_OBJECTS[slen-3]) ||
@@ -365,7 +441,6 @@ function onTIncircleClick() {
 
 function onTTextClick(x0,y0,textstr) {
 	
-	//alert("onTTextClick");
 	var SPoint = mainboard.create('point',[x0,y0],{name:textstr, size:2});
 
 	var func0str = "return " + SPoint.X + ";";
@@ -447,6 +522,9 @@ function onToolClick(tid) {
             break;
         case 'TCircle3Points':
             onTCircle3PointsClick();
+            break;
+        case 'TBezier':
+            onTBezierClick();
             break;
         case 'TEllipse3P':
             onTConic3PClick('Ellipse');

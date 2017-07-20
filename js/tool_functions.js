@@ -1,4 +1,340 @@
 
+function ShowMatrix(M) {
+	var distr;
+	distr="";
+	for (var i=0; i<M.length; i++) {
+		var row = M[i];
+		for (var j=0; j<row.length; j++) {
+			distr += row[j];
+			distr += "   ";
+		}
+		distr += "\n";
+	}
+	alert(distr);
+}
+
+function findObjectInList(objid, objlist) {
+    var el, obj;
+    for (el in objlist) {
+		obj = objlist[el];
+		if (obj.id == objid) {
+		    return obj;
+		}
+    }
+    return null;
+}
+
+function findIndexInSelections(objid) {
+    for (var i=0; i<DOM_OBJECT_SELECTOR.options.length; i++) {
+		if (DOM_OBJECT_SELECTOR.options[i].value == objid) {
+		    return i;
+		}
+    }
+    return -1;
+}
+
+// Returns the inverse of matrix M.
+function matrix_invert(M){
+    // I use Guassian Elimination to calculate the inverse:
+    // (1) 'augment' the matrix (left) by the identity (on the right)
+    // (2) Turn the matrix on the left into the identity by elemetry row ops
+    // (3) The matrix on the right is the inverse (was the identity matrix)
+    // There are 3 elemtary row ops: (I combine b and c in my code)
+    // (a) Swap 2 rows
+    // (b) Multiply a row by a scalar
+    // (c) Add 2 rows
+    
+    //if the matrix isn't square: exit (error)
+    if(M.length !== M[0].length){return;}
+    
+    //create the identity matrix (I), and a copy (C) of the original
+    var i=0, ii=0, j=0, dim=M.length, e=0, t=0;
+    var I = [], C = [];
+    for(i=0; i<dim; i+=1){
+        // Create the row
+        I[I.length]=[];
+        C[C.length]=[];
+        for(j=0; j<dim; j+=1){
+            
+            //if we're on the diagonal, put a 1 (for identity)
+            if(i==j){ I[i][j] = 1; }
+            else{ I[i][j] = 0; }
+            
+            // Also, make the copy of the original
+            C[i][j] = M[i][j];
+        }
+    }
+    
+    // Perform elementary row operations
+    for(i=0; i<dim; i+=1){
+        // get the element e on the diagonal
+        e = C[i][i];
+        
+        // if we have a 0 on the diagonal (we'll need to swap with a lower row)
+        if(e==0){
+            //look through every row below the i'th row
+            for(ii=i+1; ii<dim; ii+=1){
+                //if the ii'th row has a non-0 in the i'th col
+                if(C[ii][i] != 0){
+                    //it would make the diagonal have a non-0 so swap it
+                    for(j=0; j<dim; j++){
+                        e = C[i][j];       //temp store i'th row
+                        C[i][j] = C[ii][j];//replace i'th row by ii'th
+                        C[ii][j] = e;      //repace ii'th by temp
+                        e = I[i][j];       //temp store i'th row
+                        I[i][j] = I[ii][j];//replace i'th row by ii'th
+                        I[ii][j] = e;      //repace ii'th by temp
+                    }
+                    //don't bother checking other rows since we've swapped
+                    break;
+                }
+            }
+            //get the new diagonal
+            e = C[i][i];
+            //if it's still 0, not invertable (error)
+            if(e==0){return}
+        }
+        
+        // Scale this row down by e (so we have a 1 on the diagonal)
+        for(j=0; j<dim; j++){
+            C[i][j] = C[i][j]/e; //apply to original matrix
+            I[i][j] = I[i][j]/e; //apply to identity
+        }
+        
+        // Subtract this row (scaled appropriately for each row) from ALL of
+        // the other rows so that there will be 0's in this column in the
+        // rows above and below this one
+        for(ii=0; ii<dim; ii++){
+            // Only apply to other rows (we want a 1 on the diagonal)
+            if(ii==i){continue;}
+            
+            // We want to change this element to 0
+            e = C[ii][i];
+            
+            // Subtract (the row above(or below) scaled by e) from (the
+            // current row) but start at the i'th column and assume all the
+            // stuff left of diagonal is 0 (which it should be if we made this
+            // algorithm correctly)
+            for(j=0; j<dim; j++){
+                C[ii][j] -= e*C[i][j]; //apply to original matrix
+                I[ii][j] -= e*I[i][j]; //apply to identity
+            }
+        }
+    }
+    
+    //we've done all operations, C should be the identity
+    //matrix I should be the inverse:
+    return I;
+}
+
+function getEllipseAttrsFrom3P(P1, P2, P3) {
+	// for the three points (x1,y1), (x2,y2) and (x3,y3)
+	// consider solving
+	// | x1^2 y1^2 2x1y1 |   | C11 |   | 1 |
+	// | x2^2 y2^2 2x2y2 | * | C22 | = | 1 |
+	// | x3^2 y3^2 2x3y3 |   | C12 |   | 1 |
+		
+	var PMATRIX = 
+			[
+			[P1.X()*P1.X(), P1.Y()*P1.Y(), 2*P1.X()*P1.Y()],
+			[P2.X()*P2.X(), P2.Y()*P2.Y(), 2*P2.X()*P2.Y()],
+			[P3.X()*P3.X(), P3.Y()*P3.Y(), 2*P3.X()*P3.Y()]
+			]; 
+						
+	//ShowMatrix(PMATRIX);
+		
+	var PINV = matrix_invert(PMATRIX);
+	//ShowMatrix(PINV);
+		
+	var C11 = PINV[0][0] + PINV[0][1] + PINV[0][2];
+	var C22 = PINV[1][0] + PINV[1][1] + PINV[1][2];
+	var C12 = PINV[2][0] + PINV[2][1] + PINV[2][2];
+	
+	// angle of ellipse measured clockwise from horizontal is
+	// θ = (1/2) arctan ( 2*C12 / (C22 -C11) )
+	// Let η = C11 + C22
+	// Let ζ = (C22 - C11) / cos(2θ) 
+	// then
+	// Semi major axis a= sqrt( 2 / (η-ζ) )
+	// Semi minor axis b= sqrt( 2 / (η+ζ) )
+		
+	var theta = 0.5 * Math.atan((2*C12)/(C22-C11));
+	var heta  = C11 + C22;
+	var zeta  = (C22-C11) / Math.cos(2*theta);
+	
+	var semi_major_axis = Math.sqrt(2/(heta-zeta));
+	var semi_minor_axis = Math.sqrt(2/(heta+zeta));
+		
+	var ellipseattrs = {
+	rotation: theta * (180 / Math.PI),
+	AxisA: semi_major_axis,
+	AxisB: semi_minor_axis
+	};
+
+	return ellipseattrs;	
+	
+}
+
+function getEllipseAttrsFromFoci(F1, F2, P0) {
+	// Let a = (F1,P0)
+	var CenX = (F1.X() + F2.X()) / 2.0;
+	var CenY = (F1.Y() + F2.Y()) / 2.0;
+	
+	var DF1P0 = Math.sqrt((F1.X()-P0.X())*(F1.X()-P0.X()) + (F1.Y()-P0.Y())*(F1.Y()-P0.Y()));
+	var DF2P0 = Math.sqrt((F2.X()-P0.X())*(F2.X()-P0.X()) + (F2.Y()-P0.Y())*(F2.Y()-P0.Y()));
+	var DF1F2 = Math.sqrt((F1.X()-F2.X())*(F1.X()-F2.X()) + (F1.Y()-F2.Y())*(F1.Y()-F2.Y()));
+	
+	var major_axis = DF1P0+DF2P0;
+	var minor_axis = Math.sqrt( major_axis*major_axis - DF1F2*DF1F2);
+	var theta = Math.atan( (F2.Y()- F1.Y()) / (F2.X()- F1.X()) );
+	
+	var ellipseattrs = {
+	CenterX: CenX,
+	CenterY: CenY,
+	rotation: theta * (180 / Math.PI),
+	AxisA: major_axis,
+	AxisB: minor_axis
+	};
+
+	return ellipseattrs;	
+}
+
+function objToString (obj) {
+    var str = '';
+    for (var p in obj) {
+        if (obj.hasOwnProperty(p)) {
+            str += p + '::' + obj[p] + '\n';
+        }
+    }
+    return str;
+}
+
+function RGBColorToTikzColor_CMY(rgbcol) {
+	var r0str = rgbcol.substring(1, 3); 
+	var g0str = rgbcol.substring(3, 5); 
+	var b0str = rgbcol.substring(5, 7);
+	
+	var r = parseInt(r0str, 16)/255;
+	var g = parseInt(g0str, 16)/255;
+	var b = parseInt(b0str, 16)/255;
+	
+	// (cyan, magenta, yellow) := E − (red, green, blue)
+	var cyan     = 1 - r;
+	var magenta  = 1 - g;
+	var yellow   = 1 - b;
+
+	return "{cmy:cyan," + cyan + ";magenta," + magenta + ";yellow," + yellow+"}";
+}
+
+
+function RGBColorToTikzColor_RYB(rgbcol) {
+
+	var r0str = rgbcol.substring(1, 3); 
+	var g0str = rgbcol.substring(3, 5); 
+	var b0str = rgbcol.substring(5, 7);
+	
+	var iRed   = parseInt(r0str, 16);
+	var iGreen = parseInt(g0str, 16);
+	var iBlue  = parseInt(b0str, 16);
+
+	// Remove the white from the color
+	var iWhite = Math.min(iRed, iGreen, iBlue);
+		
+	iRed   -= iWhite;
+	iGreen -= iWhite;
+	iBlue  -= iWhite;
+		
+	var iMaxGreen = Math.max(iRed, iGreen, iBlue);
+		
+	// Get the yellow out of the red+green
+	var iYellow = Math.min(iRed, iGreen);
+		
+	iRed   -= iYellow;
+	iGreen -= iYellow;
+		
+	// If this unfortunate conversion combines blue and green, then cut each in half to
+	// preserve the value's maximum range.
+	if (iBlue > 0 && iGreen > 0) {
+		iBlue  /= 2;
+		iGreen /= 2;
+	}
+		
+	// Redistribute the remaining green.
+	iYellow += iGreen;
+	iBlue   += iGreen;
+		
+	// Normalize to values.
+	var iMaxYellow = Math.max(iRed, iYellow, iBlue);
+		
+	if (iMaxYellow > 0) {
+		var iN = iMaxGreen / iMaxYellow;
+			
+		iRed    *= iN;
+		iYellow *= iN;
+		iBlue   *= iN;
+	}
+		
+	// Add the white back in.
+	iRed    += iWhite;
+	iYellow += iWhite;
+	iBlue   += iWhite;
+	
+	iRed    = Math.floor(iRed);
+	iYellow = Math.floor(iYellow);
+	iBlue   = Math.floor(iBlue);
+		
+	return "{rgb:red," + iRed + ";yellow," + iYellow + ";blue," + iBlue + "}";
+}
+
+function RGBColorToTikzColor(rgbcol) {
+	var r0str = rgbcol.substring(1, 3); 
+	var g0str = rgbcol.substring(3, 5); 
+	var b0str = rgbcol.substring(5, 7);
+
+	return "{rgb, 255:red,"+parseInt(r0str, 16) + ";green,"+parseInt(g0str, 16)+";blue,"+parseInt(b0str, 16)+"}";
+}
+
+// #ff5588 -> {rgb:red,255;green,2;blue,5}
+function RGBColorToTikzColor_CMYK(rgbcol) {
+	var r0str = rgbcol.substring(1, 3); 
+	var g0str = rgbcol.substring(3, 5); 
+	var b0str = rgbcol.substring(5, 7);
+	
+	var r = parseInt(r0str, 16);
+	var g = parseInt(g0str, 16);
+	var b = parseInt(b0str, 16);
+
+	if (r<0) r=0; if (g<0) g=0; if (b<0) b=0;
+	if (r>255) r=255; if (g>255) g=255; if (b>255) b=255;
+
+	var computedC = 0;
+	var computedM = 0;
+	var computedY = 0;
+	var computedK = 0;
+
+	// BLACK
+	if (r==0 && g==0 && b==0) {
+		computedK = 1;
+		//return [0,0,0,1];
+		//cmyk:cyan,-250;magenta,-250;yellow,-150;black,-150
+		return "{cmyk:cyan,0;magenta,0;yellow,0;black,1}";
+	}
+
+	computedC = 1 - (r/255);
+	computedM = 1 - (g/255);
+	computedY = 1 - (b/255);
+
+	var minCMY = Math.min(computedC, Math.min(computedM, computedY));
+	computedC = (computedC - minCMY) / (1 - minCMY) ;
+	computedM = (computedM - minCMY) / (1 - minCMY) ;
+	computedY = (computedY - minCMY) / (1 - minCMY) ;
+	computedK = minCMY;
+	
+	// cmyk:cyan,-250;magenta,-250;yellow,-150;black,-150
+	return "{cmyk:cyan," + computedC + ";magenta," + computedM + ";yellow," + computedY + ";black," + computedK + "}";
+
+}
+
 function CalcFunction() {
 	var instr0 = document.getElementById("idFunctionInput").value;
 	var instr1 = instr0.toLowerCase();
@@ -50,6 +386,79 @@ function getDrawAttrs(){
 	return attrs;
 }
 
+function SynchronizeObjects() {
+    var el;
+	var obj, objname, lastobj;
+
+    DOM_OBJECT_SELECTOR.options.length = 0;
+    for (el in mainboard.objects) {
+		obj = mainboard.objects[el];
+		objname = obj.getName();
+		if (objname.substring(0,8)!="RootObj_" && !obj.id.endsWith("Label")) {
+		DOM_OBJECT_SELECTOR.options[DOM_OBJECT_SELECTOR.options.length] = new Option(obj.id);
+		lastobj = obj;
+		}
+    }
+	if (DOM_OBJECT_SELECTOR.options.length==0) {
+	    ClearEditFields();
+	} else {
+	    DisplayObjectToEdit(lastobj);
+	}
+}
+
+function boardCreateWithoutStore(eltyp, par, attrs) {
+    var obj, bez1;
+
+    try {
+
+	switch (eltyp) {
+        case 'bezier':
+			bez1 = JXG.Math.Numerics.bezier(par);
+			obj = mainboard.create('curve', bez1, attrs);
+			//obj.setAttribute({infoboxtext:"bezier"});
+			obj.addParents(par[0].id);
+			obj.addParents(par[1].id);
+			obj.addParents(par[2].id);
+			obj.addParents(par[3].id);
+            break;
+		default:
+			obj = mainboard.create(eltyp, par, attrs);
+	}
+	obj.elType=eltyp;
+	//obj.setAttribute({infoboxtext:eltyp});
+	} catch (err) {
+		alert("boardCreate exception caught " + err);
+		return null;
+	}
+    return obj;
+}
+
+
+function boardCreate(eltyp, par, attrs) {
+    var obj;
+	
+	obj = boardCreateWithoutStore(eltyp, par, attrs);
+	StoreMainboardState();
+    SynchronizeObjects();
+    UnDraftBoard();
+        
+    return obj;
+}
+
+function boardDelete() {
+	var obj;
+	
+	if (SELECTED_OBJECTS.length < 1)
+		return;
+	obj = SELECTED_OBJECTS.pop();
+	mainboard.removeObject(obj);
+	StoreMainboardState();
+	
+	SynchronizeObjects();
+	mainboard.updateRenderer();
+	
+}
+
 function UnDraftBoard() {
 	for (el in mainboard.objects) {
         var obj = mainboard.objects[el];
@@ -58,9 +467,26 @@ function UnDraftBoard() {
             draft: false
         });
     }
-	//mainboard.stopSelectionMode();
 	mainboard.updateRenderer();
     SELECTED_OBJECTS = [];
+}
+
+function ObjectSelectorChanged() {
+	var objsel;
+	var found=false;
+	for (el in mainboard.objects) {
+        if (mainboard.objects[el].id == objSelector.value) {
+			objsel = mainboard.objects[el];
+			found=true;
+			break;
+		}
+	}
+	
+	if (!found)
+		return;
+	
+    DisplayObjectToEdit(objsel);
+
 }
 
 function isLikePoint(obj) {
@@ -83,13 +509,15 @@ function isLikeLine(obj) {
 }
 
 function DisplayObjectToEdit(disobj) {
-	//alert("DisplayObject " + disobj.id);
 	
 	CUR_OBJECT_EDITING = disobj;
 	
 	DOM_EDObjID.value          = disobj.id;
 	DOM_EDObjName.value        = disobj.getName();
 	DOM_EDObjType.value        = disobj.getType();
+	
+	//alert(findIndexInSelections(disobj.id));
+	DOM_OBJECT_SELECTOR.selectedIndex = findIndexInSelections(disobj.id);
 	
 	if (isLikePoint(disobj)) {
 		DOM_EDObjSize.style.visibility = "visible";
@@ -112,6 +540,9 @@ function DisplayObjectToEdit(disobj) {
 }
 
 function Get_DOM_Globals() {
+
+    DOM_OBJECT_SELECTOR = document.getElementById('objSelector');
+
 	DOM_EDObjID = document.getElementById("EDObjID");
 	DOM_EDObjName = document.getElementById("EDObjName");
 	DOM_EDObjType = document.getElementById("EDObjType");
@@ -160,14 +591,28 @@ function ClearEditFields() {
 
 }
 
-function Save() {
-	//alert("Save");
-	var svg = new XMLSerializer().serializeToString(mainboard.renderer.svgRoot);
-	//console.log(svg);
-	var file = new Blob([svg], {type:'text/plain'});
-	var dlbtn = document.getElementById("dlbtn");
-	dlbtn.href = URL.createObjectURL(file);
-	dlbtn.download = "GeometriaSvg.txt";
+function b64toBlob(b64Data, contentType, sliceSize) {
+  contentType = contentType || '';
+  sliceSize = sliceSize || 512;
+
+  var byteCharacters = atob(b64Data);
+  var byteArrays = [];
+
+  for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+    var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+    var byteNumbers = new Array(slice.length);
+    for (var i = 0; i < slice.length; i++) {
+      byteNumbers[i] = slice.charCodeAt(i);
+    }
+
+    var byteArray = new Uint8Array(byteNumbers);
+
+    byteArrays.push(byteArray);
+  }
+    
+  var blob = new Blob(byteArrays, {type: contentType});
+  return blob;
 }
 
 function ShowArray(objar) {
@@ -186,155 +631,129 @@ function ShowArray(objar) {
 }
 
 function Test() {
-    alert("CREATED LEN:"+CREATED_OBJECTS.length + " UNDO CREATED LEN:"+ UNDO_CREATED_OBJECTS.length);
-    alert("DELETED LEN:"+DELETED_OBJECTS.length + " UNDO DELETED LEN:"+ UNDO_DELETED_OBJECTS.length);
-    alert("ACTIONS LEN:"+DID_ACTIONS.length + " UNDO ACTIONS LEN:"+ UNDO_ACTIONS.length);
+    //alert("CREATED LEN:"+CREATED_OBJECTS.length + " UNDO CREATED LEN:"+ UNDO_CREATED_OBJECTS.length);
+    //alert("DELETED LEN:"+DELETED_OBJECTS.length + " UNDO DELETED LEN:"+ UNDO_DELETED_OBJECTS.length);
+    //alert("ACTIONS LEN:"+DID_ACTIONS.length + " UNDO ACTIONS LEN:"+ UNDO_ACTIONS.length);
+    //alert("SELECTED LEN:"+SELECTED_OBJECTS.length);
     //ShowArray(mainboard.objects);
 }
 
-function boardCreate(eltyp, par, attrs) {
-    var obj;
 
-    try {   
-	obj = mainboard.create(eltyp, par, attrs);
-	} catch (err) {
-		alert("boardCreate exception caught " + err);
-		return null;
-	}
-
-	CREATED_OBJECTS.push(obj);
-	DID_ACTIONS.push("create");
-    UnDraftBoard();
-	
-	var objSelector = document.getElementById('objSelector');
-    objSelector.options[objSelector.options.length] = new Option(obj.id, obj.id);
-    
-    objSelector.selectedIndex = objSelector.options.length-1;
-    DisplayObjectToEdit(obj);
-        
-    return obj;
-}
-
-function boardDelete() {
-	var obj = SELECTED_OBJECTS.pop();
-	
-	// Remove obj from CREATED_OBJECTS
-    DELETED_OBJECTS.push(obj);
-	DID_ACTIONS.push("delete");
-	
-	mainboard.removeObject(obj);
-	mainboard.updateRenderer();
-	
-	// Reload options in object selector
-	var objSelector = document.getElementById('objSelector');
-	objSelector.options.length = 0;
-	var el, boardobj, objname;
-	for (el in mainboard.objects) {
-	    boardobj = mainboard.objects[el];
-		objname = boardobj.getName();
-		if (objname.substring(0,8)!="RootObj_") {
-        objSelector.options[objSelector.options.length] = new Option(boardobj.id, boardobj.id);
-		}
-	}
-}
-
-function SynchronizeObjects() {
-    var el;
-	var obj, objname;
-    CREATED_OBJECTS.length = 0;
-    for (el in mainboard.objects) {
-		obj = mainboard.objects[el];
-		objname = obj.getName();
-		if (objname.substring(0,8)!="RootObj_") {
-		CREATED_OBJECTS.push(el);
-		}
-    }
-}
-
-function UnDo () {
-    var obj, nobj;
-	if (DID_ACTIONS.length < 1)
-		return;
-	
-	var lastaction = DID_ACTIONS.pop();
-	UNDO_ACTIONS.push(lastaction);
-	if (lastaction == "create") {
-	    obj = CREATED_OBJECTS.pop();
-	    try {
-	    mainboard.removeObject(obj);
-	    } catch (err) {}
-	    mainboard.updateRenderer();
-	    UNDO_CREATED_OBJECTS.push(obj);
-	} else if (lastaction == "delete") {
-	    obj = DELETED_OBJECTS.pop();
-	    try {
-	    nobj = mainboard.create(obj.getType(), obj.getParents(), obj.getAttributes());
-	    } catch (err) {}
-	    mainboard.updateRenderer();
-	    UNDO_DELETED_OBJECTS.push(nobj);
-	}
-}
-
-function ReDo () {
-    var obj, nobj;
-	if (UNDO_ACTIONS.length < 1)
-		return;
-	
-	var redoaction = UNDO_ACTIONS.pop();
-	DID_ACTIONS.push(redoaction);
-	if (redoaction == "create") {
-	    obj = UNDO_CREATED_OBJECTS.pop();
-	    try {
-	    nobj = mainboard.create(obj.getType(), obj.getParents(), obj.getAttributes());
-	    } catch (err) {}
-	    mainboard.updateRenderer();
-	    CREATED_OBJECTS.push(nobj);
-	} else if (redoaction == "delete") {
-	    obj = UNDO_DELETED_OBJECTS.pop();
-	    try {
-	    mainboard.removeObject(obj);
-	    } catch (err) {}
-	    mainboard.updateRenderer();
-	    DELETED_OBJECTS.push(obj);
-	}
-}
-
-
-function NewFile() {
-    mainboard = JXG.JSXGraph.initBoard('mainbox', {boundingbox: [-10,10,10,-10], axis: true, grid:true, showCopyright:false});   
+function NewBoard() {
     var el, obj;
 
-	var objSelector = document.getElementById('objSelector');
-	objSelector.options.length = 0;
-	
 	Get_DOM_Globals();
 	GetCurrentDrawParams();
 
-    DID_ACTIONS.length=0;
-    UNDO_ACTIONS.length=0;
-    CREATED_OBJECTS.length=0;
-    UNDO_CREATED_OBJECTS.length=0;
-    DELETED_OBJECTS.length=0;
-    UNDO_DELETED_OBJECTS.length=0;
-	ClearEditFields();
+    SELECTED_OBJECTS.length=0;
+    DOM_OBJECT_SELECTOR.length=0;
+
+	JXG.Options.text.useMathJax = true;
+	JXG.Options.renderer = 'canvas';
+    mainboard = JXG.JSXGraph.initBoard('mainbox', {boundingbox: [-10,10,10,-10], axis: true, grid:true, showCopyright:false});   
 
     for (el in mainboard.objects) {
         obj = mainboard.objects[el];
 		obj.setName("RootObj_"+obj.id);
         ROOT_OBJECTS.push(obj);
-		//CREATED_OBJECTS.push(obj);
-		//objSelector.options[objSelector.options.length] = new Option(obj.id, obj.id);
         if (obj.elType!='point') {
         obj.showElement();
         obj.visible = true;
         }
-    }
-    
-    //objSelector.selectedIndex = objSelector.options.length-1;
-    //DisplayObjectToEdit(obj);
-
+    }   
+	ClearEditFields();
 	SynchronizeObjects();
     
+}
+
+function NewFile() {
+    MAINBOARD_STORED_STATES.length=0;
+    STORED_STATE_INDEX = -1;
+	NewBoard();
+}
+
+function StoreMainboardState() {
+    var obj;
+    var mainstate = [];
+    // Before storing clean MAINBOARD_STORED_STATES
+    // above STORED_STATE_INDEX
+    while (MAINBOARD_STORED_STATES.length > STORED_STATE_INDEX+1) {
+        MAINBOARD_STORED_STATES.pop();
+    }
+ 	STORED_STATE_INDEX++;
+ 
+    mainstate.length = 0;
+    //for (el in mainboard.objects) {
+    for (el in mainboard.objectsList) {
+		obj = mainboard.objectsList[el];
+		mainstate.push(obj);
+	}
+
+	MAINBOARD_STORED_STATES.push(mainstate);
+    STORED_STATE_INDEX = MAINBOARD_STORED_STATES.length - 1;
+}
+
+
+function RestoreMainboardState(stateindex) {
+    var newmainstate;
+    var obj, nobj, lastobj;
+	var N0,N1,N2,N3;
+    var objname, remtype, parentids;
+    
+    if (stateindex > MAINBOARD_STORED_STATES.length - 1)
+        return;
+    newmainstate = MAINBOARD_STORED_STATES[stateindex];
+    NewBoard();
+    
+    // Recreate State
+    for (el in newmainstate) {
+		obj = newmainstate[el];
+	    try {
+		objname = obj.getName();
+		if (objname.substring(0,8)!="RootObj_" && !obj.id.endsWith("Label")) {
+
+		remtype = obj.elType;
+		if (remtype=='bezier') {
+			parentids = obj.getParents();
+			N0 = mainboard.objects[parentids[0]];
+			N1 = mainboard.objects[parentids[1]];
+			N2 = mainboard.objects[parentids[2]];
+			N3 = mainboard.objects[parentids[3]];
+			nobj = boardCreateWithoutStore(remtype, [N0,N1,N2,N3], obj.getAttributes());
+		}
+		else {
+			nobj = boardCreateWithoutStore(remtype, obj.getParents(), obj.getAttributes());
+		}
+		nobj.elType = remtype;
+		DOM_OBJECT_SELECTOR.options[DOM_OBJECT_SELECTOR.options.length] = new Option(nobj.id);
+		lastobj = nobj;
+	    
+		} // end try
+	    } catch (err) {alert("Object recreation error for " + obj.id)}
+	}
+
+	if (DOM_OBJECT_SELECTOR.options.length==0) {
+	    ClearEditFields();
+	} else {
+	    DisplayObjectToEdit(lastobj);
+	}
+
+	mainboard.updateRenderer();
+	
+}
+
+function UnDo () {
+    if (STORED_STATE_INDEX >= 0) {
+        STORED_STATE_INDEX--;
+        RestoreMainboardState(STORED_STATE_INDEX);
+    }
+}
+
+function ReDo () {
+    if (STORED_STATE_INDEX < MAINBOARD_STORED_STATES.length - 1) {
+        STORED_STATE_INDEX++;
+        RestoreMainboardState(STORED_STATE_INDEX);
+    }
 }
 
 function ZoomIn() {
@@ -371,27 +790,7 @@ var getMouseCoords = function(e, i) {
     return new JXG.Coords(JXG.COORDS_BY_SCREEN, [dx, dy], mainboard);
 }
 
-
-function ObjectSelectorChanged() {
-	var objsel;
-	var found=false;
-	for (el in mainboard.objects) {
-        if (mainboard.objects[el].id == objSelector.value) {
-			objsel = mainboard.objects[el];
-			found=true;
-			break;
-		}
-	}
-	
-	if (!found)
-		return;
-	
-    DisplayObjectToEdit(objsel);
-
-}
-
 function ApplyObjectChanges() {
-	//alert("In ApplyObjectChanges");
 	
 	CUR_OBJECT_EDITING.setName(DOM_EDObjName.value);
 	
@@ -407,6 +806,7 @@ function ApplyObjectChanges() {
 	    CUR_OBJECT_EDITING.hideElement();
 	    CUR_OBJECT_EDITING.visible = false;
 	}
+
 	CUR_OBJECT_EDITING.setAttribute({"fillColor":DOM_EDobjfillcolor.value});
 	CUR_OBJECT_EDITING.setAttribute({"fillOpacity":DOM_EDfillopacity.value/100.0});
 
@@ -416,6 +816,9 @@ function ApplyObjectChanges() {
 
     mainboard.updateRenderer();
 	UnDraftBoard();
+	StoreMainboardState();
 
 }
+
+
 

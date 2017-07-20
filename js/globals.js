@@ -2,16 +2,12 @@
 var CUR_TOOL_ID = "";
 var near_hitted_objects = [];
 
-var DID_ACTIONS = [];
-var UNDO_ACTIONS = [];
-var CREATED_OBJECTS = [];
-var UNDO_CREATED_OBJECTS = [];
-var DELETED_OBJECTS = [];
-var UNDO_DELETED_OBJECTS = [];
-
 var SELECTED_OBJECTS = [];
 var ROOT_OBJECTS = []; // To store the initial objects of the axis
 var mainboard = []; // = JXG.JSXGraph.initBoard('mainbox', {boundingbox: [-10,10,10,-10], axis: true});
+
+var MAINBOARD_STORED_STATES = [];
+var STORED_STATE_INDEX;
 
 var FILL_CHECKED;
 var CUR_FILL_COLOR;
@@ -23,6 +19,7 @@ var CUR_STROKE_OPACITY;
 var CUR_STROKE_WIDTH = 2;
 
 var CUR_OBJECT_EDITING;
+var DOM_OBJECT_SELECTOR;
 
 var DOM_EDObjID;
 var DOM_EDObjName;
