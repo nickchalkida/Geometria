@@ -5,10 +5,11 @@
 <meta charset="UTF-8">
 <title>Geometria</title>
 <link rel="stylesheet" type="text/css" href="styles/styles.css" />
-<link rel="stylesheet" type="text/css" href="styles/jsxgraph.css" />
-<script type="text/javascript" src="js/jsxgraphcore.js"></script>
-<script type="text/javascript" src="js/jquery.min.js"></script>
-<script type="text/javascript" src="js/MathJax.js?config=TeX-MML-AM_CHTML"> </script>
+<link rel="stylesheet" type="text/css" href="http://jsxgraph.uni-bayreuth.de/distrib/jsxgraph.css" />
+<script type="text/javascript" src="http://jsxgraph.uni-bayreuth.de/distrib/jsxgraphcore.js"></script>
+<script type="text/javascript" src="http://jsxgraph.uni-bayreuth.de/distrib/GeogebraReader.js" ></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"> </script>
 <script type="text/x-mathjax-config"> MathJax.Hub.Config({   tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]} }); </script>
 </head>
 
@@ -19,15 +20,15 @@
 <a href="javascript:void(0)" id="dlbtn">
 <input class="baritem"  id="idSave"    type="image" src="images/save.svg"     onclick="Save()"                 title="Save"/>
 </a>
-<a href="javascript:void(0)" id="dltikz">
-<input class="baritem"  id="idSave"    type="image" src="images/save.svg"     onclick="SaveTikz()"             title="Save"/>
-</a>
+<select id="fileSelector"  onchange="fileSelectorChanged()"> <option value="svg">svg</option><option value="tikz">tikz</option></select>
+
 <input class="baritem"  id="idUnDo"    type="image" src="images/undo.svg"     onclick="UnDo()"                 title="Undo"/>
 <input class="baritem"  id="idReDo"    type="image" src="images/redo.svg"     onclick="ReDo()"                 title="Redo"/>
 <input class="toolitem" id="TDelete"   type="image" src="images/delete.svg"   onclick="onToolClick('TDelete')" title="Delete"/>
 <input class="baritem"  id="idAxis"    type="image" src="images/axis.svg"     onclick="ToggleAxis()"           title="Toggle Axis"/>
 <input class="toolitem" id="TText"     type="image" src="images/text.svg"     onclick="onToolClick('TText')"   title="Text"/>
-<input                  id="idTextIn"  type="text"  value="$\sum_{k=1}^n k^2$"     style="width:220px"         title="Text Input"/> 
+<input                  id="idTextIn"  type="text"  value="$\sum_{k=1}^n k^2$"     style="width:150px"         title="Text Input"/> 
+<input class="toolitem" id="idAbout"   type="image" src="images/owl.svg"      onclick="ToggleAbout()"          title="About Geometria"/>
 </div>
 
 <div id="middle_container">
@@ -56,7 +57,7 @@
 <div id="mainbox" class="jxgbox" style="width:768px; height:768px; display: inline-block; float: left;"></div>
 
 <div id="properties_container">
-<table>
+<table style="height:768px;">
 <colgroup>
 	<col style="width:42%">
 	<col style="width:58%">
@@ -119,8 +120,36 @@
 	<input type="button" value="Apply" onclick="ApplyObjectChanges()">
 	</td>
 </tr>
+
+<tr>
+    <td colspan="2" style="height:100%;">
+	</td>
+</tr>
+
+<tr>
+    <td colspan="2">
+	<div id="aboutDIV" style="text-align:right;display:none">
+	
+	<h5 style="color:black;"> 
+	<p>
+	<font color="yellow">Geometria --- </font> tool for interactive Geometry.
+	</br>
+	Version 1.0.0
+	</p>
+	
+	<p>
+	Author <a href="https://nickchalkida.github.io/profile.html">Nikolaos L. Kechris</a>
+	<br>
+	Source code <a href="https://github.com/nickchalkida/Geometria">in Github</a>
+	</p>
+	</h5>
+	</div>
+	</td>
+</tr>	
+	
 </table>
 </div>
+
 
 </div>
 
