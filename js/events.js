@@ -1,4 +1,27 @@
 
+/*******************************************************************************
+
+    Copyright (C) 2016-2017  Nikolaos L. Kechris
+    
+    This file is part of Geometria.
+    A set of javascript functions dealing mostly with click events
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the  Free  Software  Foundation, either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful, 
+    but WITHOUT ANY WARRANTY; without even the implied warranty of 
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*******************************************************************************/
+
 function onTDeleteClick() {
     boardDelete();
 }
@@ -87,12 +110,12 @@ function onTSemiLineClick() {
 
 }
 
-
 function onTIntersectionClick() {
 	var p0, p1, I0, I1;
 	var slen = SELECTED_OBJECTS.length;
     if (slen < 2)
         return;
+
 	// Check there are not points
 	if (isLikePoint(SELECTED_OBJECTS[slen-1]) || isLikePoint(SELECTED_OBJECTS[slen-2]))
         return UnDraftBoard();
@@ -119,8 +142,6 @@ function onTCircleClick() {
     p0 = SELECTED_OBJECTS.pop();
 
     var obj = boardCreate('circle', [p0, p1], getDrawAttrs());
-//	alert(obj.center.X() + " " + obj.center.Y());
-//	alert("radius " + obj.getRadius() );
 }
 
 function onTSemicircleClick() {
@@ -137,11 +158,6 @@ function onTSemicircleClick() {
     p0 = SELECTED_OBJECTS.pop();
 
     boardCreate('semicircle', [p0, p1], getDrawAttrs());
-
-	//var klisi = (p1.Y() - p0.Y()) / (p1.X() - p0.X());
-	//var rotation = Math.atan( klisi ) * (180 / Math.PI);
-	//alert(klisi + "  " + rotation);
-	
 }
 
 function onTAngleBisectorClick() {
@@ -184,7 +200,7 @@ function onTAngleClick() {
     p0 = SELECTED_OBJECTS.pop();
 
     //boardCreate('angle', [p0, p1, p2], getDrawAttrs());
-    boardCreate('sector', [p0, p1, p2], getDrawAttrs());
+    boardCreate('sector', [p1, p0, p2], getDrawAttrs());
 }
 
 function onTParallelClick() {
@@ -211,15 +227,6 @@ function onTParallelClick() {
     }
 
     boardCreate('parallel', [p0, p1], getDrawAttrs());
-	//var parentids = obj.getParents();
-    //var P0 = mainboard.objects[parentids[0]];
-//alert(P0.X() + " " + P0.Y());
-	//var P1 = mainboard.objects[parentids[1]];
-//alert(P1.X() + " " + P1.Y());
-	//var PP = mainboard.objects[obj.point.id];
-//alert(PP.X() + " " + PP.Y());
-
-
 }
 
 function onTPerpendicularClick() {
@@ -248,7 +255,6 @@ function onTPerpendicularClick() {
 
     var pp = boardCreate('perpendicularpoint', [p0, p1], getDrawAttrs());
     var li = boardCreate('segment', [p0, pp], getDrawAttrs());
-
 }
 
 function onTCircle3PointsClick() {
@@ -290,32 +296,7 @@ function onTBezierClick() {
     p1 = SELECTED_OBJECTS.pop();
     p0 = SELECTED_OBJECTS.pop();
 
-    //var obj = mainboard.create('curve', JXG.Math.Numerics.bezier([p0, p1, p2, p3]), getDrawAttrs());
-	//mainboard.objects.push({obj.id,obj});
-	
 	boardCreate('bezier', [p0, p1, p2, p3], getDrawAttrs());
-	
-	//var bez1;
-	//bez1 = JXG.Math.Numerics.bezier([p0, p1, p2, p3]);
-	//var obj = boardCreate('curve', bez1, getDrawAttrs());
-	//obj.setAttribute({infoboxtext:"bezier"});
-	//obj.addParents(p0.id);
-	//obj.addParents(p1.id);
-	//obj.addParents(p2.id);
-	//obj.addParents(p3.id);
-
-	//var obj = JXG.Math.Numerics.bezier([p0, p1, p2, p3]);
-	//alert(obj.getAttribute("infoboxtext"));
-	//var parentids = obj.getParents();
-	//var N0 = mainboard.objects[parentids[0]];
-	
-	//alert(N0.getName());
-
-	//var attr1str = objToString(N0);
-	//alert(attr1str);
-	
-	//var attr2str = objToString(obj.symbolic);
-	//alert(attr1str);
 	
 }
 
@@ -346,18 +327,9 @@ function onTConic3PClick(conictype) {
         case 'Hyperbola':
             obj = boardCreate('hyperbola', [p0, p1, p2], getDrawAttrs());
             break;
-        //case 'Parabola':
-        //    boardCreate('parabola', [p0, p1, p2], getDrawAttrs());
-        //    break;
 		default:;
 	}
 
-	//var parentids = obj.getParents();
-	//alert(parentids[0]);
-	//var F1obj = mainboard.objects[parentids[0]];
-	//var F2obj = mainboard.objects[parentids[1]];
-	//var F3obj = mainboard.objects[parentids[2]];
-	  
 	//var attr1str = objToString(obj.visProp);
 	//alert(attr1str);
     
@@ -448,9 +420,6 @@ function onTTextClick(x0,y0,textstr) {
 
 	var func1str = "return " + SPoint.Y + ";";
 	var f1 = new Function('', func1str);
-	
-	//var func2str = "return " + textstr + ";";
-	//var f2 = new Function('', func2str);
 	
 	var FA = [];
 	FA.push(f0);
@@ -584,13 +553,10 @@ function getHittedObject(x,y) {
 }
 
 var onboardmousedown = function(e) {
-//function onboardmousedown(e) {
     var hittonobject = false;
 	var hittedobject = null;
     var i, coords, el, hel;
 	
-	var testobject;
-
 	if (e[JXG.touchProperty]) {
         // index of the finger that is used to extract the coordinates
         i = 0;
@@ -654,4 +620,6 @@ var onboardrightmouseclick = function(e) {
 	DisplayObjectToEdit(hittedobject);
 	
 }
+
+
 

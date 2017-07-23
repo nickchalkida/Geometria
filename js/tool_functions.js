@@ -1,4 +1,27 @@
 
+/*******************************************************************************
+
+    Copyright (C) 2016-2017  Nikolaos L. Kechris
+    
+    This file is part of Geometria.
+    Utilities javascript functions.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the  Free  Software  Foundation, either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful, 
+    but WITHOUT ANY WARRANTY; without even the implied warranty of 
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*******************************************************************************/
+
 function ShowMatrix(M) {
 	var distr;
 	distr="";
@@ -226,7 +249,6 @@ function RGBColorToTikzColor_CMY(rgbcol) {
 	return "{cmy:cyan," + cyan + ";magenta," + magenta + ";yellow," + yellow+"}";
 }
 
-
 function RGBColorToTikzColor_RYB(rgbcol) {
 
 	var r0str = rgbcol.substring(1, 3); 
@@ -415,7 +437,7 @@ function boardCreateWithoutStore(eltyp, par, attrs) {
         case 'bezier':
 			bez1 = JXG.Math.Numerics.bezier(par);
 			obj = mainboard.create('curve', bez1, attrs);
-			//obj.setAttribute({infoboxtext:"bezier"});
+
 			obj.addParents(par[0].id);
 			obj.addParents(par[1].id);
 			obj.addParents(par[2].id);
@@ -425,7 +447,6 @@ function boardCreateWithoutStore(eltyp, par, attrs) {
 			obj = mainboard.create(eltyp, par, attrs);
 	}
 	obj.elType=eltyp;
-	//obj.setAttribute({infoboxtext:eltyp});
 	} catch (err) {
 		alert("boardCreate exception caught " + err);
 		return null;
@@ -489,6 +510,10 @@ function ObjectSelectorChanged() {
 
 }
 
+function fileSelectorChanged() {
+	SAVE_FILE_TYPE = FILE_SELECTOR.options[FILE_SELECTOR.selectedIndex].value;
+}
+
 function isLikePoint(obj) {
 	if (obj.elType == 'point' ||
 		obj.elType == 'midpoint' ||
@@ -516,7 +541,6 @@ function DisplayObjectToEdit(disobj) {
 	DOM_EDObjName.value        = disobj.getName();
 	DOM_EDObjType.value        = disobj.getType();
 	
-	//alert(findIndexInSelections(disobj.id));
 	DOM_OBJECT_SELECTOR.selectedIndex = findIndexInSelections(disobj.id);
 	
 	if (isLikePoint(disobj)) {
@@ -542,6 +566,7 @@ function DisplayObjectToEdit(disobj) {
 function Get_DOM_Globals() {
 
     DOM_OBJECT_SELECTOR = document.getElementById('objSelector');
+	FILE_SELECTOR = document.getElementById('fileSelector');
 
 	DOM_EDObjID = document.getElementById("EDObjID");
 	DOM_EDObjName = document.getElementById("EDObjName");
@@ -631,13 +656,19 @@ function ShowArray(objar) {
 }
 
 function Test() {
+    //alert("ok");
+    //JXG.FileReader.parseFileContent('http://jsxgraph.uni-bayreuth.de/geonext/point.ggb', mainboard, 'GeoGebra', false);
+
+    //mainboard = JXG.JSXGraph.initBoard("mainbox", {boundingbox: [-10,10,10,-10], axis: true, grid:true, showCopyright:false});  
+    //mainboard.suspendUpdate();   
+    //var b = JXG.JSXGraph.loadBoardFromFile("mainbox", "test.ggb", "Geogebra");
+    //mainboard.unsuspendUpdate();
     //alert("CREATED LEN:"+CREATED_OBJECTS.length + " UNDO CREATED LEN:"+ UNDO_CREATED_OBJECTS.length);
     //alert("DELETED LEN:"+DELETED_OBJECTS.length + " UNDO DELETED LEN:"+ UNDO_DELETED_OBJECTS.length);
     //alert("ACTIONS LEN:"+DID_ACTIONS.length + " UNDO ACTIONS LEN:"+ UNDO_ACTIONS.length);
     //alert("SELECTED LEN:"+SELECTED_OBJECTS.length);
     //ShowArray(mainboard.objects);
 }
-
 
 function NewBoard() {
     var el, obj;
@@ -647,6 +678,8 @@ function NewBoard() {
 
     SELECTED_OBJECTS.length=0;
     DOM_OBJECT_SELECTOR.length=0;
+	FILE_SELECTOR.selectedIndex=0;
+	fileSelectorChanged();
 
 	JXG.Options.text.useMathJax = true;
 	JXG.Options.renderer = 'canvas';
@@ -669,6 +702,7 @@ function NewBoard() {
 function NewFile() {
     MAINBOARD_STORED_STATES.length=0;
     STORED_STATE_INDEX = -1;
+	//FILE_SELECTOR.selectedIndex=0;
 	NewBoard();
 }
 
@@ -692,7 +726,6 @@ function StoreMainboardState() {
 	MAINBOARD_STORED_STATES.push(mainstate);
     STORED_STATE_INDEX = MAINBOARD_STORED_STATES.length - 1;
 }
-
 
 function RestoreMainboardState(stateindex) {
     var newmainstate;
@@ -766,7 +799,7 @@ function ToggleAxis() {
     var obj;
     for (el in ROOT_OBJECTS) {
         obj = ROOT_OBJECTS[el];
-        //alert(obj.elType + " id:" + obj.id);
+
         if (obj.visible) {
             obj.hideElement();
             obj.visible = false;
@@ -779,6 +812,15 @@ function ToggleAxis() {
     }
     mainboard.fullUpdate();
     
+}
+
+function ToggleAbout() {
+    var x = document.getElementById('aboutDIV');
+    if (x.style.display === 'none') {
+        x.style.display = 'block';
+    } else {
+        x.style.display = 'none';
+    }
 }
 
 var getMouseCoords = function(e, i) {
@@ -819,6 +861,5 @@ function ApplyObjectChanges() {
 	StoreMainboardState();
 
 }
-
 
 

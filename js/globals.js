@@ -1,4 +1,27 @@
 
+/*******************************************************************************
+
+    Copyright (C) 2016-2017  Nikolaos L. Kechris
+    
+    This file is part of Geometria.
+    Definitions of Global Variables.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the  Free  Software  Foundation, either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful, 
+    but WITHOUT ANY WARRANTY; without even the implied warranty of 
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*******************************************************************************/
+
 var CUR_TOOL_ID = "";
 var near_hitted_objects = [];
 
@@ -20,6 +43,8 @@ var CUR_STROKE_WIDTH = 2;
 
 var CUR_OBJECT_EDITING;
 var DOM_OBJECT_SELECTOR;
+var SAVE_FILE_TYPE;
+var FILE_SELECTOR;
 
 var DOM_EDObjID;
 var DOM_EDObjName;
@@ -34,9 +59,6 @@ var DOM_EDfillopacity;
 var DOM_EDobjstrokecolor;
 var DOM_EDstrokeopacity;
 var DOM_EDObjStrokeWidth;
-
-
-
 
 
 

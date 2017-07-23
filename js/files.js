@@ -1,3 +1,26 @@
+/*******************************************************************************
+
+    Copyright (C) 2016-2017  Nikolaos L. Kechris
+    
+    This file is part of Geometria.
+    A set of javascript functions dealing mostly with save output to files
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the  Free  Software  Foundation, either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful, 
+    but WITHOUT ANY WARRANTY; without even the implied warranty of 
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*******************************************************************************/
+
 
 function SaveToGO() {
 	
@@ -21,14 +44,13 @@ function SaveToGO() {
 	dlbtn.download = "GeometriaSvg.txt";
 }
 
+function RemoveDSign(instr) {
 
-function Save() {
-	var svg = new XMLSerializer().serializeToString(mainboard.renderer.svgRoot);
-	var file = new Blob([svg], {type:'text/plain'});
-	var dlbtn = document.getElementById("dlbtn");
-	dlbtn.href = URL.createObjectURL(file);
-	dlbtn.download = "GeometriaSvg.txt";
+    var retstr = instr.replace('$','');
+    retstr = retstr.split();
+    return retstr;
 }
+
 
 function GetSaveTikzDrawPoints() {
     var el, obj;
@@ -62,7 +84,9 @@ function GetSaveTikzDrawPoints() {
 	        commandstr += "(" + obj.X() + "," + obj.Y() + ") circle (" + obj.getAttribute("size")*0.75 + "pt);\r\n";
 			tikzstr += commandstr;
 
-			commandstr = "\\node [label={right:" + objname + "}] " + " at (" + obj.X() + "," + obj.Y() + "){};\r\n";
+            // \node [label={[xshift=15pt, yshift=2pt] {a^2 \cdot b^2 \cdot c^2 } \end pgf } ] at (-4.4,3.7) {};
+			//commandstr = "\\node [label={[xshift=5pt, yshift=2pt] {" + objname + "} \\end pgf}] " + " at (" + obj.X() + "," + obj.Y() + "){};\r\n";
+			commandstr = "\\node [label={right:{" + RemoveDSign(objname) + "} \\end pgf}] " + " at (" + obj.X() + "," + obj.Y() + "){};\r\n";
 			tikzstr += commandstr;
 		break;
 		default:;
@@ -397,20 +421,43 @@ function GetSaveDrawTikzShapes() {
 }
 
 function SaveTikz() {   	
-	var tikzstr = "\\begin{tikzpicture}\r\n"
+	//var tikzstr = "\\begin{tikzpicture}\r\n"
+	var tikzstr = "\\tikz{\r\n"
 
 	tikzstr += GetSaveDrawTikzShapes();
 	tikzstr += GetSaveTikzDrawLines();
 	tikzstr += GetSaveTikzDrawPoints();
 	//tikzstr += GetSaveTikzDrawText();
 	
-	tikzstr += "\\end{tikzpicture}\n";
+	//tikzstr += "\\end{tikzpicture}\n";
+	tikzstr += "}\r\n";
 	
 	var file = new Blob([tikzstr], {type:'text/plain'});
-	var dltikz = document.getElementById("dltikz");
-	dltikz.href = URL.createObjectURL(file);
-	dltikz.download = "GeometriaTikz.txt";
 
+	//var dltikz = document.getElementById("dltikz");
+	//dltikz.href = URL.createObjectURL(file);
+	//dltikz.download = "GeometriaTikz.txt";
+
+	var dlbtn = document.getElementById("dlbtn");
+	dlbtn.href = URL.createObjectURL(file);
+	dlbtn.download = "GeometriaTikz.txt";
 }
 
+function SaveSVG() {
+	var svg = new XMLSerializer().serializeToString(mainboard.renderer.svgRoot);
+	var file = new Blob([svg], {type:'text/plain'});
+	var dlbtn = document.getElementById("dlbtn");
+	dlbtn.href = URL.createObjectURL(file);
+	dlbtn.download = "GeometriaSvg.txt";
+}
+
+
+function Save() {
+
+	if (SAVE_FILE_TYPE=="svg") {
+		SaveSVG();
+	} else if (SAVE_FILE_TYPE=="tikz") {
+		SaveTikz();
+	}
+}
 
