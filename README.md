@@ -1,4 +1,4 @@
-## Welcome to GitHub Pages
+## Welcome to Geometria
 
 You can use the [editor on GitHub](https://github.com/nickchalkida/Geometria/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
 
