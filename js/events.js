@@ -532,7 +532,7 @@ function getHittedObject(x,y) {
     
 	near_hitted_objects.length = 0;
     for (el in mainboard.objects) {
-        if (mainboard.objects[el].hasPoint(x,y)) {
+        if (mainboard.objects[el].hasPoint(x,y) && mainboard.objects[el].visible) {
 			hittonobject = true;
 			hittedobject = mainboard.objects[el];
 			near_hitted_objects.push(mainboard.objects[el]);
@@ -540,6 +540,7 @@ function getHittedObject(x,y) {
     }
     // If there are many hits take as hitted the first point
     if (hittonobject) {
+		hittedobject = near_hitted_objects[0];
         for (hel in near_hitted_objects) {
 			//if (JXG.isPoint(near_hitted_objects[hel])) {
 			if (isLikePoint(near_hitted_objects[hel])) {
