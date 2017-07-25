@@ -222,6 +222,44 @@ function getEllipseAttrsFromFoci(F1, F2, P0) {
 	return ellipseattrs;	
 }
 
+function getSectorAttrsFromPoints(F1, P0, F2) {
+	var CenX = P0.X();
+	var CenY = P0.Y();
+
+	var DF1P0 = Math.sqrt((F1.X()-P0.X())*(F1.X()-P0.X()) + (F1.Y()-P0.Y())*(F1.Y()-P0.Y()));
+	var DF2P0 = Math.sqrt((F2.X()-P0.X())*(F2.X()-P0.X()) + (F2.Y()-P0.Y())*(F2.Y()-P0.Y()));
+	var DF1F2 = Math.sqrt((F1.X()-F2.X())*(F1.X()-F2.X()) + (F1.Y()-F2.Y())*(F1.Y()-F2.Y()));
+	var DOT_P0F1_P0F2 = (F1.X()-P0.X())*(F2.X()-P0.X()) + (F1.Y()-P0.Y())*(F2.Y()-P0.Y());
+	var DET_P0F1_P0F2 = (F1.X()-P0.X())*(F2.Y()-P0.Y()) - (F2.X()-P0.X())*(F1.Y()-P0.Y());
+
+	var atheta = Math.atan2((F1.Y()- P0.Y()) , (F1.X()- P0.X()) ); // klisi F1P0
+	var btheta = Math.atan2((F2.Y()- P0.Y()) , (F2.X()- P0.X()) ); // klisi F2P0
+	var tangle = Math.acos( DOT_P0F1_P0F2 / (DF1P0 * DF2P0));
+	
+	atheta *= (180 / Math.PI);
+	btheta *= (180 / Math.PI);
+	tangle *= (180 / Math.PI);
+
+	//if (DET_P0F1_P0F2<0) {
+	//	btheta += 360;
+	//}
+	if (btheta-atheta<0) {
+		btheta += 360;
+	} else if (btheta-atheta>360) {
+		btheta -= 360;
+	}
+	
+	var sectorattrs = {
+	CenterX: CenX,
+	CenterY: CenY,
+	arotation: atheta,
+	brotation: btheta,
+	angle: tangle
+	};
+
+	return sectorattrs;	
+}
+
 function objToString (obj) {
     var str = '';
     for (var p in obj) {

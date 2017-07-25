@@ -300,6 +300,31 @@ function GetSaveDrawTikzShapes() {
 	        commandstr += "] (" + obj.center.X() + "," + obj.center.Y() + ") circle (" + obj.getRadius() + "cm);\r\n";
 			tikzstr += commandstr;
 		break;
+		case "sector" :
+	        parentids = obj.getParents();
+
+			P0 = mainboard.objects[parentids[0]];
+			P1 = mainboard.objects[parentids[1]];
+			P2 = mainboard.objects[parentids[2]];
+
+			// P0 is korifi
+			objattrs = getSectorAttrsFromPoints(P1,P0,P2);
+
+			commandstr  = "\\draw[";
+	        commandstr += "line width="+obj.getAttribute("strokeWidth")*0.75+"pt, ";
+	        commandstr += "draw=" + RGBColorToTikzColor(obj.getAttribute("strokeColor")) + ", ";
+			
+			if (obj.getAttribute("fillOpacity")!=0) {
+	        commandstr += "fill opacity="+obj.getAttribute("fillOpacity")                + ", ";
+	        commandstr += "fill=" + RGBColorToTikzColor(obj.getAttribute("fillColor")) ; 
+			}
+
+			// (0,0) -- (3.5,0)  arc (0:40:3.5cm) -- cycle ;
+			commandstr += "] (" + P0.X() + "," + P0.Y() + ") -- ("  + P1.X() + "," + P1.Y() + ") --";
+	        commandstr += " ++(0,0) arc (" + objattrs.arotation + ":" + objattrs.brotation + ":" + obj.Radius() + "cm) -- cycle;\r\n";
+			
+			tikzstr += commandstr;
+		break;
 		case "ellipse" :
 		    // commandstr = "\\draw[line width=0.5mm, draw=black, fill={rgb:red,1;green,2;blue,5}, fill opacity=0.2] (0,0) ellipse (6pt and 3pt);\n";
 	        parentids = obj.getParents();
