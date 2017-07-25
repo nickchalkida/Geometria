@@ -31,6 +31,7 @@ var mainboard = []; // = JXG.JSXGraph.initBoard('mainbox', {boundingbox: [-10,10
 
 var MAINBOARD_STORED_STATES = [];
 var STORED_STATE_INDEX;
+var HISTORY_SIZE=20;
 
 var FILL_CHECKED;
 var CUR_FILL_COLOR;

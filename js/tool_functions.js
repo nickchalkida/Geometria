@@ -738,8 +738,11 @@ function NewBoard() {
 }
 
 function NewFile() {
-    MAINBOARD_STORED_STATES.length=0;
-    STORED_STATE_INDEX = -1;
+    //MAINBOARD_STORED_STATES.length=0;
+    //STORED_STATE_INDEX = -1;
+	MAINBOARD_STORED_STATES = new Array(HISTORY_SIZE);
+	STORED_STATE_INDEX=0;
+	
 	//FILE_SELECTOR.selectedIndex=0;
 	NewBoard();
 }
@@ -749,10 +752,10 @@ function StoreMainboardState() {
     var mainstate = [];
     // Before storing clean MAINBOARD_STORED_STATES
     // above STORED_STATE_INDEX
-    while (MAINBOARD_STORED_STATES.length > STORED_STATE_INDEX+1) {
-        MAINBOARD_STORED_STATES.pop();
-    }
- 	STORED_STATE_INDEX++;
+    //while (MAINBOARD_STORED_STATES.length > STORED_STATE_INDEX+1) {
+    //    MAINBOARD_STORED_STATES.pop();
+    //}
+ 	//STORED_STATE_INDEX++;
  
     mainstate.length = 0;
     //for (el in mainboard.objects) {
@@ -760,9 +763,12 @@ function StoreMainboardState() {
 		obj = mainboard.objectsList[el];
 		mainstate.push(obj);
 	}
+	
+	MAINBOARD_STORED_STATES[STORED_STATE_INDEX] = mainstate;
+	STORED_STATE_INDEX = (STORED_STATE_INDEX + 1) % HISTORY_SIZE;
 
-	MAINBOARD_STORED_STATES.push(mainstate);
-    STORED_STATE_INDEX = MAINBOARD_STORED_STATES.length - 1;
+	//MAINBOARD_STORED_STATES.push(mainstate);
+    //STORED_STATE_INDEX = MAINBOARD_STORED_STATES.length - 1;
 }
 
 function RestoreMainboardState(stateindex) {
@@ -815,14 +821,16 @@ function RestoreMainboardState(stateindex) {
 
 function UnDo () {
     if (STORED_STATE_INDEX >= 0) {
-        STORED_STATE_INDEX--;
+        //STORED_STATE_INDEX--;
+		STORED_STATE_INDEX = (STORED_STATE_INDEX - 1) % HISTORY_SIZE;
         RestoreMainboardState(STORED_STATE_INDEX);
     }
 }
 
 function ReDo () {
     if (STORED_STATE_INDEX < MAINBOARD_STORED_STATES.length - 1) {
-        STORED_STATE_INDEX++;
+        //STORED_STATE_INDEX++;
+		STORED_STATE_INDEX = (STORED_STATE_INDEX + 1) % HISTORY_SIZE;
         RestoreMainboardState(STORED_STATE_INDEX);
     }
 }
@@ -896,7 +904,7 @@ function ApplyObjectChanges() {
 
     mainboard.updateRenderer();
 	UnDraftBoard();
-	StoreMainboardState();
+	//StoreMainboardState();
 
 }
 
