@@ -879,12 +879,12 @@ var getMouseCoords = function(e, i) {
 function ApplyObjectChanges() {
 	
 	CUR_OBJECT_EDITING.setName(DOM_EDObjName.value);
-	
+
 	if (DOM_EDObjType.value == "text")
-		CUR_OBJECT_EDITING.setAttribute({"fontSize":DOM_EDObjSize.value});
+		CUR_OBJECT_EDITING.setAttribute({"fontSize":parseInt(DOM_EDObjSize.value)});
 	else
-		CUR_OBJECT_EDITING.setAttribute({"size":DOM_EDObjSize.value});
-	
+		CUR_OBJECT_EDITING.setAttribute({"size":parseInt(DOM_EDObjSize.value)});
+
 	if (DOM_EDVisibility.checked) {
 	    CUR_OBJECT_EDITING.showElement();
 	    CUR_OBJECT_EDITING.visible = true;
