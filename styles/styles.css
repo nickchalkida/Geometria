@@ -127,6 +127,15 @@ tr:nth-child(even) {
     background-color:lightgrey;
 }
 
+.helptoolitem {
+    width: 32px;
+    height: 32px;
+    padding: 2px;
+    margin: auto;
+    display: inline-block;
+    background-color:lightgrey;
+}
+
 .toolitem_selected {
     width: 32px;
     height: 32px;
