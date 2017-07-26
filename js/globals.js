@@ -29,7 +29,7 @@ var SELECTED_OBJECTS = [];
 var ROOT_OBJECTS = []; // To store the initial objects of the axis
 var mainboard = []; // = JXG.JSXGraph.initBoard('mainbox', {boundingbox: [-10,10,10,-10], axis: true});
 
-var MAINBOARD_STORED_STATES = [];
+var MAINBOARD_STORED_ACTIONS = [];
 var STORED_STATE_INDEX;
 var HISTORY_SIZE=20;
 

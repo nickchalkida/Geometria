@@ -492,12 +492,28 @@ function boardCreateWithoutStore(eltyp, par, attrs) {
     return obj;
 }
 
+function StoreMainboardAction(actype, creobj, eltyp, par, attrs) {
+    // Before storing clean MAINBOARD_STORED_ACTIONS
+    // above STORED_STATE_INDEX
+    while (MAINBOARD_STORED_ACTIONS.length > STORED_STATE_INDEX+1) {
+        MAINBOARD_STORED_ACTIONS.pop();
+    }
+ 	STORED_STATE_INDEX++;
+
+	var action = {
+			actiontype:actype, 
+			createdobject:creobj, 
+			objtype:eltyp, 
+			parents:par, 
+			attributes:attrs};
+	MAINBOARD_STORED_ACTIONS.push(action);
+}
 
 function boardCreate(eltyp, par, attrs) {
     var obj;
 	
 	obj = boardCreateWithoutStore(eltyp, par, attrs);
-	StoreMainboardState();
+	StoreMainboardAction("create", obj, eltyp, par, attrs);
     SynchronizeObjects();
     UnDraftBoard();
         
@@ -510,8 +526,8 @@ function boardDelete() {
 	if (SELECTED_OBJECTS.length < 1)
 		return;
 	obj = SELECTED_OBJECTS.pop();
+	StoreMainboardAction("delete", obj, obj.elType, obj.getParents(), obj.getAttributes());
 	mainboard.removeObject(obj);
-	StoreMainboardState();
 	
 	SynchronizeObjects();
 	mainboard.updateRenderer();
@@ -738,37 +754,11 @@ function NewBoard() {
 }
 
 function NewFile() {
-    //MAINBOARD_STORED_STATES.length=0;
-    //STORED_STATE_INDEX = -1;
-	MAINBOARD_STORED_STATES = new Array(HISTORY_SIZE);
-	STORED_STATE_INDEX=0;
+    MAINBOARD_STORED_ACTIONS.length=0;
+    STORED_STATE_INDEX = -1;
 	
 	//FILE_SELECTOR.selectedIndex=0;
 	NewBoard();
-}
-
-function StoreMainboardState() {
-    var obj;
-    var mainstate = [];
-    // Before storing clean MAINBOARD_STORED_STATES
-    // above STORED_STATE_INDEX
-    //while (MAINBOARD_STORED_STATES.length > STORED_STATE_INDEX+1) {
-    //    MAINBOARD_STORED_STATES.pop();
-    //}
- 	//STORED_STATE_INDEX++;
- 
-    mainstate.length = 0;
-    //for (el in mainboard.objects) {
-    for (el in mainboard.objectsList) {
-		obj = mainboard.objectsList[el];
-		mainstate.push(obj);
-	}
-	
-	MAINBOARD_STORED_STATES[STORED_STATE_INDEX] = mainstate;
-	STORED_STATE_INDEX = (STORED_STATE_INDEX + 1) % HISTORY_SIZE;
-
-	//MAINBOARD_STORED_STATES.push(mainstate);
-    //STORED_STATE_INDEX = MAINBOARD_STORED_STATES.length - 1;
 }
 
 function RestoreMainboardState(stateindex) {
@@ -776,20 +766,28 @@ function RestoreMainboardState(stateindex) {
     var obj, nobj, lastobj;
 	var N0,N1,N2,N3;
     var objname, remtype, parentids;
+	var action;
     
-    if (stateindex > MAINBOARD_STORED_STATES.length - 1)
+    if (stateindex > MAINBOARD_STORED_ACTIONS.length - 1)
         return;
-    newmainstate = MAINBOARD_STORED_STATES[stateindex];
     NewBoard();
     
     // Recreate State
-    for (el in newmainstate) {
-		obj = newmainstate[el];
-	    try {
-		objname = obj.getName();
-		if (objname.substring(0,8)!="RootObj_" && !obj.id.endsWith("Label")) {
+    for (var el=0; el<=stateindex; el++) {
+		action = MAINBOARD_STORED_ACTIONS[el];
 
+		// Object to be recreated
+		var obj = action.createdobject;
+		if (action.actiontype=="delete") {
+			mainboard.removeObject(obj);
+			continue;
+		}
+
+	    try {
+			
+		objname = obj.getName();
 		remtype = obj.elType;
+		//remtype = action.objtype;
 		if (remtype=='bezier') {
 			parentids = obj.getParents();
 			N0 = mainboard.objects[parentids[0]];
@@ -799,6 +797,8 @@ function RestoreMainboardState(stateindex) {
 			nobj = boardCreateWithoutStore(remtype, [N0,N1,N2,N3], obj.getAttributes());
 		}
 		else {
+			//nobj = boardCreateWithoutStore(remtype, obj.getParents(), obj.getAttributes());
+			obj.setParents(action.parents);
 			nobj = boardCreateWithoutStore(remtype, obj.getParents(), obj.getAttributes());
 		}
 		nobj.elType = remtype;
@@ -806,7 +806,7 @@ function RestoreMainboardState(stateindex) {
 		lastobj = nobj;
 	    
 		} // end try
-	    } catch (err) {alert("Object recreation error for " + obj.id)}
+	    catch (err) {alert("Object recreation error for " + obj.id)}
 	}
 
 	if (DOM_OBJECT_SELECTOR.options.length==0) {
@@ -821,16 +821,14 @@ function RestoreMainboardState(stateindex) {
 
 function UnDo () {
     if (STORED_STATE_INDEX >= 0) {
-        //STORED_STATE_INDEX--;
-		STORED_STATE_INDEX = (STORED_STATE_INDEX - 1) % HISTORY_SIZE;
+        STORED_STATE_INDEX--;
         RestoreMainboardState(STORED_STATE_INDEX);
     }
 }
 
 function ReDo () {
-    if (STORED_STATE_INDEX < MAINBOARD_STORED_STATES.length - 1) {
-        //STORED_STATE_INDEX++;
-		STORED_STATE_INDEX = (STORED_STATE_INDEX + 1) % HISTORY_SIZE;
+    if (STORED_STATE_INDEX < MAINBOARD_STORED_ACTIONS.length - 1) {
+        STORED_STATE_INDEX++;
         RestoreMainboardState(STORED_STATE_INDEX);
     }
 }
