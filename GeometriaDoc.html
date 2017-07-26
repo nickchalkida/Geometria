@@ -6,6 +6,8 @@
 <title>Geometria Documentation</title>
 <link rel="stylesheet" type="text/css" href="styles/styles.css" />
 <link rel="stylesheet" type="text/css" href="styles/jsxgraph.css" />
+<link href='https://fonts.googleapis.com/css?family=Rye' rel='stylesheet'>
+
 <script type="text/javascript" src="js/jsxgraphcore.js"></script>
 <script type="text/javascript" src="http://jsxgraph.uni-bayreuth.de/distrib/GeogebraReader.js" ></script>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -14,13 +16,178 @@
 </head>
 
 <body>
-<h2> Geometria </h2>
-<h4> A tool for interactive Geometry </h4>
+<h2 style="text-align:center;font-family:'Rye'; font-size:32px"> Geometria </h2>
+<h3>
 
-<h3>Tools</h3>
-<ul>
-<li> The point creation tool.
-</ul>
+<br>
+
+Geometria is a tool for interactive Geometry. Its purpose is to ease Geometric constructions,
+to save them in a programmable configurable way and reveal and challenge a new programmer
+in order to explore further.
+</h3>
+
+<br>
+
+<h3>Top Panel Tools</h3>
+<table>
+<colgroup>
+	<col style="width:200px">
+	<col style="width:600px">
+</colgroup>  
+<tr>
+	<td valign="top"><img src="images/new_file.svg" class="helptoolitem"></td>
+	<td valign="top">Press "New File" to start a new geometric construction.</td>
+</tr>
+<tr>
+	<td valign="top"><img src="images/save.svg" class="helptoolitem">
+	<select id="fileSelector"  "> <option value="svg">svg</option><option value="tikz">tikz</option></select>
+	</td>
+	<td valign="top">
+	Select the file extesion you would like to save your construction. Then press
+	save in order to download your construction as a file of the selected type.
+	</td>
+</tr>
+<tr>
+	<td valign="top">
+	<img src="images/undo.svg" class="helptoolitem">
+	<img src="images/redo.svg" class="helptoolitem">
+	</td>
+	<td valign="top">
+	Use "Undo", "Redo" to go back and forth to the history of the construction.
+	</td>
+</tr>
+<tr>
+	<td valign="top"><img src="images/delete.svg" class="helptoolitem">
+	</td>
+	<td valign="top">
+	Use "Delete" in order to delete from board the next selected element.
+	</td>
+</tr>
+<tr>
+	<td valign="top"><img src="images/axis.svg" class="helptoolitem">
+	</td>
+	<td valign="top">
+	Use "Axis" to toggle appearance of X, Y axes.
+	</td>
+</tr>
+<tr>
+	<td valign="top"><img src="images/text.svg" class="helptoolitem">
+	</td>
+	<td valign="top">
+	Use "Text" in order to introduce on board the text of the input.
+	A TeX formula can be used.
+	</td>
+</tr>
+<tr>
+	<td valign="top"><img src="images/owl.svg" class="helptoolitem">
+	</td>
+	<td valign="top">
+	General information about Geometria.
+	</td>
+</tr>
+</table>
+
+<br><br><br>
+
+<h3>Left Panel Geometry Tools</h3>
+<table>
+<colgroup>
+	<col style="width:200px">
+	<col style="width:600px">
+</colgroup>  
+<tr>
+	<td valign="top"><img src="images/point.svg" class="helptoolitem"></td>
+	<td valign="top">Select Point tool and click on board to create new points.</td>
+</tr>
+<tr>
+	<td valign="top"><img src="images/select.svg" class="helptoolitem"></td>
+	<td valign="top">
+	"Selection tool". Use this tool
+	to select the necessary number of points.</td>
+</tr>
+</table>
+
+<br>
+
+<h3>Bottom Panel --- Current Drawing Attributes</h3>
+<table>
+<colgroup>
+	<col style="width:200px">
+	<col style="width:600px">
+</colgroup>  
+<tr>
+	<td valign="top"><img src="images/point.svg" class="helptoolitem"></td>
+	<td valign="top">Select Point tool and click on board to create new points.</td>
+</tr>
+<tr>
+	<td valign="top"><img src="images/select.svg" class="helptoolitem"></td>
+	<td valign="top">
+	"Selection tool". Use this tool
+	to select the necessary number of points.</td>
+</tr>
+</table>
+
+<br>
+
+<h3>Right Panel -- Edit object properties</h3>
+<table>
+<colgroup>
+	<col style="width:200px">
+	<col style="width:600px">
+</colgroup>  
+<tr>
+	<td valign="top">Object ID</td>
+	<td valign="top">
+	The ID attributed to the object by the program. It is not editable.
+	</td>
+</tr>
+<tr>
+	<td valign="top">Object Name</td>
+	<td valign="top">
+	The Name - Label of the Geometric Element. A $ sign may introduce a TeX formula.
+	</td>
+</tr>
+<tr>
+	<td valign="top">Object Type</td>
+	<td valign="top">
+	The Type attributed to the object by the program. As ID is not editable.
+	</td>
+</tr>
+<tr>
+	<td valign="top">Object Size</td>
+	<td valign="top">
+	An integer related with the magnitude of the object and is
+	interpreted according with the type of the object.
+	</td>
+</tr>
+<tr>
+	<td valign="top">Visible</td>
+	<td valign="top">
+	Checked if selected object is visible on board.
+	</td>
+</tr>
+<tr>
+	<td valign="top">Fill Color</td>
+	<td valign="top">
+	Fill Color value of the line used to draw the selected object.
+	</td>
+</tr>
+<tr>
+	<td valign="top">Stroke Color</td>
+	<td valign="top">
+	Stroke Color value of of the line used to draw the selected object.
+	</td>
+</tr>
+<tr>
+	<td valign="top">Stroke Size</td>
+	<td valign="top">
+	Stroke size of the line used to draw the selected object.
+	</td>
+</tr>
+</table>
+
+<br>
+
 
 </body> 
 </html>     
