@@ -17,10 +17,9 @@
 
 <body>
 <h2 style="text-align:center;font-family:'Rye'; font-size:32px"> Geometria </h2>
-<h3>
-
 <br>
 
+<h3>
 Geometria is a tool for interactive Geometry. Its purpose is to ease Geometric constructions,
 to save them in a programmable configurable way and reveal and challenge a new programmer
 in order to explore further.
@@ -106,6 +105,74 @@ in order to explore further.
 	"Selection tool". Use this tool
 	to select the necessary number of points.</td>
 </tr>
+<tr>
+	<td valign="top"><img src="images/midpoint.svg" class="helptoolitem"></td>
+	<td valign="top">Select two points and find the midpoint</td>
+</tr>
+<tr>
+	<td valign="top"><img src="images/segment.svg" class="helptoolitem"></td>
+	<td valign="top">Select two points and draw the segment between them.</td>
+</tr>
+<tr>
+	<td valign="top"><img src="images/line.svg" class="helptoolitem"></td>
+	<td valign="top">Select two points and draw the line between them.</td>
+</tr>
+<tr>
+	<td valign="top"><img src="images/semiline.svg" class="helptoolitem"></td>
+	<td valign="top">Draw the semiline from the first selected point towards the second selected.</td>
+</tr>
+<tr>
+	<td valign="top"><img src="images/intersection.svg" class="helptoolitem"></td>
+	<td valign="top">Select any two curves and find their intersection points.</td>
+</tr>
+<tr>
+	<td valign="top"><img src="images/angle.svg" class="helptoolitem"></td>
+	<td valign="top">Select three points to draw the sector defined by them.</td>
+</tr>
+<tr>
+	<td valign="top"><img src="images/anglebisector.svg" class="helptoolitem"></td>
+	<td valign="top">Select three points to draw the bisector of the angle defined by them.</td>
+</tr>
+<tr>
+	<td valign="top"><img src="images/parallel.svg" class="helptoolitem"></td>
+	<td valign="top">Select a point and a line segment in order to draw the parallel from the point to this line segment.</td>
+</tr>
+<tr>
+	<td valign="top"><img src="images/perpendicular.svg" class="helptoolitem"></td>
+	<td valign="top">Select a point and a line segment in order to draw the perpendicular from this point to the line segment.</td>
+</tr>
+<tr>
+	<td valign="top"><img src="images/circle3points.svg" class="helptoolitem"></td>
+	<td valign="top">Select three points in order to draw the circle passing from those points.</td>
+</tr>
+<tr>
+	<td valign="top"><img src="images/circle.svg" class="helptoolitem"></td>
+	<td valign="top">Select two points in order to draw a circle with center the first and radius their distance.</td>
+</tr>
+<tr>
+	<td valign="top"><img src="images/semicircle.svg" class="helptoolitem"></td>
+	<td valign="top">Select two points in order to draw the semicircle having as diameter the selected points.</td>
+</tr>
+<tr>
+	<td valign="top"><img src="images/bezier.svg" class="helptoolitem"></td>
+	<td valign="top">Select four points to draw the bezier curve from the first to the fourth having control points the second and the third.</td>
+</tr>
+<tr>
+	<td valign="top"><img src="images/ellipse.svg" class="helptoolitem"></td>
+	<td valign="top">Select three points to draw the ellipse passing through them.</td>
+</tr>
+<tr>
+	<td valign="top"><img src="images/conic5p.svg" class="helptoolitem"></td>
+	<td valign="top">Select five points to draw the conic (ellipse, hyperbola, parabola) defined by these points.</td>
+</tr>
+<tr>
+	<td valign="top"><img src="images/incircle.svg" class="helptoolitem"></td>
+	<td valign="top">Select three points in order to draw the inscribed circle.</td>
+</tr>
+<tr>
+	<td valign="top"><img src="images/polygon.svg" class="helptoolitem"></td>
+	<td valign="top">Select any number of points back to the first selected in order to draw the polygon defined by these points.</td>
+</tr>
 </table>
 
 <br><br>
@@ -177,6 +244,18 @@ in order to explore further.
 	<td valign="top">
 	Displayed an input number, to determine the current drawing line width of the stroke.
 	The range is also [0-100], default is 2.
+	</td>
+</tr>
+<tr>
+	<td valign="top">
+	<img src="images/function.svg" class="helptoolitem">
+	<input type="text" value="pi*cos(x)/x" style="width:100px" /> 
+	<input type="text" value="-10" style="width:20px" title="Left Bound"/> 
+	<input type="text" value="10" style="width:20px" title="Right Bound"/> 
+	</td>
+	<td valign="top">
+	Enter an arbitrary mathematical function and press "f(x)" icon
+	in order to plot the particular function between the given bounds.
 	</td>
 </tr>
 
