@@ -26,7 +26,7 @@ to save them in a programmable configurable way and reveal and challenge a new p
 in order to explore further.
 </h3>
 
-<br>
+<br><br>
 
 <h3>Top Panel Tools</h3>
 <table>
@@ -72,22 +72,23 @@ in order to explore further.
 </tr>
 <tr>
 	<td valign="top"><img src="images/text.svg" class="helptoolitem">
+	<input  id="idTextIn"  type="text"  value="$\sum_{k=1}^n k^2$"     style="width:150px"   title="Text Input"/> 
 	</td>
 	<td valign="top">
 	Use "Text" in order to introduce on board the text of the input.
-	A TeX formula can be used.
+	A TeX formula can be used, however you cannot use Unicode.
 	</td>
 </tr>
 <tr>
 	<td valign="top"><img src="images/owl.svg" class="helptoolitem">
 	</td>
 	<td valign="top">
-	General information about Geometria.
+	Press on owl to display general information about Geometria.
 	</td>
 </tr>
 </table>
 
-<br><br><br>
+<br><br>
 
 <h3>Left Panel Geometry Tools</h3>
 <table>
@@ -107,7 +108,7 @@ in order to explore further.
 </tr>
 </table>
 
-<br>
+<br><br>
 
 <h3>Bottom Panel --- Current Drawing Attributes</h3>
 <table>
@@ -116,18 +117,72 @@ in order to explore further.
 	<col style="width:600px">
 </colgroup>  
 <tr>
-	<td valign="top"><img src="images/point.svg" class="helptoolitem"></td>
-	<td valign="top">Select Point tool and click on board to create new points.</td>
+	<td valign="top">
+	<input id="checkfill" type="checkbox" checked "/><label>Fill</label>
+	</td>
+	<td valign="top">Determines if current drawing fill with color 
+	is going to be active.
+	</td>
 </tr>
 <tr>
-	<td valign="top"><img src="images/select.svg" class="helptoolitem"></td>
 	<td valign="top">
-	"Selection tool". Use this tool
-	to select the necessary number of points.</td>
+	<input id="TFfillcolor" type="text" value="#ffff00" readonly style="width:60px" title="Fill Color"/> 
+	</td>
+	<td valign="top">
+	Displays the RGB value of the currently selected fill color.
+	</td>
 </tr>
+<tr>
+	<td valign="top">
+	<input type="color" value="#ffff00" />
+	<input type="number" min="0" max="100" step="1" value="50" style="width:45px" title="Fill Opacity" />
+	</td>
+	<td valign="top">
+	Displayed the currently selected fill color and an input number. The input number
+	determines the opacity of the currently selected fill color, in the range [0-100].
+	A value of 0 is interpreted transparent and is equivalent to no fill.
+	</td>
+</tr>
+<tr>
+	<td valign="top">
+	<input id="checkstroke" type="checkbox" checked "/><label>Stroke</label>
+	</td>
+	<td valign="top">Determines if current drawing stroke with color 
+	is going to be active.
+	</td>
+</tr>
+<tr>
+	<td valign="top">
+	<input id="TFstrokecolor" type="text" value="#000060" readonly style="width:60px" title="Fill Color"/> 
+	</td>
+	<td valign="top">
+	Displays the RGB value of the currently selected stroke color.
+	</td>
+</tr>
+<tr>
+	<td valign="top">
+	<input type="color" value="#000060" />
+	<input type="number" min="0" max="100" step="1" value="80" style="width:45px" title="Fill Opacity" />
+	</td>
+	<td valign="top">
+	Displayed the currently selected stroke color and an input number. The input number
+	determines the opacity of the currently selected stroke color, in the range [0-100].
+	A value of 0 is interpreted transparent and is equivalent to no stroke.
+	</td>
+</tr>
+<tr>
+	<td valign="top">
+	<input type="number" min="0" max="100" step="1" value="2" style="width:45px" title="Fill Opacity" />
+	</td>
+	<td valign="top">
+	Displayed an input number, to determine the current drawing line width of the stroke.
+	The range is also [0-100], default is 2.
+	</td>
+</tr>
+
 </table>
 
-<br>
+<br><br>
 
 <h3>Right Panel -- Edit object properties</h3>
 <table>
