@@ -746,6 +746,7 @@ function NewBoard() {
         if (obj.elType!='point') {
         obj.showElement();
         obj.visible = true;
+        obj.setAttribute({"visible":true});
         }
     }   
 	ClearEditFields();
@@ -849,9 +850,11 @@ function ToggleAxis() {
         if (!obj.visible) {
             obj.showElement();
             obj.visible = true;
+            obj.setAttribute({"visible":true});
         } else {
             obj.hideElement();
             obj.visible = false;
+            obj.setAttribute({"visible":false});
         }
 	    
     }
