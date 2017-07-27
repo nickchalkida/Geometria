@@ -844,17 +844,18 @@ function ToggleAxis() {
     for (el in ROOT_OBJECTS) {
         obj = ROOT_OBJECTS[el];
 
-        if (obj.visible) {
-            obj.hideElement();
-            obj.visible = false;
-        } else {
-            if (obj.elType!="point") {
+	if (obj.elType=="point")
+		continue;
+        if (!obj.visible) {
             obj.showElement();
             obj.visible = true;
-            }
+        } else {
+            obj.hideElement();
+            obj.visible = false;
         }
+	    
     }
-    mainboard.fullUpdate();
+    mainboard.updateRenderer();
     
 }
 
