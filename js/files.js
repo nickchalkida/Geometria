@@ -22,6 +22,7 @@
 *******************************************************************************/
 
 
+
 function SaveToGO() {
 	
 	var b = JXG.JSXGraph.loadBoardFromFile('mainbox', 'test.ggb', 'Geogebra');
@@ -50,6 +51,85 @@ function RemoveDSign(instr) {
     retstr = retstr.split();
     return retstr;
 }
+
+// P0, P1 two mainboard Points
+function IntersectionBoundingRectancle(P0, P1) {
+	var BI;
+	var bound = 8;
+	var mfactor = 100;
+	var ddx, ddy;
+	
+	// Initialize movable point with P1
+	var MP = {X:P1.X(),Y:P1.Y()};
+	
+	var DPX = P1.X() - P0.X();
+	var DPY = P1.Y() - P0.Y();
+
+	// Compute trivial cases
+	if (DPX==0) { // P0P1 parallel with YY
+		if (DPY > 0) {
+			MP.Y =  bound;
+		} else {
+			MP.Y = -bound;
+		}
+	} else if (DPY==0) { // P0P1 parallel with XX
+		if (DPX > 0) {
+			MP.X =  bound;
+		} else {
+			MP.X = -bound;
+		}
+	} else if (DPX*DPX > DPY*DPY) { //Move MP's x projection
+		ddx = DPX / mfactor;
+		ddy = ddx * (DPY / DPX);
+		do {
+			MP.X += ddx; MP.Y += ddy;
+		} while (MP.X<bound && MP.X>-bound && MP.Y<bound && MP.Y>-bound);
+	} else { //Move MP's y projection
+		ddy = DPY / mfactor;
+		ddx = ddy * (DPX / DPY);
+		do {
+			MP.X += ddx; MP.Y += ddy;
+		} while (MP.X<bound && MP.X>-bound && MP.Y<bound && MP.Y>-bound);
+	}
+	BI = boardCreate('point', [MP.X, MP.Y],{size:2});
+	return BI;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+function GetSVGSaveElements() {
+    var retstr = "<circle cx=\"100\" cy=\"50\" r=\"40\" stroke=\"black\" stroke-width=\"2\" fill=\"red\"/>\r\n";
+    return retstr;
+}
+
+function Save_SVG() {   	
+	
+    //<?xml version="1.0" standalone="no"?>
+    //<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
+    //"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+    //<svg width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    //<circle cx="100" cy="50" r="40" stroke="black" stroke-width="2" fill="red"/>
+    //</svg>
+
+	var svgstr = "<?xml version=\"1.0\" standalone=\"no\"\?>\r\n";
+	svgstr += "<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\"\r\n";
+	svgstr += "\"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\r\n";
+	svgstr += "<svg width=\"100%\" height=\"100%\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\">\r\n";
+
+	svgstr += GetSVGSaveElements();
+	
+	svgstr += "</svg>\r\n";
+	
+	var file = new Blob([svgstr], {type:'text/plain'});
+
+
+	var dlbtn = document.getElementById("dlbtn");
+	dlbtn.href = URL.createObjectURL(file);
+	dlbtn.download = "GeometriaSVG.svg";
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
 
 
 function GetSaveTikzDrawPoints() {
@@ -97,48 +177,6 @@ function GetSaveTikzDrawPoints() {
 
 }
 
-// P0, P1 two mainboard Points
-function IntersectionBoundingRectancle(P0, P1) {
-	var BI;
-	var bound = 8;
-	var mfactor = 100;
-	var ddx, ddy;
-	
-	// Initialize movable point with P1
-	var MP = {X:P1.X(),Y:P1.Y()};
-	
-	var DPX = P1.X() - P0.X();
-	var DPY = P1.Y() - P0.Y();
-
-	// Compute trivial cases
-	if (DPX==0) { // P0P1 parallel with YY
-		if (DPY > 0) {
-			MP.Y =  bound;
-		} else {
-			MP.Y = -bound;
-		}
-	} else if (DPY==0) { // P0P1 parallel with XX
-		if (DPX > 0) {
-			MP.X =  bound;
-		} else {
-			MP.X = -bound;
-		}
-	} else if (DPX*DPX > DPY*DPY) { //Move MP's x projection
-		ddx = DPX / mfactor;
-		ddy = ddx * (DPY / DPX);
-		do {
-			MP.X += ddx; MP.Y += ddy;
-		} while (MP.X<bound && MP.X>-bound && MP.Y<bound && MP.Y>-bound);
-	} else { //Move MP's y projection
-		ddy = DPY / mfactor;
-		ddx = ddy * (DPX / DPY);
-		do {
-			MP.X += ddx; MP.Y += ddy;
-		} while (MP.X<bound && MP.X>-bound && MP.Y<bound && MP.Y>-bound);
-	}
-	BI = boardCreate('point', [MP.X, MP.Y],{size:2});
-	return BI;
-}
 
 // P0, P1 two mainboard Points, obj the line object
 function GetTikzDrawLineString(obj, P0, P1) {
@@ -447,7 +485,7 @@ function GetSaveDrawTikzShapes() {
 
 function SaveTikz() {   	
 	//var tikzstr = "\\begin{tikzpicture}\r\n"
-	var tikzstr = "\\tikz{\r\n"
+	var tikzstr = "\\tikz{\r\n";
 
 	tikzstr += GetSaveDrawTikzShapes();
 	tikzstr += GetSaveTikzDrawLines();
@@ -468,19 +506,24 @@ function SaveTikz() {
 	dlbtn.download = "GeometriaTikz.txt";
 }
 
-function SaveSVG() {
+////////////////////////////////////////////////////////////////////////////////
+
+function Save_JSX_SVG() {
 	var svg = new XMLSerializer().serializeToString(mainboard.renderer.svgRoot);
 	var file = new Blob([svg], {type:'text/plain'});
 	var dlbtn = document.getElementById("dlbtn");
 	dlbtn.href = URL.createObjectURL(file);
-	dlbtn.download = "GeometriaSvg.txt";
+	dlbtn.download = "GeometriaJSXSvg.txt";
 }
 
+////////////////////////////////////////////////////////////////////////////////
 
 function Save() {
 
 	if (SAVE_FILE_TYPE=="svg") {
-		SaveSVG();
+		Save_SVG();
+	} else if (SAVE_FILE_TYPE=="SVG") {
+		Save_JSX_SVG();
 	} else if (SAVE_FILE_TYPE=="tikz") {
 		SaveTikz();
 	}
