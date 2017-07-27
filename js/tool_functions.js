@@ -889,9 +889,11 @@ function ApplyObjectChanges() {
 	if (DOM_EDVisibility.checked) {
 	    CUR_OBJECT_EDITING.showElement();
 	    CUR_OBJECT_EDITING.visible = true;
+	    CUR_OBJECT_EDITING.setAttribute({"visible":true});
 	} else {
 	    CUR_OBJECT_EDITING.hideElement();
 	    CUR_OBJECT_EDITING.visible = false;
+	    CUR_OBJECT_EDITING.setAttribute({"visible":false});
 	}
 
 	CUR_OBJECT_EDITING.setAttribute({"fillColor":DOM_EDobjfillcolor.value});
