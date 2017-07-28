@@ -239,6 +239,9 @@ function getSectorAttrsFromPoints(F1, P0, F2) {
 	atheta *= (180 / Math.PI);
 	btheta *= (180 / Math.PI);
 	tangle *= (180 / Math.PI);
+	
+	var klea = atheta;
+	var kleb = btheta;
 
 	//if (DET_P0F1_P0F2<0) {
 	//	btheta += 360;
@@ -254,6 +257,8 @@ function getSectorAttrsFromPoints(F1, P0, F2) {
 	CenterY: CenY,
 	arotation: atheta,
 	brotation: btheta,
+	klisia:klea,
+	klisib:kleb,
 	angle: tangle
 	};
 
