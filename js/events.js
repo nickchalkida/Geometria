@@ -557,19 +557,19 @@ var onboardmousedown = function(e) {
     var hittonobject = false;
 	var hittedobject = null;
     var i, coords, el, hel;
-	
+//alert("00");	
 	if (e[JXG.touchProperty]) {
         // index of the finger that is used to extract the coordinates
         i = 0;
     }
     coords = getMouseCoords(e, i);
 
+
 	hittedobject = getHittedObject(coords.scrCoords[1], coords.scrCoords[2]);
 	if (hittedobject && hittedobject !== "null" && hittedobject !== "undefined" ){
 		hittonobject = true;
 		DisplayObjectToEdit(hittedobject);
 	}
-
 	if (hittonobject == true && CUR_TOOL_ID != 'TPoint' && CUR_TOOL_ID != 'TText') {
 		var obj = hittedobject;
         obj.setAttribute({
@@ -577,7 +577,7 @@ var onboardmousedown = function(e) {
         });
         SELECTED_OBJECTS.push(obj);
 		onToolClick(CUR_TOOL_ID);
-    } else if (hittonobject == true && CUR_TOOL_ID == 'TPoint' && !isLikePoint(hittedobject)) {
+    } else if (hittonobject == true && CUR_TOOL_ID == 'TPoint' && !isLikePoint(hittedobject) && !hittedobject.elType=='text') {
         boardCreate('glider', [coords.usrCoords[1], coords.usrCoords[2],hittedobject],{size:2});
     } else if (hittonobject == false && CUR_TOOL_ID == 'TPoint') {
         boardCreate('point', [coords.usrCoords[1], coords.usrCoords[2]],{size:2});
