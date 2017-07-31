@@ -352,6 +352,9 @@ function isLikePoint(obj) {
 function isLikeLine(obj) {
 	if (obj.elType == 'line' ||
 		obj.elType == 'segment' ||
+		obj.elType == 'parallel' ||
+		obj.elType == 'perpendicular' ||
+		obj.elType == 'semiline' ||
 		obj.elType == 'axis')
 		return true;
 	return false;
@@ -367,14 +370,22 @@ function DisplayObjectToEdit(disobj) {
 	
 	DOM_OBJECT_SELECTOR.selectedIndex = findIndexInSelections(disobj.id);
 	
+	DOM_EDObjSize.style.visibility = "visible";
+	DOM_EDObjPosX.style.visibility = "visible";
+	DOM_EDObjPosY.style.visibility = "visible";
+	
 	if (isLikePoint(disobj)) {
-		DOM_EDObjSize.style.visibility = "visible";
-		DOM_EDObjSize.value        = disobj.getAttribute("size");
+		DOM_EDObjSize.value = disobj.getAttribute("size");
+		DOM_EDObjPosX.value = disobj.X();
+		DOM_EDObjPosY.value = disobj.Y();
 	} else if (DOM_EDObjType.value=="text") {
-		DOM_EDObjSize.style.visibility = "visible";
 		DOM_EDObjSize.value        = disobj.getAttribute("fontSize");
+		DOM_EDObjPosX.value = disobj.X();
+		DOM_EDObjPosY.value = disobj.Y();
 	} else {
 		DOM_EDObjSize.style.visibility = "hidden";
+		DOM_EDObjPosX.style.visibility = "hidden";
+		DOM_EDObjPosY.style.visibility = "hidden";
 	}
 	
 	DOM_EDVisibility.checked   = disobj.visible;
@@ -396,6 +407,8 @@ function Get_DOM_Globals() {
 	DOM_EDObjName = document.getElementById("EDObjName");
 	DOM_EDObjType = document.getElementById("EDObjType");
 	DOM_EDObjSize = document.getElementById("EDObjSize");
+	DOM_EDObjPosX = document.getElementById("EDObjPosX");
+	DOM_EDObjPosY = document.getElementById("EDObjPosY");
 	
 	DOM_EDVisibility = document.getElementById("EDVisibility");
 
@@ -428,6 +441,8 @@ function ClearEditFields() {
 	DOM_EDObjName.value        = "";
 	DOM_EDObjType.value        = "";
 	DOM_EDObjSize.value        = "";
+	DOM_EDObjPosX.value        = "";
+	DOM_EDObjPosY.value        = "";
 	
 	DOM_EDVisibility.checked   = false;
 
@@ -634,6 +649,10 @@ function ApplyObjectChanges() {
 		CUR_OBJECT_EDITING.setAttribute({"fontSize":parseInt(DOM_EDObjSize.value)});
 	else
 		CUR_OBJECT_EDITING.setAttribute({"size":parseInt(DOM_EDObjSize.value)});
+		
+	if (DOM_EDObjType.value == "text" || isLikePoint(CUR_OBJECT_EDITING)) {
+	    CUR_OBJECT_EDITING.setPosition(JXG.COORDS_BY_USER,[DOM_EDObjPosX.value,DOM_EDObjPosY.value]);
+	}
 
 	if (DOM_EDVisibility.checked) {
 	    CUR_OBJECT_EDITING.showElement();

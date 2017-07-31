@@ -51,6 +51,8 @@ var DOM_EDObjID;
 var DOM_EDObjName;
 var DOM_EDObjType;
 var DOM_EDObjSize;
+var DOM_EDObjPosX;
+var DOM_EDObjPosY;
 	
 var DOM_EDVisibility;
 
