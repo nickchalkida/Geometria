@@ -46,7 +46,7 @@ function onTMidPointClick() {
     p1 = SELECTED_OBJECTS.pop();
     p0 = SELECTED_OBJECTS.pop();
 
-    boardCreate('midpoint',[p0,p1], '');
+    boardCreate('midpoint',[p0,p1], {size:2});
 
 }
 
@@ -123,8 +123,8 @@ function onTIntersectionClick() {
     p1 = SELECTED_OBJECTS.pop();
     p0 = SELECTED_OBJECTS.pop();
 	
-	I0 = boardCreate('intersection',[p0,p1,0],'');
-	I1 = boardCreate('otherintersection',[p0,p1,I0],'');
+	I0 = boardCreate('intersection',[p0,p1,0],{size:2});
+	I1 = boardCreate('otherintersection',[p0,p1,I0],{size:2});
 
 }
 
