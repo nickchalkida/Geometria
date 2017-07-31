@@ -355,7 +355,6 @@ function isLikeLine(obj) {
 		obj.elType == 'parallel' ||
 		obj.elType == 'perpendicular' ||
 		obj.elType == 'semiline' ||
-		obj.elType == 'bisector' ||
 		obj.elType == 'axis')
 		return true;
 	return false;
@@ -652,7 +651,7 @@ function ApplyObjectChanges() {
 		CUR_OBJECT_EDITING.setAttribute({"size":parseInt(DOM_EDObjSize.value)});
 		
 	if (DOM_EDObjType.value == "text" || isLikePoint(CUR_OBJECT_EDITING)) {
-	    CUR_OBJECT_EDITING.setPosition(JXG.COORDS_BY_USER,[DOM_EDObjPosX.value,DOM_EDObjPosY.value]);
+	    CUR_OBJECT_EDITING.setPosition(JXG.COORDS_BY_USER,[DOM_EDObjPosX.value*1000/1000,DOM_EDObjPosY.value*1000/1000]);
 	}
 
 	if (DOM_EDVisibility.checked) {
