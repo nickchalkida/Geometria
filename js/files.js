@@ -93,17 +93,17 @@ function GetSVGDrawLineString(obj, P0, P1) {
 }
 
 function GetSVGSaveElements() {
-    var el, obj;
+    var el, obj, eltype, Flag;
     var commandstr, svgstr, pathstr;
 	var parentids, objattrs, objvisible;
 	var P0, P1, P2, P3, P4, BI;
-	var PP0, PP1, PP2, PP3, PP4;
-	var eltype;
-	var centerX, centerY, radius, centerXD;
+	var PP0, PP1, PP2, PP3, PP4, PP7, P0P1;
+	var theta1, theta2, phi0, SectorAngle, elangle;
+	var centerX, centerY, radius, centerXD, xP7, yP7, OP0;
 	var ocx=768/2, ocy=768/2; 
 	var neocx, neocy, txneocx, txneocy;
 	var sfirst, slast;
-	
+
 	svgstr = "";
 	for (el in mainboard.objects) {
 		obj = mainboard.objects[el];
@@ -113,7 +113,7 @@ function GetSVGSaveElements() {
 			continue;
 
 		commandstr = "";
-		var eltype = obj.getType();	
+		eltype = obj.getType();	
 		
 		switch (eltype) {
 		case "point" : 
@@ -230,21 +230,21 @@ function GetSVGSaveElements() {
 			// P0 is korifi
 			objattrs = getSectorAttrsFromPoints(P1,P0,P2);
 
-			var PP0 = trPoint(P0);
-			var PP1 = trPoint(P1);
-			var P0P1 = obj.Radius();
+			PP0 = trPoint(P0);
+			PP1 = trPoint(P1);
+			P0P1 = obj.Radius();
 			
-			var theta1 = RadVectorSlope(P1,P0);
-			var theta2 = RadVectorSlope(P2,P0);
-			var phi0 = RadPointSlope(P0);
+			theta1 = RadVectorSlope(P1,P0);
+			theta2 = RadVectorSlope(P2,P0);
+			phi0 = RadPointSlope(P0);
 			
-			var OP0 = Math.sqrt(P0.X()*P0.X() + P0.Y()*P0.Y());
-			var xP7 = OP0 * Math.cos(phi0) + P0P1 * Math.cos(theta2);
-			var yP7 = OP0 * Math.sin(phi0) + P0P1 * Math.sin(theta2);
-			var PP7 = trXY(xP7,yP7);
+			OP0 = Math.sqrt(P0.X()*P0.X() + P0.Y()*P0.Y());
+			xP7 = OP0 * Math.cos(phi0) + P0P1 * Math.cos(theta2);
+			yP7 = OP0 * Math.sin(phi0) + P0P1 * Math.sin(theta2);
+			PP7 = trXY(xP7,yP7);
 			
-			var SectorAngle = JXG.Math.Geometry.rad(P1, P0, P2)*(180 / Math.PI)
-			var Flag  = (SectorAngle > 180) ? "1" : "0";
+			SectorAngle = JXG.Math.Geometry.rad(P1, P0, P2)*(180 / Math.PI);
+			Flag  = (SectorAngle > 180) ? "1" : "0";
 
 			commandstr  = "<path d=\"";
 			// Add path components
@@ -282,7 +282,7 @@ function GetSVGSaveElements() {
 			commandstr += " rx=\"" + trCoords(objattrs.AxisA/2) + "\" ";
 			commandstr += " ry=\"" + trCoords(objattrs.AxisB/2) + "\" ";
 			
-			var elangle = -1 * RadVectorSlope(P0,P1) * (180 / Math.PI);
+			elangle = -1 * RadVectorSlope(P0,P1) * (180 / Math.PI);
 			commandstr += " transform=\"rotate(" + elangle + "," + neocx + "," + neocy + ")\" ";
 
 			if (obj.getAttribute("fillOpacity")!=0) {
@@ -304,26 +304,26 @@ function GetSVGSaveElements() {
 
 			objattrs = getSectorAttrsFromPoints(P1,P0,P2);
 
-			var PP0 = trPoint(P0);
-			var PP1 = trPoint(P1);
-			var PP2 = trPoint(P2);
+			PP0 = trPoint(P0);
+			PP1 = trPoint(P1);
+			PP2 = trPoint(P2);
 
 			radius   = Math.sqrt((P2.X() - P1.X())*(P2.X() - P1.X()) + (P2.Y() - P1.Y())*(P2.Y() - P1.Y())) / 2;
 			centerX  = (P2.X() + P1.X()) / 2;
 			centerY  = (P2.Y() + P1.Y()) / 2;
 			centerXD = radius + (P2.X() + P1.X()) / 2;
 		
-			var theta1 = RadVectorSlope(P1,P0);
-			var theta2 = RadVectorSlope(P2,P0);
-			var phi0 = RadPointSlope(P0);
+			theta1 = RadVectorSlope(P1,P0);
+			theta2 = RadVectorSlope(P2,P0);
+			phi0 = RadPointSlope(P0);
 			
-			var OP0 = Math.sqrt(P0.X()*P0.X() + P0.Y()*P0.Y());
-			var xP7 = OP0 * Math.cos(phi0) + radius * Math.cos(theta2);
-			var yP7 = OP0 * Math.sin(phi0) + radius * Math.sin(theta2);
-			var PP7 = trXY(xP7,yP7);
+			OP0 = Math.sqrt(P0.X()*P0.X() + P0.Y()*P0.Y());
+			xP7 = OP0 * Math.cos(phi0) + radius * Math.cos(theta2);
+			yP7 = OP0 * Math.sin(phi0) + radius * Math.sin(theta2);
+			PP7 = trXY(xP7,yP7);
 			
-			var SectorAngle = JXG.Math.Geometry.rad(P1, P0, P2)*(180 / Math.PI)
-			var Flag  = (SectorAngle > 180) ? "1" : "0";
+			SectorAngle = JXG.Math.Geometry.rad(P1, P0, P2)*(180 / Math.PI);
+			Flag  = (SectorAngle > 180) ? "1" : "0";
 
 			commandstr  = "<path d=\"";
 			// Add path components
@@ -456,7 +456,7 @@ function GetSaveTikzDrawPoints() {
 			continue;
 		
 		commandstr = "";
-		var eltype = obj.getType();	
+		eltype = obj.getType();	
 		
 		switch (eltype) {
 		case "point" : 
@@ -734,7 +734,7 @@ function GetSaveDrawTikzShapes() {
 			tikzstr += commandstr;
 
 			// correct side effect
-			obj.midpoint.hideElement()
+			obj.midpoint.hideElement();
 			obj.midpoint.visible = false;
 			
 		break;

@@ -305,7 +305,7 @@ function boardDelete() {
 }
 
 function UnDraftBoard() {
-	for (el in mainboard.objects) {
+	for (var el in mainboard.objects) {
         var obj = mainboard.objects[el];
         mainboard.update(obj);
         obj.setAttribute({
@@ -319,7 +319,7 @@ function UnDraftBoard() {
 function ObjectSelectorChanged() {
 	var objsel;
 	var found=false;
-	for (el in mainboard.objects) {
+	for (var el in mainboard.objects) {
         if (mainboard.objects[el].id == objSelector.value) {
 			objsel = mainboard.objects[el];
 			found=true;
@@ -524,7 +524,7 @@ function RestoreMainboardState(stateindex) {
 		action = MAINBOARD_STORED_ACTIONS[el];
 
 		// Object to be recreated
-		var obj = action.createdobject;
+		obj = action.createdobject;
 		if (action.actiontype=="delete") {
 			mainboard.removeObject(obj);
 			continue;
@@ -553,7 +553,7 @@ function RestoreMainboardState(stateindex) {
 		lastobj = nobj;
 	    
 		} // end try
-	    catch (err) {alert("Object recreation error for " + obj.id)}
+	    catch (err) {alert("Object recreation error for " + obj.id);}
 	}
 
 	if (DOM_OBJECT_SELECTOR.options.length==0) {

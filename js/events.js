@@ -439,11 +439,11 @@ function onTImageClick() {
 
 function onToolClick(tid) {
     if (CUR_TOOL_ID != "") {
-        document.getElementById(CUR_TOOL_ID).className = "toolitem"
+        document.getElementById(CUR_TOOL_ID).className = "toolitem";
     }
 
     CUR_TOOL_ID = tid;
-    document.getElementById(CUR_TOOL_ID).className = "toolitem_selected"
+    document.getElementById(CUR_TOOL_ID).className = "toolitem_selected";
 
 	try {
     switch (CUR_TOOL_ID) {
@@ -528,7 +528,7 @@ function getHittedObject(x,y) {
     var hittonobject = false;
 	var hittedobject = null;
     var i, coords, el, hel;
-
+  
     
 	near_hitted_objects.length = 0;
     for (el in mainboard.objects) {
@@ -621,6 +621,8 @@ var onboardrightmouseclick = function(e) {
 	DisplayObjectToEdit(hittedobject);
 	
 }
+
+
 
 
 
