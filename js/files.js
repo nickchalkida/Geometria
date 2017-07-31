@@ -21,90 +21,10 @@
 
 *******************************************************************************/
 
-function trCoords(num) {
-	return num*768/20.0;
-}
-
-function trPoint(P0) {
-  return {
-    x: 768/2 + P0.X()*768/20.0,
-    y: 768/2 - P0.Y()*768/20.0
-  };
-}
-
-function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
-  var angleInRadians = (angleInDegrees-90) * Math.PI / 180.0;
-
-  return {
-    x: centerX + (radius * Math.cos(angleInRadians)),
-    y: centerY + (radius * Math.sin(angleInRadians))
-  };
-}
-
-function describeArc(x, y, aradius, startAngle, endAngle){
-
-    var start = polarToCartesian(x, y, aradius, endAngle);
-    var end = polarToCartesian(x, y, aradius, startAngle);
-
-    var largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
-
-	alert(startAngle);
-	alert(endAngle);
-
-	//alert("start=("+start.x+","+start.y+")");
-	//alert("end=("+end.x+","+end.y+")");
-	
-
-    //var d = [
-    //    "M", start.x, start.y, 
-    //    "A", aradius, aradius, 0, largeArcFlag, 0, end.x, end.y
-    //].join(" ");
-
-	var pathattrs = {
-	startx: start.x,
-	starty: start.y,
-	radius: aradius,
-	arcflag: largeArcFlag,
-	endx: end.x,
-	endy: end.y
-	};
-
-    return pathattrs;       
-}
-
-function SaveToGO() {
-	
-	var b = JXG.JSXGraph.loadBoardFromFile('mainbox', 'test.ggb', 'Geogebra');
-	mainboard.updateRenderer();
-	alert("1");
-	return;
-	
-	//var svg = new XMLSerializer().serializeToString(mainboard.renderer.svgRoot);
-	//var png = mainboard.renderer.canvasRoot.toDataURL();
-	var b64Data = mainboard.renderer.canvasRoot.toDataURL();
-	alert(b64Data);
-	
-	return;
-	//var file = b64toBlob(b64Data, 'image/png');
-	//var file = new Blob([b64Data], {type:'image/png'});
-	
-	
-	var dlbtn = document.getElementById("dlbtn");
-	dlbtn.href = URL.createObjectURL(file);
-	dlbtn.download = "GeometriaSvg.txt";
-}
-
-function RemoveDSign(instr) {
-
-    var retstr = instr.replace('$','');
-    retstr = retstr.split();
-    return retstr;
-}
-
 // P0, P1 two mainboard Points
 function IntersectionBoundingRectancle(P0, P1) {
 	var BI;
-	var bound = 8;
+	var bound = 10;
 	var mfactor = 100;
 	var ddx, ddy;
 	
@@ -147,16 +67,42 @@ function IntersectionBoundingRectancle(P0, P1) {
 ////////////////////////////////////////////////////////////////////////////////
 
 
+// P0, P1 two mainboard Points, obj the line object
+function GetSVGDrawLineString(obj, P0, P1) {
+	// commandstr = "\\draw[line width=0.5mm, draw=black, fill={rgb:red,1;green,2;blue,5}, fill opacity=0.2] (0,0) -- (4,0);\n";
+	var commandstr, pathstr;
+	
+	var PP0 = trPoint(P0);
+	var PP1 = trPoint(P1);
+	
+	commandstr  = "<path d=\"";
+	// Add path components
+	pathstr = " M " + PP0.x + " " + PP0.y + "L " + PP1.x + " " + PP1.y; 
+	commandstr += pathstr;
+	commandstr += "\" "; // end path
+
+	if (obj.getAttribute("fillOpacity")!=0) {
+		commandstr += " fill=\"" + obj.getAttribute("fillColor") + "\" ";
+		commandstr += " fill-opacity=\"" + obj.getAttribute("fillOpacity") + "\" ";
+	}
+	commandstr += " stroke=\"" + obj.getAttribute("strokeColor") + "\" ";
+	commandstr += " stroke-opacity=\"" + obj.getAttribute("strokeOpacity") + "\" ";
+	commandstr += " stroke-width=\"" + obj.getAttribute("strokeWidth") + "\" />\r\n";
+
+	return commandstr;
+}
+
 function GetSVGSaveElements() {
     var el, obj;
     var commandstr, svgstr, pathstr;
 	var parentids, objattrs, objvisible;
-	var P0, P1, P2, P3, P4;
+	var P0, P1, P2, P3, P4, BI;
+	var PP0, PP1, PP2, PP3, PP4;
 	var eltype;
 	var centerX, centerY, radius, centerXD;
 	var ocx=768/2, ocy=768/2; 
-	var neocx, neocy;
-	
+	var neocx, neocy, txneocx, txneocy;
+	var sfirst, slast;
 	
 	svgstr = "";
 	for (el in mainboard.objects) {
@@ -181,8 +127,8 @@ function GetSVGSaveElements() {
 			//alert("("+obj.X()+"," +obj.Y()+")");
 			neocx = ocx + trCoords(obj.X());
 			neocy = ocy - trCoords(obj.Y());
-			//alert("("+neocx+"," +neocy+")");
-			
+			txneocx = neocx + 10;
+			txneocy = neocy - 10;
 			
 			commandstr  = "<circle cx=\"" + neocx + "\" ";
 			commandstr += " cy=\"" + neocy + "\" ";
@@ -196,24 +142,68 @@ function GetSVGSaveElements() {
 			commandstr += " stroke-width=\"" + obj.getAttribute("strokeWidth") + "\" />\r\n";
 			svgstr += commandstr;
 			
-			//alert(commandstr);
+			//<text x="20" y="40">Example SVG text 1</text>
+			commandstr = "<text x=\"" + txneocx  + "\" y=\"" + txneocy + "\">" + obj.getName() + "</text>\r\n";
+			svgstr += commandstr;
 		break;
+		case "segment" : 
+		case "line" : 
+		case "bisector" : 
+		case "perpendicular" : 
+		case "parallel" : 
+	        parentids = obj.getParents();
+	        sfirst = obj.getAttribute("straightFirst");
+	        slast  = obj.getAttribute("straightLast");
+	        if (eltype == "parallel") {
+	            sfirst = true; slast = true;
+	        }
 
+            if (eltype == "segment" || eltype == "line") {
+			    P0 = mainboard.objects[parentids[0]];
+			    P1 = mainboard.objects[parentids[1]];
+            } else if (eltype == "bisector" || eltype == "perpendicular") {
+			    P0 = mainboard.objects[parentids[1]];
+			    P1 = mainboard.objects[obj.point.id];
+            } else if (eltype == "parallel") {
+			    P0 = mainboard.objects[parentids[0]];
+			    P2 = mainboard.objects[obj.point.id];
+			    P1 = boardCreate('point', [P0.X()+P2.X(), P0.Y()+P2.Y()],{size:2});
+            }
+	        
+	        // if (straightFirst) {
+	        //    compute intersection LF with bounding rectangle
+	        //    and draw FI }
+			if (sfirst) {
+				BI = IntersectionBoundingRectancle(P1,P0);
+				// Should draw line P0BI
+				svgstr += GetSVGDrawLineString(obj, P0, BI);
+				mainboard.removeObject(BI);
+			}
+	        
+	        // if (straightLast) {
+	        //    compute intersection FL with bounding rectangle
+	        //    and draw LI }
+			if (slast) {
+				BI = IntersectionBoundingRectancle(P0,P1);
+				// Should draw line P1BI
+				svgstr += GetSVGDrawLineString(obj, P1, BI);
+				mainboard.removeObject(BI);
+			}		
+
+			svgstr += GetSVGDrawLineString(obj, P0, P1);
+			if (eltype == "parallel") {
+			    mainboard.removeObject(P1);
+			    P2.hideElement();
+                P2.visible = false;
+			} else if (eltype == "bisector") {
+			    P1.hideElement();
+                P1.visible = false;
+			}
+
+		break;
 		case "circle" :
 		case "incircle" :
 		case "circumcircle" :
-	        //commandstr  = "\\draw[";
-	        //commandstr += "line width="+obj.getAttribute("strokeWidth")*0.75+"pt, ";
-	        //commandstr += "draw=" + RGBColorToTikzColor(obj.getAttribute("strokeColor")) + ", ";
-			//if (obj.getAttribute("fillOpacity")!=0) {
-	        //commandstr += "fill opacity="+obj.getAttribute("fillOpacity")                + ", ";
-	        //commandstr += "fill=" + RGBColorToTikzColor(obj.getAttribute("fillColor")) ; 
-			//}
-	        //commandstr += "] (" + obj.center.X() + "," + obj.center.Y() + ") circle (" + obj.getRadius() + "cm);\r\n";
-			//svgstr += commandstr;
-
-			//neocx = ocx + obj.center.X()*100;
-			//neocy = ocy + obj.center.Y()*100;
 			neocx = ocx + trCoords(obj.center.X());
 			neocy = ocy - trCoords(obj.center.Y());
 
@@ -228,11 +218,9 @@ function GetSVGSaveElements() {
 			commandstr += " stroke-opacity=\"" + obj.getAttribute("strokeOpacity") + "\" ";
 			commandstr += " stroke-width=\"" + obj.getAttribute("strokeWidth") + "\" />\r\n";
 			svgstr += commandstr;
-			//alert(commandstr);
 
 		break;
 		case "sector" :
-
 			parentids = obj.getParents();
 
 			P0 = mainboard.objects[parentids[0]];
@@ -241,37 +229,28 @@ function GetSVGSaveElements() {
 
 			// P0 is korifi
 			objattrs = getSectorAttrsFromPoints(P1,P0,P2);
-			//alert(objattrs.arotation);
-			//alert(objattrs.brotation);
-
-			//commandstr  = "\\draw[";
-	        //commandstr += "line width="+obj.getAttribute("strokeWidth")*0.75+"pt, ";
-	        //commandstr += "draw=" + RGBColorToTikzColor(obj.getAttribute("strokeColor")) + ", ";
-			
-			//if (obj.getAttribute("fillOpacity")!=0) {
-	        //commandstr += "fill opacity="+obj.getAttribute("fillOpacity")                + ", ";
-	        //commandstr += "fill=" + RGBColorToTikzColor(obj.getAttribute("fillColor")) ; 
-			//}
-
-			// (0,0) -- (3.5,0)  arc (0:40:3.5cm) -- cycle ;
-			//commandstr += "] (" + P0.X() + "," + P0.Y() + ") -- ("  + P1.X() + "," + P1.Y() + ") --";
-	        //commandstr += " ++(0,0) arc (" + objattrs.arotation + ":" + objattrs.brotation + ":" + obj.Radius() + "cm) -- cycle;\r\n";
-			
-			//svgstr += commandstr;
-			
 
 			var PP0 = trPoint(P0);
 			var PP1 = trPoint(P1);
-			var sa = describeArc(PP0.x,PP0.y,trCoords(obj.Radius()),objattrs.klisia,objattrs.klisib);
-			//var d = [
-			//    "M", start.x, start.y, 
-			//    "A", aradius, aradius, 0, largeArcFlag, 0, end.x, end.y
-			//].join(" ");
+			var P0P1 = obj.Radius();
+			
+			var theta1 = RadVectorSlope(P1,P0);
+			var theta2 = RadVectorSlope(P2,P0);
+			var phi0 = RadPointSlope(P0);
+			
+			var OP0 = Math.sqrt(P0.X()*P0.X() + P0.Y()*P0.Y());
+			var xP7 = OP0 * Math.cos(phi0) + P0P1 * Math.cos(theta2);
+			var yP7 = OP0 * Math.sin(phi0) + P0P1 * Math.sin(theta2);
+			var PP7 = trXY(xP7,yP7);
+			
+			var SectorAngle = JXG.Math.Geometry.rad(P1, P0, P2)*(180 / Math.PI)
+			var Flag  = (SectorAngle > 180) ? "1" : "0";
 
 			commandstr  = "<path d=\"";
 			// Add path components
 			pathstr = " M " + PP0.x + " " + PP0.y + "L " + PP1.x + " " + PP1.y 
-					+ " A " + sa.radius + " " + sa.radius + " 0 " + sa.arcflag + " 0 " + sa.endx + " " +sa.endy + " " + " Z";
+					+ " A " + trCoords(obj.Radius()) + " " + trCoords(obj.Radius()) + " 0 " + Flag + " 0 " 
+					+ PP7.x + " " + PP7.y + " " + " Z";
 			commandstr += pathstr;
 			commandstr += "\" "; // end path
 
@@ -284,8 +263,6 @@ function GetSVGSaveElements() {
 			commandstr += " stroke-width=\"" + obj.getAttribute("strokeWidth") + "\" />\r\n";
 			svgstr += commandstr;
 
-//alert(commandstr);
-
 			break;
 		case "ellipse" :
 		    // commandstr = "\\draw[line width=0.5mm, draw=black, fill={rgb:red,1;green,2;blue,5}, fill opacity=0.2] (0,0) ellipse (6pt and 3pt);\n";
@@ -297,19 +274,6 @@ function GetSVGSaveElements() {
 			
 			objattrs = getEllipseAttrsFromFoci(P0,P1,P2);
 			
-			//commandstr  = "\\draw[";
-	        //commandstr += "line width="+obj.getAttribute("strokeWidth")*0.75+"pt, ";
-	        //commandstr += "draw=" + RGBColorToTikzColor(obj.getAttribute("strokeColor")) + ", ";
-			// rotate around={45:(5,5)}
-			//commandstr += "rotate around={" + objattrs.rotation+":(" + objattrs.CenterX + "," + objattrs.CenterY + ")}, ";
-			//if (obj.getAttribute("fillOpacity")!=0) {
-	        //commandstr += "fill opacity="+obj.getAttribute("fillOpacity")                + ", ";
-	        //commandstr += "fill=" + RGBColorToTikzColor(obj.getAttribute("fillColor")) ; 
-			//}
-	        //commandstr += "] (" + objattrs.CenterX + "," + objattrs.CenterY + ") ellipse (" + objattrs.AxisA/2 + "cm and " + objattrs.AxisB/2 + "cm);\r\n";
-			//svgstr += commandstr;
-			
-			
 			neocx = ocx + trCoords(objattrs.CenterX);
 			neocy = ocy - trCoords(objattrs.CenterY);
 
@@ -317,6 +281,9 @@ function GetSVGSaveElements() {
 			commandstr += " cy=\"" + neocy + "\" ";
 			commandstr += " rx=\"" + trCoords(objattrs.AxisA/2) + "\" ";
 			commandstr += " ry=\"" + trCoords(objattrs.AxisB/2) + "\" ";
+			
+			var elangle = -1 * RadVectorSlope(P0,P1) * (180 / Math.PI);
+			commandstr += " transform=\"rotate(" + elangle + "," + neocx + "," + neocy + ")\" ";
 
 			if (obj.getAttribute("fillOpacity")!=0) {
 			commandstr += " fill=\"" + obj.getAttribute("fillColor") + "\" ";
@@ -327,72 +294,84 @@ function GetSVGSaveElements() {
 			commandstr += " stroke-width=\"" + obj.getAttribute("strokeWidth") + "\" />\r\n";
 			svgstr += commandstr;
 			
-			
 		break;
 		case "semicircle" :
-	        parentids = obj.getParents();
-			P0 = mainboard.objects[parentids[0]];
+			parentids = obj.getParents();
+
+			P2 = mainboard.objects[parentids[0]];
 			P1 = mainboard.objects[parentids[1]];
-			// \draw (0,0) arc (0:180:1cm);
+			P0 = obj.midpoint;
 
-			radius   = Math.sqrt((P0.X() - P1.X())*(P0.X() - P1.X()) + (P0.Y() - P1.Y())*(P0.Y() - P1.Y())) / 2;
-			centerX  = (P0.X() + P1.X()) / 2;
-			centerY  = (P0.Y() + P1.Y()) / 2;
-			centerXD = radius + (P0.X() + P1.X()) / 2;
+			objattrs = getSectorAttrsFromPoints(P1,P0,P2);
 
-			commandstr  = "\\draw[";
-	        commandstr += "line width="+obj.getAttribute("strokeWidth")*0.75+"pt, ";
-	        commandstr += "draw=" + RGBColorToTikzColor(obj.getAttribute("strokeColor")) + ", ";
-			// rotate around={45:(5,5)}
-			var sign;
+			var PP0 = trPoint(P0);
+			var PP1 = trPoint(P1);
+			var PP2 = trPoint(P2);
+
+			radius   = Math.sqrt((P2.X() - P1.X())*(P2.X() - P1.X()) + (P2.Y() - P1.Y())*(P2.Y() - P1.Y())) / 2;
+			centerX  = (P2.X() + P1.X()) / 2;
+			centerY  = (P2.Y() + P1.Y()) / 2;
+			centerXD = radius + (P2.X() + P1.X()) / 2;
+		
+			var theta1 = RadVectorSlope(P1,P0);
+			var theta2 = RadVectorSlope(P2,P0);
+			var phi0 = RadPointSlope(P0);
 			
-			var klisi = (P1.Y() - P0.Y()) / (P1.X() - P0.X());
-			if        ((P1.X()>=P0.X()) && (P1.Y()>=P0.Y())) {
-			    sign = "";
-			} else if ((P1.X()< P0.X()) && (P1.Y()>=P0.Y())) {
-			    sign = "-";
-			} else if ((P1.X()>=P0.X()) && (P1.Y() <P0.Y())) {
-			    sign = "";
-			} else if ((P1.X()< P0.X()) && (P1.Y() <P0.Y())) {
-			    sign = "-";
-			}
+			var OP0 = Math.sqrt(P0.X()*P0.X() + P0.Y()*P0.Y());
+			var xP7 = OP0 * Math.cos(phi0) + radius * Math.cos(theta2);
+			var yP7 = OP0 * Math.sin(phi0) + radius * Math.sin(theta2);
+			var PP7 = trXY(xP7,yP7);
 			
-	        var rotation = Math.atan( klisi ) * (180 / Math.PI);
-			
-			commandstr += "rotate around={" + rotation + ":(" + centerX + "," + centerY + ")}, ";
+			var SectorAngle = JXG.Math.Geometry.rad(P1, P0, P2)*(180 / Math.PI)
+			var Flag  = (SectorAngle > 180) ? "1" : "0";
+
+			commandstr  = "<path d=\"";
+			// Add path components
+			pathstr = " M " + PP1.x + " " + PP1.y 
+					+ " A " + trCoords(obj.Radius()) + " " + trCoords(obj.Radius()) + " 0 " + Flag + " 0 " 
+					+ PP7.x + " " + PP7.y + " ";
+			commandstr += pathstr;
+			commandstr += "\" "; // end path
+
 			if (obj.getAttribute("fillOpacity")!=0) {
-	        commandstr += "fill opacity="+obj.getAttribute("fillOpacity")                + ", ";
-	        commandstr += "fill=" + RGBColorToTikzColor(obj.getAttribute("fillColor")) ; 
+			commandstr += " fill=\"" + obj.getAttribute("fillColor") + "\" ";
+			commandstr += " fill-opacity=\"" + obj.getAttribute("fillOpacity") + "\" ";
 			}
-	        commandstr += "] (" + centerXD + "," + centerY + ") arc (0:"+sign+"180:" + radius + "cm);\r\n";
-			//svgstr += commandstr;
+			commandstr += " stroke=\"" + obj.getAttribute("strokeColor") + "\" ";
+			commandstr += " stroke-opacity=\"" + obj.getAttribute("strokeOpacity") + "\" ";
+			commandstr += " stroke-width=\"" + obj.getAttribute("strokeWidth") + "\" />\r\n";
+			svgstr += commandstr;
 
-			// correct side effect
-			obj.midpoint.hideElement()
-			obj.midpoint.visible = false;
-			
 		break;
 		case "polygon" :
+
+			commandstr  = "<path d=\"";
+
 	        parentids = obj.getParents();
-			pathstr="";
-			for (var i=0; i<parentids.length; i++) {
+			P0 = mainboard.objects[parentids[0]];
+			PP0 = trPoint(P0);
+			pathstr= " M " + PP0.x + " " + PP0.y + " ";
+			for (var i=1; i<parentids.length; i++) {
 				P0 = mainboard.objects[parentids[i]];
-				pathstr += "(" + P0.X() + "," + P0.Y() + ") -- ";
+				PP0 = trPoint(P0);
+				pathstr += " L " + PP0.x + " " + PP0.y + " ";
 			}
 			P0 = mainboard.objects[parentids[0]];
-			pathstr += "(" + P0.X() + "," + P0.Y() + ")";
-			//alert(pathstr);
-
-			commandstr  = "\\draw[";
-	        commandstr += "line width="+obj.getAttribute("strokeWidth")*0.75+"pt, ";
-	        commandstr += "draw=" + RGBColorToTikzColor(obj.getAttribute("strokeColor")) + ", ";
-			if (obj.getAttribute("fillOpacity")!=0) {
-	        commandstr += "fill opacity="+obj.getAttribute("fillOpacity")                + ", ";
-	        commandstr += "fill=" + RGBColorToTikzColor(obj.getAttribute("fillColor")) ; 
-			}
-	        commandstr += "] ";
-			commandstr += pathstr + ";\r\n";
+			PP0 = trPoint(P0);
+			pathstr += " L " + PP0.x + " " + PP0.y + " ";
 			
+			// Add path components
+			commandstr += pathstr;
+			commandstr += "\" "; // end path
+
+			if (obj.getAttribute("fillOpacity")!=0) {
+				commandstr += " fill=\"" + obj.getAttribute("fillColor") + "\" ";
+				commandstr += " fill-opacity=\"" + obj.getAttribute("fillOpacity") + "\" ";
+			}
+			commandstr += " stroke=\"" + obj.getAttribute("strokeColor") + "\" ";
+			commandstr += " stroke-opacity=\"" + obj.getAttribute("strokeOpacity") + "\" ";
+			commandstr += " stroke-width=\"" + obj.getAttribute("strokeWidth") + "\" />\r\n";
+
 			svgstr += commandstr;
 			
 		break;
@@ -402,23 +381,33 @@ function GetSVGSaveElements() {
 			P1 = mainboard.objects[parentids[1]];
 			P2 = mainboard.objects[parentids[2]];
 			P3 = mainboard.objects[parentids[3]];
-			// (0,0) .. controls (1,1) and (2,-1) .. (3,0)
-			pathstr  = "(" + P0.X() + "," + P0.Y() + ") .. controls ";
-			pathstr += "(" + P1.X() + "," + P1.Y() + ") and ";
-			pathstr += "(" + P2.X() + "," + P2.Y() + ") .. ";
-			pathstr += "(" + P3.X() + "," + P3.Y() + ") ";
 
-			commandstr  = "\\draw[";
-	        commandstr += "line width="+obj.getAttribute("strokeWidth")*0.75+"pt, ";
-	        commandstr += "draw=" + RGBColorToTikzColor(obj.getAttribute("strokeColor")) + ", ";
-			if (obj.getAttribute("fillOpacity")!=0) {
-	        commandstr += "fill opacity="+obj.getAttribute("fillOpacity")                + ", ";
-	        commandstr += "fill=" + RGBColorToTikzColor(obj.getAttribute("fillColor")) ; 
-			}
-	        commandstr += "] ";
-			commandstr += pathstr + ";\r\n";
+			commandstr  = "<path d=\"";
+
+			PP0 = trPoint(P0);
+			PP1 = trPoint(P1);
+			PP2 = trPoint(P2);
+			PP3 = trPoint(P3);
 			
-			//svgstr += commandstr;
+			pathstr  = " M " + PP0.x + " " + PP0.y + " ";
+			pathstr += " C " + PP1.x + " " + PP1.y + ", ";
+			pathstr +=         PP2.x + " " + PP2.y + ", ";
+			pathstr +=         PP3.x + " " + PP3.y + "  ";
+			
+			// Add path components
+			commandstr += pathstr;
+			commandstr += "\" "; // end path
+
+			if (obj.getAttribute("fillOpacity")!=0) {
+				commandstr += " fill=\"" + obj.getAttribute("fillColor") + "\" ";
+				commandstr += " fill-opacity=\"" + obj.getAttribute("fillOpacity") + "\" ";
+			}
+			commandstr += " stroke=\"" + obj.getAttribute("strokeColor") + "\" ";
+			commandstr += " stroke-opacity=\"" + obj.getAttribute("strokeOpacity") + "\" ";
+			commandstr += " stroke-width=\"" + obj.getAttribute("strokeWidth") + "\" />\r\n";
+
+			svgstr += commandstr;
+			
 		break;
 		default:;
 		} // end switch
@@ -428,7 +417,6 @@ function GetSVGSaveElements() {
 }
 
 function Save_SVG() {   	
-	
     //<?xml version="1.0" standalone="no"?>
     //<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
     //"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
@@ -447,15 +435,12 @@ function Save_SVG() {
 	
 	var file = new Blob([svgstr], {type:'text/plain'});
 
-
 	var dlbtn = document.getElementById("dlbtn");
 	dlbtn.href = URL.createObjectURL(file);
 	dlbtn.download = "GeometriaSVG.svg";
 }
 
-
 ////////////////////////////////////////////////////////////////////////////////
-
 
 function GetSaveTikzDrawPoints() {
     var el, obj;
@@ -521,7 +506,7 @@ function GetSaveTikzDrawLines() {
     var el, obj;
     var commandstr, tikzstr;
 	var parentids, objattrs, objvisible;
-	var P0, P1, P2, P3, P4;
+	var P0, P1, P2, P3, P4, BI;
 	var eltype;
 	var sfirst, slast;
 	
@@ -853,4 +838,6 @@ function Save() {
 		SaveTikz();
 	}
 }
+
+////////////////////////////////////////////////////////////////////////////////
 
