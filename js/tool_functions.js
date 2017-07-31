@@ -355,6 +355,7 @@ function isLikeLine(obj) {
 		obj.elType == 'parallel' ||
 		obj.elType == 'perpendicular' ||
 		obj.elType == 'semiline' ||
+		obj.elType == 'bisector' ||
 		obj.elType == 'axis')
 		return true;
 	return false;
