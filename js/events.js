@@ -181,10 +181,9 @@ function onTAngleBisectorClick() {
     boardCreate('bisector', [p0, p1, p2], getDrawAttrs());
 }
 
-function onTAngleClick() {
+function onTAngleClick(sectype) {
     //alert("onTAngleClick");
-	
-    var p0, p1, p2;
+    var p0, p1, p2, p7;
 	var slen = SELECTED_OBJECTS.length;
     if (slen < 3)
         return;
@@ -198,9 +197,23 @@ function onTAngleClick() {
     p2 = SELECTED_OBJECTS.pop();
     p1 = SELECTED_OBJECTS.pop();
     p0 = SELECTED_OBJECTS.pop();
-
+ 
+//alert("p0=("+p0.X()+","+p0.Y()+")"); 
+//alert("p1=("+p1.X()+","+p1.Y()+")"); 
+//alert("p2=("+p2.X()+","+p2.Y()+")"); 
     //boardCreate('angle', [p0, p1, p2], getDrawAttrs());
+    if (sectype=="angle") {
+        
+    var p1p0X = p0.X()-p1.X();
+    var p1p0Y = p0.Y()-p1.Y();
+    var p1p0 = Math.sqrt(p1p0X * p1p0X + p1p0Y * p1p0Y);
+    var p1p0seg = boardCreate('segment', [p0, p1], {visible:true});
+    var p7 = boardCreate('glider', [p1p0X/p1p0, p1p0Y/p1p0,p1p0seg],{visible:true});
+    boardCreate('sector', [p1, p7, p2], getDrawAttrs());
+
+    } else {
     boardCreate('sector', [p1, p0, p2], getDrawAttrs());
+    }
 }
 
 function onTParallelClick() {
@@ -498,8 +511,11 @@ function onToolClick(tid) {
         case 'TAngleBisector':
             onTAngleBisectorClick();
             break;
+        case 'TAMark':
+            onTAngleClick('angle');
+            break;
         case 'TAngle':
-            onTAngleClick();
+            onTAngleClick('sector');
             break;
         case 'TParallel':
             onTParallelClick();
