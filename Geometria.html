@@ -49,7 +49,7 @@
 <input class="toolitem" id="TSemicircle"    type="image" src="images/semicircle.svg"    onclick="onToolClick('TSemicircle')"    title="Semicircle - Select two points"/>
 <input class="toolitem" id="TBezier"        type="image" src="images/bezier.svg"        onclick="onToolClick('TBezier')"        title="Bezier - Select four points"/>
 <input class="toolitem" id="TEllipse3P"     type="image" src="images/ellipse.svg"       onclick="onToolClick('TEllipse3P')"     title="Ellipse - Select three points"/>
-<input class="toolitem" id="TConic5P"       type="image" src="images/conic5p.svg"       onclick="onToolClick('TConic5P')"       title="Conic - Select five points"/>
+<input class="toolitem" id="TRectangle"     type="image" src="images/rectangle.svg"     onclick="onToolClick('TRectangle')"     title="Rectangle - Select two points"/>
 <input class="toolitem" id="TIncircle"      type="image" src="images/incircle.svg"      onclick="onToolClick('TIncircle')"      title="Inscribed Circle - Select three points"/>
 <input class="toolitem" id="TPolygon"       type="image" src="images/polygon.svg"       onclick="onToolClick('TPolygon')"       title="Polygon - Select points"/>
 </div>
@@ -64,7 +64,7 @@
 </colgroup>  
 <tr>
 	<th>Object Editor</th>
-	<th><select id="objSelector" style="width:150px" onchange="ObjectSelectorChanged()"></select></th>
+	<th><select id="objSelector" style="width:180px" onchange="ObjectSelectorChanged()"></select></th>
 </tr>
 <tr>
 	<th>Property</th>
@@ -72,11 +72,11 @@
 </tr>
 <tr>
     <td>Object ID</td>
-    <td><input id="EDObjID" type="text" value="" style="width:150px; background-color: lightgrey;" readonly title="Object ID"/></td>
+    <td><input id="EDObjID" type="text" value="" style="width:180px; background-color: lightgrey;" readonly title="Object ID"/></td>
 </tr>
 <tr>
     <td>Object Name</td>
-    <td><input id="EDObjName" type="text" value="" style="width:150px" title="Object Name"/></td>
+    <td><input id="EDObjName" type="text" value="" style="width:180px" title="Object Name"/></td>
 </tr>
 <tr>
     <td>Type</td>
@@ -85,13 +85,13 @@
 <tr>
     <td>Position</td>
     <td>
-    <input id="EDObjPosX" type="text" value="" style="width:72px" title="X Coord."/>
-    <input id="EDObjPosY" type="text" value="" style="width:72px" title="Y Coord."/>
+    <input id="EDObjPosX" type="text" value="" style="width:85px" title="X Coord."/>
+    <input id="EDObjPosY" type="text" value="" style="width:85px" title="Y Coord."/>
     </td>
 </tr>
 <tr>
     <td>Size</td>
-    <td align="right"><input id="EDObjSize" type="text" value="" style="width:72px" title="Object Size"/></td>
+    <td align="right"><input id="EDObjSize" type="text" value="" style="width:85px" title="Object Size"/></td>
 </tr>
 <tr>
     <td></td>
@@ -100,20 +100,20 @@
 <tr>
     <td>Fill Color - % </td>
     <td>
-	<input id="EDobjfillcolor" type="color" value="#123456" style="width:72px" title="Fill Color"/>
-	<input type="number" id="EDfillopacity" min="0" max="100" step="1" style="width:72px" value="" style="vertical-align: top;" title="Fill Opacity" />
+	<input id="EDobjfillcolor" type="color" value="#123456" style="width:85px" title="Fill Color"/>
+	<input type="number" id="EDfillopacity" min="0" max="100" step="1" style="width:85px" value="" style="vertical-align: top;" title="Fill Opacity" />
 	</td>
 </tr>
 <tr>
     <td>Stroke Color - % </td>
     <td>
-	<input id="EDobjstrokecolor" type="color" value="#00ff77" style="width:72px" title="Stroke Color"/>
-	<input type="number" id="EDstrokeopacity" min="0" max="100" step="1" style="width:72px" value="" style="vertical-align: top;" title="Stroke Opacity" />
+	<input id="EDobjstrokecolor" type="color" value="#00ff77" style="width:85px" title="Stroke Color"/>
+	<input type="number" id="EDstrokeopacity" min="0" max="100" step="1" style="width:85px" value="" style="vertical-align: top;" title="Stroke Opacity" />
 	</td>
 </tr>
 <tr>
     <td>Stroke Size</td>
-    <td><input id="EDObjStrokeWidth" type="text" value="" style="width:72px" title="Stroke Width"/></td>
+    <td><input id="EDObjStrokeWidth" type="text" value="" style="width:85px" title="Stroke Width"/></td>
 </tr>
 <tr>
     <td></td>
