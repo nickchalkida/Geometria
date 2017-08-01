@@ -207,8 +207,8 @@ function onTAngleClick(sectype) {
     var p1p0X = p0.X()-p1.X();
     var p1p0Y = p0.Y()-p1.Y();
     var p1p0 = Math.sqrt(p1p0X * p1p0X + p1p0Y * p1p0Y);
-    var p1p0seg = boardCreate('segment', [p0, p1], {visible:true});
-    var p7 = boardCreate('glider', [p1p0X/p1p0, p1p0Y/p1p0,p1p0seg],{visible:true});
+    var p1p0seg = boardCreate('segment', [p0, p1], {visible:false});
+    var p7 = boardCreate('glider', [p1.X()+p1p0X/p1p0, p1.Y()+p1p0Y/p1p0,p1p0seg],{visible:false, size:2});
     boardCreate('sector', [p1, p7, p2], getDrawAttrs());
 
     } else {
@@ -514,7 +514,7 @@ function onToolClick(tid) {
         case 'TAMark':
             onTAngleClick('angle');
             break;
-        case 'TAngle':
+        case 'TSector':
             onTAngleClick('sector');
             break;
         case 'TParallel':
