@@ -218,14 +218,15 @@ function getDrawAttrs(){
 
 function SynchronizeObjects() {
     var el;
-	var obj, objname, lastobj;
+	var obj, objname, lastobj, optstr;
 
     DOM_OBJECT_SELECTOR.options.length = 0;
     for (el in mainboard.objects) {
 		obj = mainboard.objects[el];
 		objname = obj.getName();
+        optstr = objname + " - " + obj.id;
 		if (objname.substring(0,8)!="RootObj_" && !obj.id.endsWith("Label")) {
-		DOM_OBJECT_SELECTOR.options[DOM_OBJECT_SELECTOR.options.length] = new Option(obj.id);
+		DOM_OBJECT_SELECTOR.options[DOM_OBJECT_SELECTOR.options.length] = new Option(optstr,obj.id);
 		lastobj = obj;
 		}
     }
@@ -528,7 +529,7 @@ function RestoreMainboardState(stateindex) {
     var obj, nobj, lastobj;
 	var N0,N1,N2,N3;
     var objname, remtype, parentids;
-	var action;
+	var action, optstr;
     
     if (stateindex > MAINBOARD_STORED_ACTIONS.length - 1)
         return;
@@ -564,7 +565,8 @@ function RestoreMainboardState(stateindex) {
 			nobj = boardCreateWithoutStore(remtype, obj.getParents(), obj.getAttributes());
 		}
 		nobj.elType = remtype;
-		DOM_OBJECT_SELECTOR.options[DOM_OBJECT_SELECTOR.options.length] = new Option(nobj.id);
+        optstr = nobj.getName() + " - " + nobj.id;
+		DOM_OBJECT_SELECTOR.options[DOM_OBJECT_SELECTOR.options.length] = new Option(optstr, nobj.id);
 		lastobj = nobj;
 	    
 		} // end try
@@ -573,25 +575,33 @@ function RestoreMainboardState(stateindex) {
 
 	if (DOM_OBJECT_SELECTOR.options.length==0) {
 	    ClearEditFields();
+        lastobj = null;
 	} else {
 	    DisplayObjectToEdit(lastobj);
 	}
 
 	mainboard.updateRenderer();
+    return lastobj;
 	
 }
 
 function UnDo () {
     if (STORED_STATE_INDEX >= 0) {
         STORED_STATE_INDEX--;
-        RestoreMainboardState(STORED_STATE_INDEX);
+        var lobj = RestoreMainboardState(STORED_STATE_INDEX);
+        if (lobj!=null && lobj.getAttribute("visible")==false) {
+            UnDo();
+        }
     }
 }
 
 function ReDo () {
     if (STORED_STATE_INDEX < MAINBOARD_STORED_ACTIONS.length - 1) {
         STORED_STATE_INDEX++;
-        RestoreMainboardState(STORED_STATE_INDEX);
+        var lobj = RestoreMainboardState(STORED_STATE_INDEX);
+        if (lobj!=null && lobj.getAttribute("visible")==false) {
+            ReDo();
+        }
     }
 }
 

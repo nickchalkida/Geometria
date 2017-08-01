@@ -335,6 +335,33 @@ function onTConic3PClick(conictype) {
     
 }
 
+    
+function onTRectangleClick() {
+    var p0, p1, p2, p3;
+    var sg, pp, pl, L1, L2, rect;
+	var slen = SELECTED_OBJECTS.length;
+    if (slen < 2)
+        return;
+
+	// Check for point-point semantics
+	if (!isLikePoint(SELECTED_OBJECTS[slen-1]) || !isLikePoint(SELECTED_OBJECTS[slen-2]))
+        return UnDraftBoard();
+
+    p1 = SELECTED_OBJECTS.pop();
+    p0 = SELECTED_OBJECTS.pop();
+    
+    sg = boardCreate('segment', [p0, p1], {visible:false});
+    pp = boardCreate('perpendicularpoint', [sg, p0], {visible:false});
+    pl = boardCreate('line', [p0, pp], {visible:false});
+    p2 = boardCreate('glider', [p0.X()+1, p0.Y()+1, pl], {size:2});
+
+    L1 = boardCreate('parallel', [p2, sg], {visible:false});
+    L2 = boardCreate('parallel', [p1, pl], {visible:false});
+    p3 = boardCreate('intersection',[L1,L2,0],{size:2});
+    rect = boardCreate('polygon',[p0,p1,p3,p2],getDrawAttrs());
+
+}
+
 function onTConic5PClick() {
     //alert("onTConic5PClick");
     var p0, p1, p2, p3, p4;
@@ -500,6 +527,9 @@ function onToolClick(tid) {
             break;
         case 'THyperbola3P':
             onTConic3PClick('Hyperbola');
+            break;
+        case 'TRectangle':
+            onTRectangleClick();
             break;
         case 'TConic5P':
             onTConic5PClick();

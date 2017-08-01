@@ -84,7 +84,9 @@ function GetSVGDrawLineString(obj, P0, P1) {
 	if (obj.getAttribute("fillOpacity")!=0) {
 		commandstr += " fill=\"" + obj.getAttribute("fillColor") + "\" ";
 		commandstr += " fill-opacity=\"" + obj.getAttribute("fillOpacity") + "\" ";
-	}
+	} else {
+        commandstr += " fill=\"none\" ";
+    }
 	commandstr += " stroke=\"" + obj.getAttribute("strokeColor") + "\" ";
 	commandstr += " stroke-opacity=\"" + obj.getAttribute("strokeOpacity") + "\" ";
 	commandstr += " stroke-width=\"" + obj.getAttribute("strokeWidth") + "\" />\r\n";
@@ -136,7 +138,9 @@ function GetSVGSaveElements() {
 			if (obj.getAttribute("fillOpacity")!=0) {
 			commandstr += " fill=\"" + obj.getAttribute("fillColor") + "\" ";
 			commandstr += " fill-opacity=\"" + obj.getAttribute("fillOpacity") + "\" ";
-			}
+			} else {
+            commandstr += " fill=\"none\" ";
+            }
 			commandstr += " stroke=\"" + obj.getAttribute("strokeColor") + "\" ";
 			commandstr += " stroke-opacity=\"" + obj.getAttribute("strokeOpacity") + "\" ";
 			commandstr += " stroke-width=\"" + obj.getAttribute("strokeWidth") + "\" />\r\n";
@@ -213,7 +217,9 @@ function GetSVGSaveElements() {
 			if (obj.getAttribute("fillOpacity")!=0) {
 			commandstr += " fill=\"" + obj.getAttribute("fillColor") + "\" ";
 			commandstr += " fill-opacity=\"" + obj.getAttribute("fillOpacity") + "\" ";
-			}
+			} else {
+            commandstr += " fill=\"none\" ";
+            }
 			commandstr += " stroke=\"" + obj.getAttribute("strokeColor") + "\" ";
 			commandstr += " stroke-opacity=\"" + obj.getAttribute("strokeOpacity") + "\" ";
 			commandstr += " stroke-width=\"" + obj.getAttribute("strokeWidth") + "\" />\r\n";
@@ -257,7 +263,9 @@ function GetSVGSaveElements() {
 			if (obj.getAttribute("fillOpacity")!=0) {
 			commandstr += " fill=\"" + obj.getAttribute("fillColor") + "\" ";
 			commandstr += " fill-opacity=\"" + obj.getAttribute("fillOpacity") + "\" ";
-			}
+			} else {
+            commandstr += " fill=\"none\" ";
+            }
 			commandstr += " stroke=\"" + obj.getAttribute("strokeColor") + "\" ";
 			commandstr += " stroke-opacity=\"" + obj.getAttribute("strokeOpacity") + "\" ";
 			commandstr += " stroke-width=\"" + obj.getAttribute("strokeWidth") + "\" />\r\n";
@@ -288,7 +296,9 @@ function GetSVGSaveElements() {
 			if (obj.getAttribute("fillOpacity")!=0) {
 			commandstr += " fill=\"" + obj.getAttribute("fillColor") + "\" ";
 			commandstr += " fill-opacity=\"" + obj.getAttribute("fillOpacity") + "\" ";
-			}
+			} else {
+            commandstr += " fill=\"none\" ";
+            }
 			commandstr += " stroke=\"" + obj.getAttribute("strokeColor") + "\" ";
 			commandstr += " stroke-opacity=\"" + obj.getAttribute("strokeOpacity") + "\" ";
 			commandstr += " stroke-width=\"" + obj.getAttribute("strokeWidth") + "\" />\r\n";
@@ -336,7 +346,9 @@ function GetSVGSaveElements() {
 			if (obj.getAttribute("fillOpacity")!=0) {
 			commandstr += " fill=\"" + obj.getAttribute("fillColor") + "\" ";
 			commandstr += " fill-opacity=\"" + obj.getAttribute("fillOpacity") + "\" ";
-			}
+			} else {
+            commandstr += " fill=\"none\" ";
+            }
 			commandstr += " stroke=\"" + obj.getAttribute("strokeColor") + "\" ";
 			commandstr += " stroke-opacity=\"" + obj.getAttribute("strokeOpacity") + "\" ";
 			commandstr += " stroke-width=\"" + obj.getAttribute("strokeWidth") + "\" />\r\n";
@@ -367,7 +379,9 @@ function GetSVGSaveElements() {
 			if (obj.getAttribute("fillOpacity")!=0) {
 				commandstr += " fill=\"" + obj.getAttribute("fillColor") + "\" ";
 				commandstr += " fill-opacity=\"" + obj.getAttribute("fillOpacity") + "\" ";
-			}
+			} else {
+            commandstr += " fill=\"none\" ";
+            }
 			commandstr += " stroke=\"" + obj.getAttribute("strokeColor") + "\" ";
 			commandstr += " stroke-opacity=\"" + obj.getAttribute("strokeOpacity") + "\" ";
 			commandstr += " stroke-width=\"" + obj.getAttribute("strokeWidth") + "\" />\r\n";
@@ -401,7 +415,9 @@ function GetSVGSaveElements() {
 			if (obj.getAttribute("fillOpacity")!=0) {
 				commandstr += " fill=\"" + obj.getAttribute("fillColor") + "\" ";
 				commandstr += " fill-opacity=\"" + obj.getAttribute("fillOpacity") + "\" ";
-			}
+			} else {
+            commandstr += " fill=\"none\" ";
+            }
 			commandstr += " stroke=\"" + obj.getAttribute("strokeColor") + "\" ";
 			commandstr += " stroke-opacity=\"" + obj.getAttribute("strokeOpacity") + "\" ";
 			commandstr += " stroke-width=\"" + obj.getAttribute("strokeWidth") + "\" />\r\n";
