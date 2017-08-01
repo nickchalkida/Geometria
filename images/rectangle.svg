@@ -1,0 +1,19 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="768" height="768" version="1.1" xmlns="http://www.w3.org/2000/svg">
+<circle cx="115.19999999999993"  cy="192"  r="48"  fill="#ff0000"  fill-opacity="1"  stroke="#000000"  stroke-opacity="1"  stroke-width="8" />
+<text x="125.19999999999993" y="182"></text>
+<circle cx="115.19999999999993"  cy="576"  r="48"  fill="#ff0000"  fill-opacity="1"  stroke="#000000"  stroke-opacity="1"  stroke-width="8" />
+<text x="125.19999999999993" y="566"></text>
+<path d=" M 115.19999999999993 192L 115.19999999999993 576"  fill="#000000"  fill-opacity="1"  stroke="#000000"  stroke-opacity="1"  stroke-width="32" />
+<circle cx="653.6"  cy="191.99999999999994"  r="48"  fill="#ff0000"  fill-opacity="1"  stroke="#000000"  stroke-opacity="1"  stroke-width="8" />
+<text x="663.6" y="181.99999999999994"></text>
+<circle cx="653.6"  cy="576"  r="48"  fill="#ff0000"  fill-opacity="1"  stroke="#000000"  stroke-opacity="1"  stroke-width="8" />
+<text x="663.6" y="566"></text>
+<path d=" M 115.19999999999993 576L 653.6 576"  fill="#000000"  fill-opacity="1"  stroke="#000000"  stroke-opacity="1"  stroke-width="32" />
+<path d=" M 653.6 576L 653.6 191.99999999999994"  fill="#000000"  fill-opacity="1"  stroke="#000000"  stroke-opacity="1"  stroke-width="32" />
+<path d=" M 653.6 191.99999999999994L 115.19999999999993 192"  fill="#000000"  fill-opacity="1"  stroke="#000000"  stroke-opacity="1"  stroke-width="32" />
+<path d=" M 115.19999999999993 192L 115.19999999999993 576"  fill="red"  fill-opacity="1"  stroke="#0000ff"  stroke-opacity="1"  stroke-width="1" />
+<path d=" M 115.19999999999993 576  L 653.6 576  L 653.6 191.99999999999994  L 115.19999999999993 192  L 115.19999999999993 576 "  fill="#ffff00"  fill-opacity="0.5"  stroke="#000060"  stroke-opacity="1"  stroke-width="24" />
+</svg>
