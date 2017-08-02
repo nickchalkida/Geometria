@@ -2,10 +2,15 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
 "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg width="768" height="768" version="1.1" xmlns="http://www.w3.org/2000/svg">
-<circle cx="347"  cy="115"  r="24"  fill="#000060"  fill-opacity="1"  stroke="#000060"  stroke-opacity="1"  stroke-width="4" />
-<circle cx="105"  cy="592"  r="12"  fill="#000060"  fill-opacity="1"  stroke="#000060"  stroke-opacity="1"  stroke-width="24" />
-<circle cx="615"  cy="575"  r="24"  fill="#000060"  fill-opacity="1"  stroke="#000060"  stroke-opacity="1"  stroke-width="2" />
-<path d=" M 347 115L 205.7695399747634 393.37574145470194 A 312.1523606660616 312.1523606660616 0 0 0 504.1386819999364 384.71564820884583  Z"  fill="#ffff00"  fill-opacity="0.5"  stroke="#000060"  stroke-opacity="1"  stroke-width="2" />
-<path d=" M 105 592L 347 115"  fill="#ffff00"  fill-opacity="0.5"  stroke="#000060"  stroke-opacity="1"  stroke-width="48" />
-<path d=" M 347 115L 615 575"  fill="#ffff00"  fill-opacity="0.5"  stroke="#000060"  stroke-opacity="1"  stroke-width="48" />
+<circle cx="120"  cy="78"  r="24"  fill="#000060"  fill-opacity="1"  stroke="#000060"  stroke-opacity="1"  stroke-width="2" />
+<text x="130" y="68"></text>
+<circle cx="672"  cy="501"  r="24"  fill="#000060"  fill-opacity="1"  stroke="#000060"  stroke-opacity="1"  stroke-width="2" />
+<text x="682" y="491"></text>
+<circle cx="72"  cy="632"  r="24"  fill="#000060"  fill-opacity="1"  stroke="#000060"  stroke-opacity="1"  stroke-width="2" />
+<text x="82" y="622"></text>
+<path d=" M 120 78L 672 501"  fill="#ffff00"  fill-opacity="0.5"  stroke="#000060"  stroke-opacity="1"  stroke-width="48" />
+<path d=" M 672 501L 72 632"  fill="#ffff00"  fill-opacity="0.5"  stroke="#000060"  stroke-opacity="1"  stroke-width="48" />
+<circle cx="315.4451985053905"  cy="227.77050537641338"  r="2"  fill="#000060"  fill-opacity="1"  stroke="#000060"  stroke-opacity="1"  stroke-width="2" />
+<text x="325.4451985053905" y="217.77050537641338"></text>
+<path d=" M 672 501L 315.4451985053905 227.77050537641338 A 449.2056135013463 449.2056135013463 0 0 0 233.1328888423449 596.8193192694212  Z"  fill="#d6fa05"  fill-opacity="0.5"  stroke="#000060"  stroke-opacity="1"  stroke-width="24" />
 </svg>
