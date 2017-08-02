@@ -60,7 +60,8 @@ function IntersectionBoundingRectancle(P0, P1) {
 			MP.X += ddx; MP.Y += ddy;
 		} while (MP.X<bound && MP.X>-bound && MP.Y<bound && MP.Y>-bound);
 	}
-	BI = boardCreate('point', [MP.X, MP.Y],{size:2});
+	//BI = boardCreate('point', [MP.X, MP.Y],{size:2});
+	BI = boardCreate('point', [MP.X, MP.Y]);
 	return BI;
 }
 
@@ -171,7 +172,8 @@ function GetSVGSaveElements() {
             } else if (eltype == "parallel") {
 			    P0 = mainboard.objects[parentids[0]];
 			    P2 = mainboard.objects[obj.point.id];
-			    P1 = boardCreate('point', [P0.X()+P2.X(), P0.Y()+P2.Y()],{size:2});
+			    //P1 = boardCreate('point', [P0.X()+P2.X(), P0.Y()+P2.Y()],{size:2});
+			    P1 = boardCreate('point', [P0.X()+P2.X(), P0.Y()+P2.Y()]);
             }
 	        
 	        // if (straightFirst) {
@@ -559,7 +561,8 @@ function GetSaveTikzDrawLines() {
             } else if (eltype == "parallel") {
 			    P0 = mainboard.objects[parentids[0]];
 			    P2 = mainboard.objects[obj.point.id];
-			    P1 = boardCreate('point', [P0.X()+P2.X(), P0.Y()+P2.Y()],{size:2});
+			    //P1 = boardCreate('point', [P0.X()+P2.X(), P0.Y()+P2.Y()],{size:2});
+			    P1 = boardCreate('point', [P0.X()+P2.X(), P0.Y()+P2.Y()]);
             }
 	        
 	        // if (straightFirst) {

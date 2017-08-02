@@ -619,9 +619,9 @@ var onboardmousedown = function(e) {
         SELECTED_OBJECTS.push(obj);
 		onToolClick(CUR_TOOL_ID);
     } else if (hittonobject == true && CUR_TOOL_ID == 'TPoint' && !isLikePoint(hittedobject) && !(hittedobject.elType=='text')) {
-        boardCreate('glider', [coords.usrCoords[1], coords.usrCoords[2],hittedobject],{size:2});
+        boardCreate('glider', [coords.usrCoords[1], coords.usrCoords[2],hittedobject]);
     } else if (hittonobject == false && CUR_TOOL_ID == 'TPoint') {
-        boardCreate('point', [coords.usrCoords[1], coords.usrCoords[2]],{size:2});
+        boardCreate('point', [coords.usrCoords[1], coords.usrCoords[2]]);
     } else if (hittonobject == false && CUR_TOOL_ID == 'TText') {
         onTTextClick(coords.usrCoords[1], coords.usrCoords[2], document.getElementById("idTextIn").value);
     } else {

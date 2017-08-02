@@ -404,6 +404,10 @@ function DisplayObjectToEdit(disobj) {
 	DOM_EDobjstrokecolor.value = disobj.getAttribute("strokeColor");
 	DOM_EDstrokeopacity.value  = parseInt(disobj.getAttribute("strokeOpacity")*100);
 	DOM_EDObjStrokeWidth.value = disobj.getAttribute("strokeWidth");
+    
+	//var attr1str = objToString(disobj.visProp);
+	//alert(attr1str);
+
 }
 
 function Get_DOM_Globals() {
@@ -423,9 +427,11 @@ function Get_DOM_Globals() {
 	DOM_EDHasLabelText   = document.getElementById("EDHasLabelText");
 
 	DOM_EDobjfillcolor   = document.getElementById("EDobjfillcolor");
+    DOM_EDobjfillcolor.value = JXG.Options.point.fillcolor;
 	DOM_EDfillopacity    = document.getElementById("EDfillopacity");
 
 	DOM_EDobjstrokecolor = document.getElementById("EDobjstrokecolor");
+    DOM_EDobjstrokecolor.value = JXG.Options.point.strokecolor;
 	DOM_EDstrokeopacity  = document.getElementById("EDstrokeopacity");
 	DOM_EDObjStrokeWidth = document.getElementById("EDObjStrokeWidth");
 
@@ -530,7 +536,11 @@ function NewFile() {
     MAINBOARD_STORED_ACTIONS.length=0;
     STORED_STATE_INDEX = -1;
 	
-	//FILE_SELECTOR.selectedIndex=0;
+    JXG.Options.text.fontSize     = 18;
+    JXG.Options.point.size        = 2;
+    JXG.Options.point.fillcolor   = "#ff0000";
+    JXG.Options.point.strokecolor = "#ff0000";
+    
 	NewBoard();
 }
 
@@ -662,7 +672,7 @@ var getMouseCoords = function(e, i) {
 }
 
 function ApplyObjectChanges() {
-	var labelobj;
+	var labelobj=null;
     
 	CUR_OBJECT_EDITING.setName(DOM_EDObjName.value);
 
@@ -678,31 +688,29 @@ function ApplyObjectChanges() {
 
 	if (DOM_EDVisibility.checked) {
 	    CUR_OBJECT_EDITING.showElement();
-	    //CUR_OBJECT_EDITING.visible = true;
 	    CUR_OBJECT_EDITING.setAttribute({"visible":true});
 	} else {
 	    CUR_OBJECT_EDITING.hideElement();
-	    //CUR_OBJECT_EDITING.visible = false;
 	    CUR_OBJECT_EDITING.setAttribute({"visible":false});
 	}
     
     if (DOM_EDHasLabel.checked) {
         if (!CUR_OBJECT_EDITING.hasLabel) // create label
             CUR_OBJECT_EDITING.setLabel(CUR_OBJECT_EDITING.getName());
-
-        labelobj = findObjectInList(CUR_OBJECT_EDITING.label.id,mainboard.objects);
+        
+        if (CUR_OBJECT_EDITING.label === "defined")
+            labelobj = findObjectInList(CUR_OBJECT_EDITING.label.id,mainboard.objects);
         if (labelobj != null) {
-	    labelobj.showElement();
-	    //labelobj.visible = true;
-	    labelobj.setAttribute({"visible":true});
+            labelobj.showElement();
+            labelobj.setAttribute({"visible":true});
         }
     } else {
         //alert(CUR_OBJECT_EDITING.label.id);
-        labelobj = findObjectInList(CUR_OBJECT_EDITING.label.id,mainboard.objects);
+        if (CUR_OBJECT_EDITING.label === "defined")
+            labelobj = findObjectInList(CUR_OBJECT_EDITING.label.id,mainboard.objects);
         if (labelobj != null) {
-	    labelobj.hideElement();
-	    //labelobj.visible = false;
-	    labelobj.setAttribute({"visible":false});
+            labelobj.hideElement();
+            labelobj.setAttribute({"visible":false});
         }
     }
 
