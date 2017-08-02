@@ -55,6 +55,8 @@ var DOM_EDObjPosX;
 var DOM_EDObjPosY;
 	
 var DOM_EDVisibility;
+var DOM_EDHasLabel;
+var DOM_EDHasLabelText;
 
 var DOM_EDobjfillcolor;
 var DOM_EDfillopacity;

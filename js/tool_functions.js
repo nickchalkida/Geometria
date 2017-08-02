@@ -363,33 +363,40 @@ function isLikeLine(obj) {
 
 function DisplayObjectToEdit(disobj) {
 	
-	CUR_OBJECT_EDITING = disobj;
+	CUR_OBJECT_EDITING   = disobj;
 	
-	DOM_EDObjID.value          = disobj.id;
-	DOM_EDObjName.value        = disobj.getName();
-	DOM_EDObjType.value        = disobj.getType();
+	DOM_EDObjID.value    = disobj.id;
+	DOM_EDObjName.value  = disobj.getName();
+	DOM_EDObjType.value  = disobj.getType();
 	
 	DOM_OBJECT_SELECTOR.selectedIndex = findIndexInSelections(disobj.id);
 	
-	DOM_EDObjSize.style.visibility = "visible";
-	DOM_EDObjPosX.style.visibility = "visible";
-	DOM_EDObjPosY.style.visibility = "visible";
+    // First assume visible
+	DOM_EDObjSize.style.visibility  = "visible";
+	DOM_EDObjPosX.style.visibility  = "visible";
+	DOM_EDObjPosY.style.visibility  = "visible";
+    DOM_EDHasLabel.style.visibility = "visible";
+    DOM_EDHasLabelText.style.visibility = "visible";
 	
 	if (isLikePoint(disobj)) {
 		DOM_EDObjSize.value = disobj.getAttribute("size");
 		DOM_EDObjPosX.value = disobj.X();
 		DOM_EDObjPosY.value = disobj.Y();
 	} else if (DOM_EDObjType.value=="text") {
-		DOM_EDObjSize.value        = disobj.getAttribute("fontSize");
+		DOM_EDObjSize.value = disobj.getAttribute("fontSize");
 		DOM_EDObjPosX.value = disobj.X();
 		DOM_EDObjPosY.value = disobj.Y();
+
+        DOM_EDHasLabel.style.visibility = "hidden";
+        DOM_EDHasLabelText.style.visibility = "hidden";
 	} else {
-		DOM_EDObjSize.style.visibility = "hidden";
-		DOM_EDObjPosX.style.visibility = "hidden";
-		DOM_EDObjPosY.style.visibility = "hidden";
+		DOM_EDObjSize.style.visibility  = "hidden";
+		DOM_EDObjPosX.style.visibility  = "hidden";
+		DOM_EDObjPosY.style.visibility  = "hidden";
 	}
 	
 	DOM_EDVisibility.checked   = disobj.visible;
+	DOM_EDHasLabel.checked     = disobj.hasLabel;
 
 	DOM_EDobjfillcolor.value   = disobj.getAttribute("fillColor");
 	DOM_EDfillopacity.value    = parseInt(disobj.getAttribute("fillOpacity")*100);
@@ -401,37 +408,39 @@ function DisplayObjectToEdit(disobj) {
 
 function Get_DOM_Globals() {
 
-    DOM_OBJECT_SELECTOR = document.getElementById('objSelector');
-	FILE_SELECTOR = document.getElementById('fileSelector');
+    DOM_OBJECT_SELECTOR  = document.getElementById('objSelector');
+	FILE_SELECTOR        = document.getElementById('fileSelector');
 
-	DOM_EDObjID = document.getElementById("EDObjID");
-	DOM_EDObjName = document.getElementById("EDObjName");
-	DOM_EDObjType = document.getElementById("EDObjType");
-	DOM_EDObjSize = document.getElementById("EDObjSize");
-	DOM_EDObjPosX = document.getElementById("EDObjPosX");
-	DOM_EDObjPosY = document.getElementById("EDObjPosY");
+	DOM_EDObjID          = document.getElementById("EDObjID");
+	DOM_EDObjName        = document.getElementById("EDObjName");
+	DOM_EDObjType        = document.getElementById("EDObjType");
+	DOM_EDObjSize        = document.getElementById("EDObjSize");
+	DOM_EDObjPosX        = document.getElementById("EDObjPosX");
+	DOM_EDObjPosY        = document.getElementById("EDObjPosY");
 	
-	DOM_EDVisibility = document.getElementById("EDVisibility");
+	DOM_EDVisibility     = document.getElementById("EDVisibility");
+	DOM_EDHasLabel       = document.getElementById("EDHasLabel");
+	DOM_EDHasLabelText   = document.getElementById("EDHasLabelText");
 
-	DOM_EDobjfillcolor = document.getElementById("EDobjfillcolor");
-	DOM_EDfillopacity = document.getElementById("EDfillopacity");
+	DOM_EDobjfillcolor   = document.getElementById("EDobjfillcolor");
+	DOM_EDfillopacity    = document.getElementById("EDfillopacity");
 
 	DOM_EDobjstrokecolor = document.getElementById("EDobjstrokecolor");
-	DOM_EDstrokeopacity = document.getElementById("EDstrokeopacity");
+	DOM_EDstrokeopacity  = document.getElementById("EDstrokeopacity");
 	DOM_EDObjStrokeWidth = document.getElementById("EDObjStrokeWidth");
 
 }
 
 function GetCurrentDrawParams() {
 	
-	FILL_CHECKED = document.getElementById("checkfill").checked;
-	CUR_FILL_COLOR = document.getElementById("fillcolor").value;
-	CUR_FILL_OPACITY = document.getElementById("fillopacity").value/100.0;
+	FILL_CHECKED         = document.getElementById("checkfill").checked;
+	CUR_FILL_COLOR       = document.getElementById("fillcolor").value;
+	CUR_FILL_OPACITY     = document.getElementById("fillopacity").value/100.0;
 
-	STROKE_CHECKED = document.getElementById("checkstroke").checked;
-	CUR_STROKE_COLOR = document.getElementById("strokecolor").value;
-	CUR_STROKE_OPACITY = document.getElementById("strokeopacity").value/100.0;
-	CUR_STROKE_WIDTH = document.getElementById("strokewidth").value;
+	STROKE_CHECKED       = document.getElementById("checkstroke").checked;
+	CUR_STROKE_COLOR     = document.getElementById("strokecolor").value;
+	CUR_STROKE_OPACITY   = document.getElementById("strokeopacity").value/100.0;
+	CUR_STROKE_WIDTH     = document.getElementById("strokewidth").value;
 
 }
 
@@ -446,6 +455,7 @@ function ClearEditFields() {
 	DOM_EDObjPosY.value        = "";
 	
 	DOM_EDVisibility.checked   = false;
+	DOM_EDHasLabel.checked     = false;
 
 	DOM_EDobjfillcolor.value   = "#000000";
 	DOM_EDfillopacity.value    = 100;
@@ -652,27 +662,49 @@ var getMouseCoords = function(e, i) {
 }
 
 function ApplyObjectChanges() {
-	
+	var labelobj;
+    
 	CUR_OBJECT_EDITING.setName(DOM_EDObjName.value);
 
-	if (DOM_EDObjType.value == "text")
+	if (DOM_EDObjType.value == "text") {
 		CUR_OBJECT_EDITING.setAttribute({"fontSize":parseInt(DOM_EDObjSize.value)});
-	else
+	} else
 		CUR_OBJECT_EDITING.setAttribute({"size":parseInt(DOM_EDObjSize.value)});
 		
+    // Use rounded coordinates when editing position
 	if (DOM_EDObjType.value == "text" || isLikePoint(CUR_OBJECT_EDITING)) {
 	    CUR_OBJECT_EDITING.setPosition(JXG.COORDS_BY_USER,[DOM_EDObjPosX.value*1000/1000,DOM_EDObjPosY.value*1000/1000]);
 	}
 
 	if (DOM_EDVisibility.checked) {
 	    CUR_OBJECT_EDITING.showElement();
-	    CUR_OBJECT_EDITING.visible = true;
+	    //CUR_OBJECT_EDITING.visible = true;
 	    CUR_OBJECT_EDITING.setAttribute({"visible":true});
 	} else {
 	    CUR_OBJECT_EDITING.hideElement();
-	    CUR_OBJECT_EDITING.visible = false;
+	    //CUR_OBJECT_EDITING.visible = false;
 	    CUR_OBJECT_EDITING.setAttribute({"visible":false});
 	}
+    
+    if (DOM_EDHasLabel.checked) {
+        if (!CUR_OBJECT_EDITING.hasLabel) // create label
+            CUR_OBJECT_EDITING.setLabel(CUR_OBJECT_EDITING.getName());
+
+        labelobj = findObjectInList(CUR_OBJECT_EDITING.label.id,mainboard.objects);
+        if (labelobj != null) {
+	    labelobj.showElement();
+	    //labelobj.visible = true;
+	    labelobj.setAttribute({"visible":true});
+        }
+    } else {
+        //alert(CUR_OBJECT_EDITING.label.id);
+        labelobj = findObjectInList(CUR_OBJECT_EDITING.label.id,mainboard.objects);
+        if (labelobj != null) {
+	    labelobj.hideElement();
+	    //labelobj.visible = false;
+	    labelobj.setAttribute({"visible":false});
+        }
+    }
 
 	CUR_OBJECT_EDITING.setAttribute({"fillColor":DOM_EDobjfillcolor.value});
 	CUR_OBJECT_EDITING.setAttribute({"fillOpacity":DOM_EDfillopacity.value/100.0});
@@ -684,6 +716,10 @@ function ApplyObjectChanges() {
     mainboard.updateRenderer();
 	UnDraftBoard();
 	//StoreMainboardState();
+    
+	//var attr1str = objToString(CUR_OBJECT_EDITING.visProp);
+	//alert(attr1str);
+
 
 }
 
