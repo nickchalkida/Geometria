@@ -448,20 +448,8 @@ function onTIncircleClick() {
 
 function onTTextClick(x0,y0,textstr) {
 	
-	var SPoint = mainboard.create('point',[x0,y0],{name:textstr, size:2});
-
-	var func0str = "return " + SPoint.X + ";";
-	var f0 = new Function('', func0str);
-
-	var func1str = "return " + SPoint.Y + ";";
-	var f1 = new Function('', func1str);
-	
-	var FA = [];
-	FA.push(f0);
-	FA.push(f1);
-	FA.push(f0);
-	
-    var txt = boardCreate('text', FA, getDrawAttrs());
+	var p = mainboard.create('point',[x0,y0],{name:textstr, size:2});
+    var txt = boardCreate('text', [x0,y0,textstr], {anchor: p});
 }
 
 function onTImageClick() {
