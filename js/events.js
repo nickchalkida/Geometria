@@ -477,6 +477,28 @@ function onTImageClick() {
 
 }
 
+function onTMergeClick() {
+    var p0, p1;
+	var slen = SELECTED_OBJECTS.length;
+    if (slen < 2)
+        return;
+
+	// Check p0 for point semantics
+	if (!isLikePoint(SELECTED_OBJECTS[slen-2]))
+        return UnDraftBoard();
+
+    p1 = SELECTED_OBJECTS.pop();
+    p0 = SELECTED_OBJECTS.pop();
+    
+    if (isLikePoint(p1)) {
+        //JXG.merge(p0, p1);
+        Object.assign(p0, p1);
+        UnDo();
+    } else {
+        p0.makeGlider(p1);
+    }
+}
+
 function onToolClick(tid) {
     if (CUR_TOOL_ID != "") {
         document.getElementById(CUR_TOOL_ID).className = "toolitem";
@@ -565,6 +587,9 @@ function onToolClick(tid) {
             break;
         case 'TText':
             //onTTextClick();
+            break;
+        case 'TMerge':
+            onTMergeClick();
             break;
     } // end select
 	} catch (err) {
