@@ -66,6 +66,23 @@ function onTSegmentClick() {
 
 }
 
+function onTMeasureClick() {
+    var p0, p1;
+	var slen = SELECTED_OBJECTS.length;
+    if (slen < 2)
+        return;
+	// Check for point-point semantics
+	if (!isLikePoint(SELECTED_OBJECTS[slen-1]) || !isLikePoint(SELECTED_OBJECTS[slen-2]))
+        return UnDraftBoard();
+
+    p1 = SELECTED_OBJECTS.pop();
+    p0 = SELECTED_OBJECTS.pop();
+
+    //var tape = board.create('tapemeasure', [[1, 2], [4, 2]], {name:'dist'});
+    boardCreate('tapemeasure', [[p0.X(), p0.Y()], [p1.X(), p1.Y()]], {name:'dist'});
+
+}
+
 function onTLineClick() {
     //alert("onTLineClick");
     var p0, p1;
@@ -508,6 +525,9 @@ function onToolClick(tid) {
             break;
         case 'TSegment':
             onTSegmentClick();
+            break;
+        case 'TMeasure':
+            onTMeasureClick();
             break;
         case 'TCircle':
             onTCircleClick();
