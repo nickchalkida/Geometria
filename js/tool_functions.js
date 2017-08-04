@@ -238,11 +238,11 @@ function SynchronizeObjects() {
 }
 
 function boardCreateWithoutStore(eltyp, par, attrs) {
-    var obj, bez1;
+    var obj=null, bez1;
 
     try {
 
-	switch (eltyp) {
+        switch (eltyp) {
         case 'bezier':
 			bez1 = JXG.Math.Numerics.bezier(par);
 			obj = mainboard.create('curve', bez1, attrs);
@@ -254,8 +254,9 @@ function boardCreateWithoutStore(eltyp, par, attrs) {
             break;
 		default:
 			obj = mainboard.create(eltyp, par, attrs);
-	}
-	obj.elType=eltyp;
+        } // end switch
+        if (JXG.exists(obj))
+            obj.elType=eltyp;
 	} catch (err) {
 		alert("boardCreate exception caught " + err);
 		return null;
@@ -280,6 +281,22 @@ function StoreMainboardAction(actype, creobj, eltyp, par, attrs) {
 	MAINBOARD_STORED_ACTIONS.push(action);
 }
 
+function UnDraftBoard() {
+    try {
+	for (var el in mainboard.objects) {
+        var obj = mainboard.objects[el];
+        mainboard.update(obj);
+        obj.setAttribute({draft: false});
+    }
+	mainboard.updateRenderer();
+    SELECTED_OBJECTS = [];
+ 	} catch (err) {
+		alert("UnDraftBoard exception caught " + err);
+		return null;
+	}
+}
+
+
 function boardCreate(eltyp, par, attrs) {
     var obj;
 	
@@ -292,29 +309,25 @@ function boardCreate(eltyp, par, attrs) {
 }
 
 function boardDelete() {
-	var obj;
+	var obj=null;
 	
 	if (SELECTED_OBJECTS.length < 1)
 		return;
 	obj = SELECTED_OBJECTS.pop();
+    if (!JXG.exists(obj))
+        return;
+    
+    try {
 	StoreMainboardAction("delete", obj, obj.elType, obj.getParents(), obj.getAttributes());
 	mainboard.removeObject(obj);
 	
 	SynchronizeObjects();
 	mainboard.updateRenderer();
-	
-}
+	} catch (err) {
+		alert("boardDelete exception caught " + err);
+		return null;
+	}
 
-function UnDraftBoard() {
-	for (var el in mainboard.objects) {
-        var obj = mainboard.objects[el];
-        mainboard.update(obj);
-        obj.setAttribute({
-            draft: false
-        });
-    }
-	mainboard.updateRenderer();
-    SELECTED_OBJECTS = [];
 }
 
 function ObjectSelectorChanged() {
@@ -489,16 +502,6 @@ function ShowArray(objar) {
 
 function Test() {
     //alert("ok");
-    //JXG.FileReader.parseFileContent('http://jsxgraph.uni-bayreuth.de/geonext/point.ggb', mainboard, 'GeoGebra', false);
-
-    //mainboard = JXG.JSXGraph.initBoard("mainbox", {boundingbox: [-10,10,10,-10], axis: true, grid:true, showCopyright:false});  
-    //mainboard.suspendUpdate();   
-    //var b = JXG.JSXGraph.loadBoardFromFile("mainbox", "test.ggb", "Geogebra");
-    //mainboard.unsuspendUpdate();
-    //alert("CREATED LEN:"+CREATED_OBJECTS.length + " UNDO CREATED LEN:"+ UNDO_CREATED_OBJECTS.length);
-    //alert("DELETED LEN:"+DELETED_OBJECTS.length + " UNDO DELETED LEN:"+ UNDO_DELETED_OBJECTS.length);
-    //alert("ACTIONS LEN:"+DID_ACTIONS.length + " UNDO ACTIONS LEN:"+ UNDO_ACTIONS.length);
-    //alert("SELECTED LEN:"+SELECTED_OBJECTS.length);
     //ShowArray(mainboard.objects);
 }
 
@@ -546,7 +549,7 @@ function NewFile() {
 
 function RestoreMainboardState(stateindex) {
     var newmainstate;
-    var obj, nobj, lastobj;
+    var obj, nobj, lastobj=null;
 	var N0,N1,N2,N3;
     var objname, remtype, parentids;
 	var action, optstr;
@@ -559,6 +562,9 @@ function RestoreMainboardState(stateindex) {
     for (var el=0; el<=stateindex; el++) {
 		action = MAINBOARD_STORED_ACTIONS[el];
 
+        if (!JXG.exists(action))
+            continue;
+        
 		// Object to be recreated
 		obj = action.createdobject;
 		if (action.actiontype=="delete") {
@@ -584,10 +590,13 @@ function RestoreMainboardState(stateindex) {
 			obj.setParents(action.parents);
 			nobj = boardCreateWithoutStore(remtype, obj.getParents(), obj.getAttributes());
 		}
+        
+        if (JXG.exists(nobj)) {
 		nobj.elType = remtype;
         optstr = nobj.getName() + " - " + nobj.id;
 		DOM_OBJECT_SELECTOR.options[DOM_OBJECT_SELECTOR.options.length] = new Option(optstr, nobj.id);
 		lastobj = nobj;
+        }
 	    
 		} // end try
 	    catch (err) {alert("Object recreation error for " + obj.id);}
@@ -600,7 +609,9 @@ function RestoreMainboardState(stateindex) {
 	    DisplayObjectToEdit(lastobj);
 	}
 
+    try {
 	mainboard.updateRenderer();
+	} catch (err) {alert("mainboard.updateRenderer 12 " + obj.id);}
     return lastobj;
 	
 }
@@ -649,8 +660,12 @@ function ToggleAxis() {
         }
 	    
     }
+    try {
     mainboard.updateRenderer();
-    
+ 	} catch (err) {
+		alert("ToggleAxis exception caught " + err);
+		return null;
+	}    
 }
 
 function ToggleAbout() {
@@ -721,7 +736,6 @@ function ApplyObjectChanges() {
 	CUR_OBJECT_EDITING.setAttribute({"strokeOpacity":DOM_EDstrokeopacity.value/100.0});
 	CUR_OBJECT_EDITING.setAttribute({"strokeWidth":DOM_EDObjStrokeWidth.value});
 
-    mainboard.updateRenderer();
 	UnDraftBoard();
 	//StoreMainboardState();
     
