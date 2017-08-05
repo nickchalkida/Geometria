@@ -1,90 +1,12 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   id="svg1"
-   inkscape:version="0.92.1 r"
-   viewBox="0 0 60 60"
-   sodipodi:version="0.32"
-   _SVGFile__filename="oldscale/actions/circle.svg"
-   version="1.0"
-   y="0"
-   x="0"
-   sodipodi:docname="parallel.svg">
-  <defs
-     id="defs6050" />
-  <sodipodi:namedview
-     id="base"
-     bordercolor="#666666"
-     inkscape:window-x="121"
-     inkscape:window-y="9"
-     pagecolor="#ffffff"
-     inkscape:zoom="10.966667"
-     inkscape:pageshadow="2"
-     borderopacity="1.0"
-     inkscape:current-layer="svg1"
-     inkscape:cx="30"
-     inkscape:cy="30"
-     inkscape:window-width="1489"
-     inkscape:pageopacity="0.0000000"
-     inkscape:window-height="885"
-     showgrid="false"
-     inkscape:window-maximized="0" />
-  <path
-     id="path2087"
-     style="stroke-linejoin:round;stroke:#ffffff;stroke-linecap:round;stroke-width:10;fill:none"
-     d="m8.9938 5.625l45.381 30.85" />
-  <path
-     id="path2078"
-     style="stroke-linejoin:round;color:#000000;display:block;stroke:#ffffff;stroke-linecap:round;stroke-width:8.125;fill:none"
-     d="m35.14 23.1c-1.638 2.837-5.27 3.81-8.107 2.172s-3.81-5.27-2.173-8.107c1.638-2.837 5.27-3.81 8.107-2.172s3.81 5.27 2.173 8.107z" />
-  <path
-     id="path2089"
-     style="stroke-linejoin:round;stroke:#000000;stroke-linecap:round;stroke-width:5;fill:none"
-     d="m8.9938 5.625l45.381 30.85" />
-  <path
-     id="path2080"
-     style="color:#000000;display:block;fill:#000080;stroke:#000000;stroke-width:2.50321889;stroke-linecap:round;stroke-linejoin:round"
-     d="m 35.14,23.1 c -1.312084,2.272526 -4.22142,3.051929 -6.493938,1.73984 -2.272519,-1.31209 -3.05192,-4.221434 -1.740635,-6.493961 1.312084,-2.272525 4.22142,-3.051929 6.493939,-1.73984 C 35.671884,17.91813 36.451285,20.827474 35.14,23.1 Z"
-     inkscape:connector-curvature="0" />
-  <path
-     id="path2079"
-     style="stroke-linejoin:round;stroke:#ffffff;stroke-linecap:round;stroke-width:10;fill:none"
-     d="m5.625 23.525l45.381 30.85" />
-  <path
-     id="path1319"
-     style="stroke-linejoin:round;stroke:#000000;stroke-linecap:round;stroke-width:5;fill:none"
-     d="m5.625 23.525l45.381 30.85" />
-  <metadata
-     id="metadata6047">
-    <rdf:RDF>
-      <cc:Work>
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <cc:license
-           rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
-        <dc:publisher>
-          <cc:Agent
-             rdf:about="http://openclipart.org/">
-            <dc:title>Openclipart</dc:title>
-          </cc:Agent>
-        </dc:publisher>
-      </cc:Work>
-      <cc:License
-         rdf:about="http://creativecommons.org/licenses/publicdomain/">
-        <cc:permits
-           rdf:resource="http://creativecommons.org/ns#Reproduction" />
-        <cc:permits
-           rdf:resource="http://creativecommons.org/ns#Distribution" />
-        <cc:permits
-           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
-      </cc:License>
-    </rdf:RDF>
-  </metadata>
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="768" height="768" version="1.1" xmlns="http://www.w3.org/2000/svg">
+<circle cx="76.80000000000001"  cy="76.80000000000001"  r="24"  fill="#000000"  fill-opacity="1"  stroke="#000000"  stroke-opacity="1"  stroke-width="2" />
+<circle cx="691.2"  cy="345.6"  r="24"  fill="#000000"  fill-opacity="1"  stroke="#000000"  stroke-opacity="1"  stroke-width="2" />
+<path d=" M 76.80000000000001 76.80000000000001L 691.2 345.6"  fill="#ffff00"  fill-opacity="0.5"  stroke="#000000"  stroke-opacity="1"  stroke-width="48" />
+<circle cx="76.80000000000001"  cy="345.6"  r="24"  fill="#000000"  fill-opacity="1"  stroke="#000000"  stroke-opacity="1"  stroke-width="2" />
+<circle cx="691.2"  cy="614.4"  r="24"  fill="#000000"  fill-opacity="1"  stroke="#000000"  stroke-opacity="1"  stroke-width="2" />
+<path d=" M 76.80000000000001 345.6L 691.2 614.4"  fill="#ffff00"  fill-opacity="0.5"  stroke="#000000"  stroke-opacity="1"  stroke-width="48" />
+<circle cx="452.38557377049176"  cy="241.11868852459014"  r="72"  fill="#ffff00"  fill-opacity="1"  stroke="#000000"  stroke-opacity="1"  stroke-width="12" />
 </svg>
