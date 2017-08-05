@@ -2,15 +2,28 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
 "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg width="768" height="768" version="1.1" xmlns="http://www.w3.org/2000/svg">
-<circle cx="120"  cy="78"  r="24"  fill="#000060"  fill-opacity="1"  stroke="#000060"  stroke-opacity="1"  stroke-width="2" />
-<text x="130" y="68"></text>
-<circle cx="672"  cy="501"  r="24"  fill="#000060"  fill-opacity="1"  stroke="#000060"  stroke-opacity="1"  stroke-width="2" />
-<text x="682" y="491"></text>
-<circle cx="72"  cy="632"  r="24"  fill="#000060"  fill-opacity="1"  stroke="#000060"  stroke-opacity="1"  stroke-width="2" />
-<text x="82" y="622"></text>
-<path d=" M 120 78L 672 501"  fill="#ffff00"  fill-opacity="0.5"  stroke="#000060"  stroke-opacity="1"  stroke-width="48" />
-<path d=" M 672 501L 72 632"  fill="#ffff00"  fill-opacity="0.5"  stroke="#000060"  stroke-opacity="1"  stroke-width="48" />
-<circle cx="315.4451985053905"  cy="227.77050537641338"  r="2"  fill="#000060"  fill-opacity="1"  stroke="#000060"  stroke-opacity="1"  stroke-width="2" />
-<text x="325.4451985053905" y="217.77050537641338"></text>
-<path d=" M 672 501L 315.4451985053905 227.77050537641338 A 449.2056135013463 449.2056135013463 0 0 0 233.1328888423449 596.8193192694212  Z"  fill="#d6fa05"  fill-opacity="0.5"  stroke="#000060"  stroke-opacity="1"  stroke-width="24" />
+<circle cx="435"  cy="31"  r="24"  fill="#000060"  fill-opacity="1"  stroke="#000060"  stroke-opacity="1"  stroke-width="2" />
+<text x="445" y="21"></text>
+<circle cx="726"  cy="554"  r="24"  fill="#000060"  fill-opacity="1"  stroke="#000060"  stroke-opacity="1"  stroke-width="2" />
+<text x="736" y="544"></text>
+<circle cx="87"  cy="610"  r="24"  fill="#000060"  fill-opacity="1"  stroke="#000060"  stroke-opacity="1"  stroke-width="2" />
+<text x="97" y="600"></text>
+<path d=" M 435 31L 726 554"  fill="#ffff00"  fill-opacity="0.5"  stroke="#000060"  stroke-opacity="1"  stroke-width="48" />
+<path d=" M 726 554L 87 610"  fill="#ffff00"  fill-opacity="0.5"  stroke="#000060"  stroke-opacity="1"  stroke-width="48" />
+<path d=" M 726 554L 514.7384955901789 174.31007970331135 A 434.5064542908502 434.5064542908502 0 0 0 293.1525508254501 591.9334227758605  Z"  fill="#aaff00"  fill-opacity="0.5"  stroke="#000060"  stroke-opacity="1"  stroke-width="24" />
+<circle cx="74.99999999999989"  cy="106"  r="12"  fill="#000060"  fill-opacity="1"  stroke="#000060"  stroke-opacity="1"  stroke-width="2" />
+<text x="84.99999999999989" y="96"></text>
+<circle cx="172"  cy="107"  r="12"  fill="#000060"  fill-opacity="1"  stroke="#000060"  stroke-opacity="1"  stroke-width="2" />
+<text x="182" y="97"></text>
+<circle cx="70"  cy="315"  r="12"  fill="#000060"  fill-opacity="1"  stroke="#000060"  stroke-opacity="1"  stroke-width="2" />
+<text x="80" y="305"></text>
+<path d=" M 172 107L 74.99999999999989 106"  fill="none"  stroke="#000060"  stroke-opacity="1"  stroke-width="24" />
+<circle cx="73.99999999999994"  cy="191"  r="12"  fill="#000060"  fill-opacity="1"  stroke="#000060"  stroke-opacity="1"  stroke-width="2" />
+<text x="83.99999999999994" y="181"></text>
+<path d=" M 74.99999999999989 106L 73.99999999999994 191"  fill="none"  stroke="#000060"  stroke-opacity="1"  stroke-width="24" />
+<path d=" M 70 315L 109 316"  fill="none"  stroke="#000060"  stroke-opacity="1"  stroke-width="24" />
+<path d=" M 73.99999999999994 191L 116 191"  fill="none"  stroke="#000060"  stroke-opacity="1"  stroke-width="24" />
+<path d=" M 109 316 A 62.59792328823696 62.59792328823696 0 1 0 116 191 "  fill="none"  stroke="#000060"  stroke-opacity="1"  stroke-width="24" />
+<ellipse cx="260.5"  cy="208.5"  rx="104.45046492426086"  ry="48.511850334678535"  transform="rotate(-90.30970389995883,260.5,208.5)"  fill="none"  stroke="#000060"  stroke-opacity="1"  stroke-width="24" />
+<ellipse cx="379.5"  cy="155.5"  rx="47.43192069008239"  ry="29.039405991691126"  transform="rotate(-90.76389846093,379.5,155.5)"  fill="none"  stroke="#000060"  stroke-opacity="1"  stroke-width="24" />
 </svg>
