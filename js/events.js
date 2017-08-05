@@ -200,8 +200,8 @@ function onTAngleBisectorClick() {
 
 function onTAngleClick(sectype) {
     //alert("onTAngleClick");
-    var p0, p1, p2, p7;
-    var p1p0, p1p0seg, p1p0X, p1p0Y;
+    var p0, p1, p2, p7, gX, gY;
+    var p1p0, p1p0seg, p1p0X, p1p0Y, obj;
 	var slen = SELECTED_OBJECTS.length;
     if (slen < 3)
         return;
@@ -221,10 +221,16 @@ function onTAngleClick(sectype) {
         p1p0Y = p0.Y()-p1.Y();
         p1p0 = Math.sqrt(p1p0X * p1p0X + p1p0Y * p1p0Y);
         p1p0seg = boardCreate('segment', [p0, p1], {visible:false});
-        p7 = boardCreate('glider', [p1.X()+p1p0X/p1p0, p1.Y()+p1p0Y/p1p0,p1p0seg],{visible:false, size:2});
-        boardCreate('sector', [p1, p7, p2], getDrawAttrs());
+        gX = p1.X()+p1p0X/p1p0; gY = p1.Y()+p1p0Y/p1p0;
+        p7 = boardCreate('glider', [gX, gY, p1p0seg],{visible:false, size:2});
+        
+        obj = boardCreate('sector', [p1, p7, p2], getDrawAttrs());
+        var tobj = mainboard.create('text', [gX, gY, function () {
+        return (JXG.Math.Geometry.angle(p7, p1, p2) * (180 / Math.PI)).toFixed(2);}],getDrawAttrs());
+        tobj.makeGlider(p1p0seg);
+
     } else {
-        boardCreate('sector', [p1, p0, p2], getDrawAttrs());
+        obj = boardCreate('sector', [p1, p0, p2], getDrawAttrs());
     }
 }
 
