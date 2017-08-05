@@ -1,105 +1,14 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   id="svg1"
-   inkscape:version="0.92.1 r"
-   viewBox="0 0 60 60"
-   sodipodi:version="0.32"
-   _SVGFile__filename="oldscale/actions/circle.svg"
-   version="1.0"
-   y="0"
-   x="0"
-   sodipodi:docname="intersection.svg"
-   width="64"
-   height="64">
-  <defs
-     id="defs4549" />
-  <sodipodi:namedview
-     id="base"
-     bordercolor="#666666"
-     inkscape:window-x="144"
-     inkscape:window-y="11"
-     pagecolor="#ffffff"
-     inkscape:zoom="10.703125"
-     inkscape:pageshadow="2"
-     borderopacity="1.0"
-     inkscape:current-layer="svg1"
-     inkscape:cx="32"
-     inkscape:cy="37.378262"
-     inkscape:window-width="1662"
-     inkscape:pageopacity="0.0000000"
-     inkscape:window-height="912"
-     showgrid="false"
-     inkscape:window-maximized="0" />
-  <path
-     id="path2084"
-     style="color:#000000;display:block;fill:none;stroke:#ffffff;stroke-width:8.125;stroke-linecap:round;stroke-linejoin:round"
-     d="m 34.546533,33.814357 c -2.105755,2.509464 -5.851536,2.836991 -8.361174,0.732221 -2.509464,-2.105755 -2.836991,-5.851536 -0.732221,-8.361174 2.105755,-2.509463 5.851536,-2.836991 8.361174,-0.732221 2.509464,2.105755 2.836991,5.851536 0.732221,8.361174 z"
-     inkscape:connector-curvature="0" />
-  <g
-     id="g1327"
-     transform="matrix(1.3716402,0.24185718,-0.24185718,1.3716402,-3.8944674,-18.4062)">
-    <path
-       id="path1318"
-       style="fill:none;stroke:#f3f9ff;stroke-width:7.17959976;stroke-linecap:round;stroke-linejoin:round"
-       d="M 18.175,47.499 41.825,12.501"
-       inkscape:connector-curvature="0" />
-    <path
-       id="path1319"
-       style="fill:none;stroke:#000000;stroke-width:3.58979988;stroke-linecap:round;stroke-linejoin:round"
-       d="M 18.175,47.499 41.825,12.501"
-       inkscape:connector-curvature="0" />
-  </g>
-  <g
-     id="g1323"
-     transform="matrix(1.2388882,0.21844941,-0.21844941,1.2388882,-0.61284021,-13.719551)">
-    <path
-       id="path2085"
-       style="fill:none;stroke:#ffffff;stroke-width:7.94929981;stroke-linecap:round;stroke-linejoin:round"
-       d="M 10.624,16.878 49.376,43.122"
-       inkscape:connector-curvature="0" />
-    <path
-       id="path1320"
-       style="fill:none;stroke:#000000;stroke-width:3.97460008;stroke-linecap:round;stroke-linejoin:round"
-       d="M 10.624,16.878 49.376,43.122"
-       inkscape:connector-curvature="0" />
-  </g>
-  <path
-     id="path2086"
-     style="color:#000000;display:block;fill:#ee5f4c;stroke:#000000;stroke-width:3.125;stroke-linecap:round;stroke-linejoin:round"
-     d="m 34.546533,33.814357 c -2.105755,2.509464 -5.851536,2.836991 -8.361174,0.732221 -2.509464,-2.105755 -2.836991,-5.851536 -0.732221,-8.361174 2.105755,-2.509463 5.851536,-2.836991 8.361174,-0.732221 2.509464,2.105755 2.836991,5.851536 0.732221,8.361174 z"
-     inkscape:connector-curvature="0" />
-  <metadata
-     id="metadata4546">
-    <rdf:RDF>
-      <cc:Work>
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <cc:license
-           rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
-        <dc:publisher>
-          <cc:Agent
-             rdf:about="http://openclipart.org/">
-            <dc:title>Openclipart</dc:title>
-          </cc:Agent>
-        </dc:publisher>
-      </cc:Work>
-      <cc:License
-         rdf:about="http://creativecommons.org/licenses/publicdomain/">
-        <cc:permits
-           rdf:resource="http://creativecommons.org/ns#Reproduction" />
-        <cc:permits
-           rdf:resource="http://creativecommons.org/ns#Distribution" />
-        <cc:permits
-           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
-      </cc:License>
-    </rdf:RDF>
-  </metadata>
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="768" height="768" version="1.1" xmlns="http://www.w3.org/2000/svg">
+<circle cx="115.19999999999999"  cy="115.19999999999999"  r="24"  fill="#000000"  fill-opacity="1"  stroke="#000000"  stroke-opacity="1"  stroke-width="2" />
+<circle cx="652.8"  cy="652.8"  r="24"  fill="#000000"  fill-opacity="1"  stroke="#000000"  stroke-opacity="1"  stroke-width="2" />
+<circle cx="652.8"  cy="115.19999999999999"  r="24"  fill="#000000"  fill-opacity="1"  stroke="#000000"  stroke-opacity="1"  stroke-width="2" />
+<circle cx="115.19999999999999"  cy="652.8"  r="24"  fill="#000000"  fill-opacity="1"  stroke="#000000"  stroke-opacity="1"  stroke-width="2" />
+<path d=" M 115.19999999999999 652.8L 384 384"  fill="#ffff00"  fill-opacity="0.5"  stroke="#000000"  stroke-opacity="1"  stroke-width="48" />
+<path d=" M 384 384L 652.8 115.19999999999999"  fill="#ffff00"  fill-opacity="0.5"  stroke="#000000"  stroke-opacity="1"  stroke-width="48" />
+<path d=" M 115.19999999999999 115.19999999999999L 384 384"  fill="#ffff00"  fill-opacity="0.5"  stroke="#000000"  stroke-opacity="1"  stroke-width="48" />
+<path d=" M 384 384L 652.8 652.8"  fill="#ffff00"  fill-opacity="0.5"  stroke="#000000"  stroke-opacity="1"  stroke-width="48" />
+<circle cx="384"  cy="384"  r="72"  fill="#ff0000"  fill-opacity="1"  stroke="#000000"  stroke-opacity="1"  stroke-width="12" />
 </svg>
