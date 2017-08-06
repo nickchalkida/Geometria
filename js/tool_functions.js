@@ -239,7 +239,9 @@ function SynchronizeObjects() {
 
 function boardCreateWithoutStore(eltyp, par, attrs) {
     var obj=null, bez1;
-
+    if (!JXG.exists(par) || par.length==0)
+        return null;
+        
     try {
 
         switch (eltyp) {
@@ -289,7 +291,7 @@ function UnDraftBoard() {
         obj.setAttribute({draft: false});
     }
 	mainboard.updateRenderer();
-    SELECTED_OBJECTS = [];
+    SELECTED_OBJECTS.length=0;
  	} catch (err) {
 		alert("UnDraftBoard exception caught " + err);
 		return null;
@@ -353,23 +355,24 @@ function fileSelectorChanged() {
 }
 
 function isLikePoint(obj) {
-	if (obj.elType == 'point' ||
-		obj.elType == 'midpoint' ||
-		obj.elType == 'perpendicularpoint' ||
-		obj.elType == 'intersection' ||
-		obj.elType == 'glider' ||
-		obj.elType == 'otherintersection')
+
+	if (obj.elType === 'point' ||
+		obj.elType === 'midpoint' ||
+		obj.elType === 'perpendicularpoint' ||
+		obj.elType === 'intersection' ||
+		obj.elType === 'glider' ||
+		obj.elType === 'otherintersection')
 		return true;
 	return false;
 }
 
 function isLikeLine(obj) {
-	if (obj.elType == 'line' ||
-		obj.elType == 'segment' ||
-		obj.elType == 'parallel' ||
-		obj.elType == 'perpendicular' ||
-		obj.elType == 'semiline' ||
-		obj.elType == 'axis')
+	if (obj.elType === 'line' ||
+		obj.elType === 'segment' ||
+		obj.elType === 'parallel' ||
+		obj.elType === 'perpendicular' ||
+		obj.elType === 'semiline' ||
+		obj.elType === 'axis')
 		return true;
 	return false;
 }
