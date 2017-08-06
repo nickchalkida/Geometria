@@ -2,15 +2,12 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
 "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg width="768" height="768" version="1.1" xmlns="http://www.w3.org/2000/svg">
-<circle cx="153"  cy="149"  r="90.68627239003706"  fill="none"  stroke="#000060"  stroke-opacity="1"  stroke-width="24" />
-<circle cx="573.0000000000009"  cy="625.000000000001"  r="90.68627239003736"  fill="none"  stroke="#000060"  stroke-opacity="1"  stroke-width="24" />
-<path d=" M 213.00000000000014 217.0000000000001L 513.0000000000008 557.0000000000008"  fill="none"  stroke="#000060"  stroke-opacity="1"  stroke-width="48" />
-<circle cx="921.0000000000016"  cy="197.00000000000003"  r="2"  fill="none"  stroke="#000060"  stroke-opacity="1"  stroke-width="2" />
-<text x="931.0000000000016" y="187.00000000000003">U</text>
-<circle cx="793.0000000000013"  cy="189"  r="2"  fill="none"  stroke="#000060"  stroke-opacity="1"  stroke-width="2" />
-<text x="803.0000000000013" y="179">V</text>
-<path d=" M 273.0000000000003 285.0000000000002L 351.2529182879381 215.95330739299627"  fill="none"  stroke="#000060"  stroke-opacity="1"  stroke-width="24" />
-<path d=" M 333.0000000000004 353.0000000000004L 411.21984435797697 283.982490272374"  fill="none"  stroke="#000060"  stroke-opacity="1"  stroke-width="24" />
-<path d=" M 393.0000000000005 421.0000000000005L 470.72373540856086 352.4202334630355"  fill="none"  stroke="#000060"  stroke-opacity="1"  stroke-width="24" />
-<path d=" M 453.0000000000006 489.0000000000006L 530.2607003891058 420.82879377431965"  fill="none"  stroke="#000060"  stroke-opacity="1"  stroke-width="24" />
+<circle cx="115.19999999999999"  cy="115.19999999999999"  r="52.89158723275407"  fill="none"  stroke="#000060"  stroke-opacity="1"  stroke-width="24" />
+<circle cx="652.8"  cy="652.8"  r="54.305800795126856"  fill="none"  stroke="#000060"  stroke-opacity="1"  stroke-width="24" />
+<path d=" M 152.60000000000022 152.60000000000022L 614.4 614.4"  fill="none"  stroke="#000060"  stroke-opacity="1"  stroke-width="24" />
+<path d=" M 191.9 268.9L 268.9 191.9"  fill="none"  stroke="#000060"  stroke-opacity="1"  stroke-width="24" />
+<path d=" M 345.5 422.5L 422.5 345.5"  fill="none"  stroke="#000060"  stroke-opacity="1"  stroke-width="24" />
+<path d=" M 499.1 576.1L 576.1 499.1"  fill="none"  stroke="#000060"  stroke-opacity="1"  stroke-width="24" />
+<path d=" M 230.40000000000003 384L 384 230.40000000000003"  fill="none"  stroke="#000060"  stroke-opacity="1"  stroke-width="24" />
+<path d=" M 388.6874999999999 537.5999999999999L 537.5999999999999 388.6874999999999"  fill="none"  stroke="#000060"  stroke-opacity="1"  stroke-width="24" />
 </svg>
