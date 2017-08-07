@@ -65,5 +65,6 @@ var DOM_EDobjstrokecolor;
 var DOM_EDstrokeopacity;
 var DOM_EDObjStrokeWidth;
 
+var DOM_logarea;
 
 

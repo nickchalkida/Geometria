@@ -52,9 +52,11 @@ function onTMidPointClick() {
 
 function onTSegmentClick() {
     var p0, p1;
+
 	var slen = SELECTED_OBJECTS.length;
     if (slen < 2)
         return;
+    
 	// Check for point-point semantics
 	if (!isLikePoint(SELECTED_OBJECTS[slen-1]) || !isLikePoint(SELECTED_OBJECTS[slen-2]))
         return UnDraftBoard();

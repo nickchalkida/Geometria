@@ -360,3 +360,15 @@ function b64toBlob(b64Data, contentType, sliceSize) {
   return blob;
 }
 
+function writelog(line) {
+    var linestr = line + "\r\n";
+    var txtstr = DOM_logarea.value;
+    
+    if (txtstr.length > 5000)
+        txtstr = "";
+    txtstr += linestr;
+    DOM_logarea.value = txtstr;
+    DOM_logarea.scrollTop = DOM_logarea.scrollHeight;
+}
+
+

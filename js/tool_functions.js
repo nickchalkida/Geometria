@@ -22,6 +22,7 @@
 
 *******************************************************************************/
 
+
 function findObjectInList(objid, objlist) {
     var el, obj;
     for (el in objlist) {
@@ -300,9 +301,18 @@ function UnDraftBoard() {
 
 
 function boardCreate(eltyp, par, attrs) {
-    var obj;
+    var obj, attrstr;
 	
 	obj = boardCreateWithoutStore(eltyp, par, attrs);
+    
+	writelog("Creating object " + eltyp);
+    attrstr = objToString(obj);
+	writelog(attrstr + "\r\n");
+    
+    writelog("Object Visual Properties");
+    attrstr = objToString(obj.visProp);
+	writelog(attrstr + "\r\n");
+
 	StoreMainboardAction("create", obj, eltyp, par, attrs);
     SynchronizeObjects();
     UnDraftBoard();
@@ -450,6 +460,8 @@ function Get_DOM_Globals() {
     DOM_EDobjstrokecolor.value = JXG.Options.point.strokecolor;
 	DOM_EDstrokeopacity  = document.getElementById("EDstrokeopacity");
 	DOM_EDObjStrokeWidth = document.getElementById("EDObjStrokeWidth");
+    
+    DOM_logarea          = document.getElementById("logarea");
 
 }
 
