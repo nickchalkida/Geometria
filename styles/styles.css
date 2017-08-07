@@ -73,6 +73,14 @@
 
 }
 
+#logarea {
+     font-family: 'Tahoma', sans-serif;
+     font-size: 13px;
+     color:#000060;
+     border:1px solid #6da021; 
+     padding-left:10px;
+     overflow-y:scroll;
+}
 
 body {
     background-color: lightgrey;
@@ -89,6 +97,7 @@ td, th {
     border: 1px solid #dddddd;
     text-align: left;
     padding: 8px;
+    vertical-align: top;
 }
 
 tr:nth-child(even) {
