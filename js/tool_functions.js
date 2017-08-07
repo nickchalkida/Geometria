@@ -267,14 +267,21 @@ function boardCreateWithoutStore(eltyp, par, attrs) {
     return obj;
 }
 
-function StoreMainboardAction(actype, creobj, eltyp, par, attrs) {
+function StoreMainboardAction(actype, creobj, eltyp) {
     // Before storing clean MAINBOARD_STORED_ACTIONS
     // above STORED_STATE_INDEX
     while (MAINBOARD_STORED_ACTIONS.length > STORED_STATE_INDEX+1) {
         MAINBOARD_STORED_ACTIONS.pop();
     }
  	STORED_STATE_INDEX++;
+    
+    var par = creobj.getParents();
+    var attrs = creobj.getAttributes();
+    var vattrs = attrs.visProp;
+    
+    alert(objToString(vattrs));
 
+    writelog("storing ... " + actype);
 	var action = {
 			actiontype:actype, 
 			createdobject:creobj, 
@@ -301,19 +308,20 @@ function UnDraftBoard() {
 
 
 function boardCreate(eltyp, par, attrs) {
-    var obj, attrstr;
+    var obj=null, attrstr;
 	
 	obj = boardCreateWithoutStore(eltyp, par, attrs);
     
-	writelog("Creating object " + eltyp);
-    attrstr = objToString(obj);
-	writelog(attrstr + "\r\n");
+	//writelog("Creating object " + eltyp);
+    //attrstr = objToString(obj);
+	//writelog(attrstr + "\r\n");
     
-    writelog("Object Visual Properties");
-    attrstr = objToString(obj.visProp);
-	writelog(attrstr + "\r\n");
+    //writelog("Object Visual Properties");
+    //attrstr = objToString(obj.visProp);
+	//writelog(attrstr + "\r\n");
 
-	StoreMainboardAction("create", obj, eltyp, par, attrs);
+	StoreMainboardAction("create", obj, eltyp);
+
     SynchronizeObjects();
     UnDraftBoard();
         
@@ -330,7 +338,7 @@ function boardDelete() {
         return;
     
     try {
-	StoreMainboardAction("delete", obj, obj.elType, obj.getParents(), obj.getAttributes());
+	StoreMainboardAction("delete", obj, obj.elType);
 	mainboard.removeObject(obj);
 	
 	SynchronizeObjects();
@@ -574,10 +582,12 @@ function RestoreMainboardState(stateindex) {
         return;
     NewBoard();
     
+writelog("Restoring in index " + stateindex);           
     // Recreate State
     for (var el=0; el<=stateindex; el++) {
 		action = MAINBOARD_STORED_ACTIONS[el];
-
+writelog(action.actiontype);           
+ 
         if (!JXG.exists(action))
             continue;
         
@@ -587,24 +597,60 @@ function RestoreMainboardState(stateindex) {
 			mainboard.removeObject(obj);
 			continue;
 		}
+		if (action.actiontype=="modify") {
+            //var atrs = obj.getAttributes();
+            obj = findObjectInList(action.createdobject.id,mainboard.objects);
+            var atrs = action.attributes;
+var atrstr = objToString(action.attributes.visProp);
+alert(atrstr);
+            for (var p in atrs) {
+                if (atrs.hasOwnProperty(p)) {
+  //str += p + '::' + obj[p] + '\n';
+                    //obj.setAttribute({draft: false});
+                    writelog("he " + p + ":" + atrs[p]);
+                    //obj.setAttribute({p:atrs[p]});
+                    //var ttt = "\"" + p + "\":" + atrs[p];
+                    //writelog(ttt);
+                    //var ttt = "\"" + p + "\"";
+                    //obj.setAttribute({'p':atrs[p]});
+                }
+            }
+            //obj.setAttribute({"fillColor":DOM_EDobjfillcolor.value});
+			continue;
+		}
 
 	    try {
 			
 		objname = obj.getName();
-		remtype = obj.elType;
-		//remtype = action.objtype;
+		//remtype = obj.elType;
+		remtype = action.objtype;
 		if (remtype=='bezier') {
 			parentids = obj.getParents();
 			N0 = mainboard.objects[parentids[0]];
 			N1 = mainboard.objects[parentids[1]];
 			N2 = mainboard.objects[parentids[2]];
 			N3 = mainboard.objects[parentids[3]];
-			nobj = boardCreateWithoutStore(remtype, [N0,N1,N2,N3], obj.getAttributes());
+			//nobj = boardCreateWithoutStore(remtype, [N0,N1,N2,N3], obj.getAttributes());
+			nobj = boardCreateWithoutStore(remtype, action.parents, action.attributes);
 		}
 		else {
 			//nobj = boardCreateWithoutStore(remtype, obj.getParents(), obj.getAttributes());
-			obj.setParents(action.parents);
-			nobj = boardCreateWithoutStore(remtype, obj.getParents(), obj.getAttributes());
+//alert(remtype);
+//var atrstr = objToString(action.attributes);
+//alert(atrstr);
+			nobj = boardCreateWithoutStore(remtype, action.parents, action.attributes);
+/*
+			nobj.setParents(action.parents);
+            var atrs = action.attributes;
+            for (var p in atrs) {
+                if (atrs.hasOwnProperty(p)) {
+                    writelog("he " + p + ":" + atrs[p]);
+                    //var ttt = "\"" + p + "\":" + atrs[p];
+                    nobj.setAttribute({p:atrs[p]});
+                }
+            }
+            */
+			//nobj = boardCreateWithoutStore(remtype, obj.getParents(), obj.getAttributes());
 		}
         
         if (JXG.exists(nobj)) {
@@ -626,6 +672,7 @@ function RestoreMainboardState(stateindex) {
 	}
 
     try {
+        mainboard.fullUpdate();
 	mainboard.updateRenderer();
 	} catch (err) {alert("mainboard.updateRenderer 12 " + obj.id);}
     return lastobj;
@@ -753,11 +800,8 @@ function ApplyObjectChanges() {
 	CUR_OBJECT_EDITING.setAttribute({"strokeWidth":DOM_EDObjStrokeWidth.value});
 
 	UnDraftBoard();
-	//StoreMainboardState();
+	StoreMainboardAction("modify", CUR_OBJECT_EDITING, CUR_OBJECT_EDITING.elType);
     
-	//var attr1str = objToString(CUR_OBJECT_EDITING.visProp);
-	//alert(attr1str);
-
 
 }
 
