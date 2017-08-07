@@ -381,6 +381,7 @@ function isLikeLine(obj) {
 		obj.elType === 'segment' ||
 		obj.elType === 'parallel' ||
 		obj.elType === 'perpendicular' ||
+		obj.elType === 'bisector' ||
 		obj.elType === 'semiline' ||
 		obj.elType === 'axis')
 		return true;
