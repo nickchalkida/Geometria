@@ -277,9 +277,8 @@ function StoreMainboardAction(actype, creobj, eltyp) {
     
     var par = creobj.getParents();
     var attrs = creobj.getAttributes();
-    var vattrs = attrs.visProp;
     
-    alert(objToString(vattrs));
+    //alert(objToString(attrs));
 
     writelog("storing ... " + actype);
 	var action = {
@@ -582,11 +581,9 @@ function RestoreMainboardState(stateindex) {
         return;
     NewBoard();
     
-writelog("Restoring in index " + stateindex);           
     // Recreate State
     for (var el=0; el<=stateindex; el++) {
 		action = MAINBOARD_STORED_ACTIONS[el];
-writelog(action.actiontype);           
  
         if (!JXG.exists(action))
             continue;
@@ -598,24 +595,8 @@ writelog(action.actiontype);
 			continue;
 		}
 		if (action.actiontype=="modify") {
-            //var atrs = obj.getAttributes();
             obj = findObjectInList(action.createdobject.id,mainboard.objects);
-            var atrs = action.attributes;
-var atrstr = objToString(action.attributes.visProp);
-alert(atrstr);
-            for (var p in atrs) {
-                if (atrs.hasOwnProperty(p)) {
-  //str += p + '::' + obj[p] + '\n';
-                    //obj.setAttribute({draft: false});
-                    writelog("he " + p + ":" + atrs[p]);
-                    //obj.setAttribute({p:atrs[p]});
-                    //var ttt = "\"" + p + "\":" + atrs[p];
-                    //writelog(ttt);
-                    //var ttt = "\"" + p + "\"";
-                    //obj.setAttribute({'p':atrs[p]});
-                }
-            }
-            //obj.setAttribute({"fillColor":DOM_EDobjfillcolor.value});
+            obj.setAttribute(clone(action.attributes));
 			continue;
 		}
 
@@ -625,32 +606,17 @@ alert(atrstr);
 		//remtype = obj.elType;
 		remtype = action.objtype;
 		if (remtype=='bezier') {
-			parentids = obj.getParents();
+			parentids = action.parents;
 			N0 = mainboard.objects[parentids[0]];
 			N1 = mainboard.objects[parentids[1]];
 			N2 = mainboard.objects[parentids[2]];
 			N3 = mainboard.objects[parentids[3]];
-			//nobj = boardCreateWithoutStore(remtype, [N0,N1,N2,N3], obj.getAttributes());
-			nobj = boardCreateWithoutStore(remtype, action.parents, action.attributes);
+
+			nobj = boardCreateWithoutStore(remtype, [N0,N1,N2,N3], action.attributes);
 		}
 		else {
 			//nobj = boardCreateWithoutStore(remtype, obj.getParents(), obj.getAttributes());
-//alert(remtype);
-//var atrstr = objToString(action.attributes);
-//alert(atrstr);
 			nobj = boardCreateWithoutStore(remtype, action.parents, action.attributes);
-/*
-			nobj.setParents(action.parents);
-            var atrs = action.attributes;
-            for (var p in atrs) {
-                if (atrs.hasOwnProperty(p)) {
-                    writelog("he " + p + ":" + atrs[p]);
-                    //var ttt = "\"" + p + "\":" + atrs[p];
-                    nobj.setAttribute({p:atrs[p]});
-                }
-            }
-            */
-			//nobj = boardCreateWithoutStore(remtype, obj.getParents(), obj.getAttributes());
 		}
         
         if (JXG.exists(nobj)) {
@@ -672,7 +638,6 @@ alert(atrstr);
 	}
 
     try {
-        mainboard.fullUpdate();
 	mainboard.updateRenderer();
 	} catch (err) {alert("mainboard.updateRenderer 12 " + obj.id);}
     return lastobj;
