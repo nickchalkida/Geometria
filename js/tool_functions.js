@@ -261,7 +261,7 @@ function boardCreateWithoutStore(eltyp, par, attrs) {
         if (JXG.exists(obj))
             obj.elType=eltyp;
 	} catch (err) {
-		alert("boardCreate exception caught " + err);
+		Alert("boardCreate exception caught " + err);
 		return null;
 	}
     return obj;
@@ -277,17 +277,34 @@ function StoreMainboardAction(actype, creobj, eltyp) {
     
     var par = creobj.getParents();
     var attrs = creobj.getAttributes();
-    
-    //alert(objToString(par));
+    var parcoords = []; var pobj, tcoord;
+    parcoords.length = 0;
 
-    writelog("storing ... " + actype);
+    writelog("\r\nStoring ... " + actype + " for " + creobj.id + "\r\n");
+    writelog("Parents\r\n" + objToString(par) + "\r\n");
+    
+    for (var i=0; i<par.length; i++) {
+        pobj = findObjectInList(par[i], mainboard.objects);
+        if (pobj != null) {
+            tcoord = [pobj.X(),pobj.Y()];
+            parcoords.push(tcoord);
+        }
+    }
+    
+    writelog("Parent Positions\r\n" + objToString(parcoords) + "\r\n");
+    writelog("Attributes\r\n" + objToString(attrs) + "\r\n");
+
 	var action = {
 			actiontype:actype, 
 			createdobject:creobj, 
 			objtype:eltyp, 
-			parents:par, 
+			parents:par,
+            parpos:parcoords,
 			attributes:attrs};
+            
 	MAINBOARD_STORED_ACTIONS.push(action);
+    //Alert(JXG.Dump.toJavaScript(mainboard));
+    //mainboard.showXML();
 }
 
 function UnDraftBoard() {
@@ -300,7 +317,7 @@ function UnDraftBoard() {
 	mainboard.updateRenderer();
     SELECTED_OBJECTS.length=0;
  	} catch (err) {
-		alert("UnDraftBoard exception caught " + err);
+		Alert("UnDraftBoard exception caught " + err);
 		return null;
 	}
 }
@@ -343,7 +360,7 @@ function boardDelete() {
 	SynchronizeObjects();
 	mainboard.updateRenderer();
 	} catch (err) {
-		alert("boardDelete exception caught " + err);
+		Alert("boardDelete exception caught " + err);
 		return null;
 	}
 
@@ -440,7 +457,7 @@ function DisplayObjectToEdit(disobj) {
 	DOM_EDObjStrokeWidth.value = disobj.getAttribute("strokeWidth");
     
 	//var attr1str = objToString(disobj.visProp);
-	//alert(attr1str);
+	//Alert(attr1str);
 
 }
 
@@ -470,6 +487,7 @@ function Get_DOM_Globals() {
 	DOM_EDObjStrokeWidth = document.getElementById("EDObjStrokeWidth");
     
     DOM_logarea          = document.getElementById("logarea");
+    LOG_ENABLED          = (DOM_logarea==null)?false:true;
 
 }
 
@@ -517,14 +535,14 @@ function ShowArray(objar) {
         ind++;
         obj = objar[el];
 
-        alert(obj.elType + " id:" + obj.id );
+        Alert(obj.elType + " id:" + obj.id );
     }
     mainboard.fullUpdate();
     mainboard.updateRenderer();
 }
 
 function Test() {
-    //alert("ok");
+    //Alert("ok");
     //ShowArray(mainboard.objects);
 }
 
@@ -576,6 +594,7 @@ function RestoreMainboardState(stateindex) {
 	var N0,N1,N2,N3;
     var objname, remtype, parentids;
 	var action, optstr;
+    var newpars, newatrs;
     
     if (stateindex > MAINBOARD_STORED_ACTIONS.length - 1)
         return;
@@ -596,9 +615,20 @@ function RestoreMainboardState(stateindex) {
 		}
 		if (action.actiontype=="modify") {
             obj = findObjectInList(action.createdobject.id,mainboard.objects);
-            obj.setParents(clone(action.parents));
-            obj.setAttribute(clone(action.attributes));
-			continue;
+            newpars = clone(action.parents);
+            newatrs = clone(action.attributes);
+            
+            // Also set parent positions
+            for (var i=0; i<newpars.length; i++) {
+                np = findObjectInList(newpars[i],mainboard.objects);
+                if (np != null) {
+                    np.setPosition(JXG.COORDS_BY_USER,action.parpos[i]);
+                }
+            }
+            obj.setParents(newpars);
+            obj.setAttribute(newatrs);
+            
+            continue;
 		}
 
 	    try {
@@ -613,11 +643,24 @@ function RestoreMainboardState(stateindex) {
 			N2 = mainboard.objects[parentids[2]];
 			N3 = mainboard.objects[parentids[3]];
 
-			nobj = boardCreateWithoutStore(remtype, [N0,N1,N2,N3], action.attributes);
+			nobj = boardCreateWithoutStore(remtype, [N0,N1,N2,N3], clone(action.attributes));
 		}
 		else {
 			//nobj = boardCreateWithoutStore(remtype, obj.getParents(), obj.getAttributes());
-			nobj = boardCreateWithoutStore(remtype, action.parents, action.attributes);
+			//nobj = boardCreateWithoutStore(remtype, action.parents, action.attributes);
+            
+            newpars = clone(action.parents);
+            newatrs = clone(action.attributes);
+
+            // Also set parent positions
+            for (var i=0; i<newpars.length; i++) {
+                np = findObjectInList(newpars[i],mainboard.objects);
+                if (np != null) {
+                    np.setPosition(JXG.COORDS_BY_USER,action.parpos[i]);
+                }
+            }
+
+			nobj = boardCreateWithoutStore(remtype, newpars, newatrs);
 		}
         
         if (JXG.exists(nobj)) {
@@ -628,7 +671,7 @@ function RestoreMainboardState(stateindex) {
         }
 	    
 		} // end try
-	    catch (err) {alert("Object recreation error for " + obj.id);}
+	    catch (err) {Alert("Object recreation error for " + obj.id);}
 	}
 
 	if (DOM_OBJECT_SELECTOR.options.length==0) {
@@ -639,8 +682,9 @@ function RestoreMainboardState(stateindex) {
 	}
 
     try {
-	mainboard.updateRenderer();
-	} catch (err) {alert("mainboard.updateRenderer 12 " + obj.id);}
+	//mainboard.updateRenderer();
+    mainboard.fullUpdate();
+	} catch (err) {Alert("mainboard.updateRenderer 12 " + obj.id);}
     return lastobj;
 	
 }
@@ -692,7 +736,7 @@ function ToggleAxis() {
     try {
     mainboard.updateRenderer();
  	} catch (err) {
-		alert("ToggleAxis exception caught " + err);
+		Alert("ToggleAxis exception caught " + err);
 		return null;
 	}    
 }
@@ -749,7 +793,7 @@ function ApplyObjectChanges() {
             labelobj.setAttribute({"visible":true});
         }
     } else {
-        //alert(CUR_OBJECT_EDITING.label.id);
+        //Alert(CUR_OBJECT_EDITING.label.id);
         if (CUR_OBJECT_EDITING.label === "defined")
             labelobj = findObjectInList(CUR_OBJECT_EDITING.label.id,mainboard.objects);
         if (labelobj != null) {

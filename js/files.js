@@ -127,7 +127,7 @@ function GetSVGSaveElements() {
 		case "otherintersection" : 
 			//"<circle cx=\"100\" cy=\"50\" r=\"40\" stroke=\"black\" stroke-width=\"2\" fill=\"red\"/>\r\n";
 			
-			//alert("("+obj.X()+"," +obj.Y()+")");
+			//Alert("("+obj.X()+"," +obj.Y()+")");
 			neocx = ocx + trCoords(obj.X());
 			neocy = ocy - trCoords(obj.Y());
 			txneocx = neocx + 10;
@@ -766,7 +766,7 @@ function GetSaveDrawTikzShapes() {
 			}
 			P0 = mainboard.objects[parentids[0]];
 			pathstr += "(" + P0.X() + "," + P0.Y() + ")";
-			//alert(pathstr);
+			//Alert(pathstr);
 
 			commandstr  = "\\draw[";
 	        commandstr += "line width="+obj.getAttribute("strokeWidth")*0.75+"pt, ";

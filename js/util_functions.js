@@ -67,7 +67,7 @@ function ShowMatrix(M) {
 		}
 		distr += "\n";
 	}
-	alert(distr);
+	Alert(distr);
 }
 
 // Returns the inverse of matrix M.
@@ -360,7 +360,16 @@ function b64toBlob(b64Data, contentType, sliceSize) {
   return blob;
 }
 
+function Alert(message) {
+    if (!LOG_ENABLED)
+        return;
+    alert(message);
+}
+
 function writelog(line) {
+    if (!LOG_ENABLED)
+        return;
+    
     var linestr = line + "\r\n";
     var txtstr = DOM_logarea.value;
     

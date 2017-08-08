@@ -27,11 +27,11 @@ function onTDeleteClick() {
 }
 
 function onTSelectClick() {
-    //alert("onTSelectClick");
+    //Alert("onTSelectClick");
 }
 
 function onTPointClick() {
-    //alert("onTPointClick");
+    //Alert("onTPointClick");
 }
 
 function onTMidPointClick() {
@@ -86,7 +86,7 @@ function onTMeasureClick() {
 }
 
 function onTLineClick() {
-    //alert("onTLineClick");
+    //Alert("onTLineClick");
     var p0, p1;
 	var slen = SELECTED_OBJECTS.length;
     if (slen < 2)
@@ -103,7 +103,7 @@ function onTLineClick() {
 }
 
 function onTSemiLineClick() {
-    //alert("onTLineClick");
+    //Alert("onTLineClick");
     var p0, p1;
 	var slen = SELECTED_OBJECTS.length;
     if (slen < 2)
@@ -148,7 +148,7 @@ function onTIntersectionClick() {
 }
 
 function onTCircleClick() {
-    //alert("onTCircleClick");
+    //Alert("onTCircleClick");
     var p0, p1;
 	var slen = SELECTED_OBJECTS.length;
     if (slen < 2)
@@ -164,7 +164,7 @@ function onTCircleClick() {
 }
 
 function onTSemicircleClick() {
-    //alert("onTSemicircleClick");
+    //Alert("onTSemicircleClick");
     var p0, p1;
 	var slen = SELECTED_OBJECTS.length;
     if (slen < 2)
@@ -180,7 +180,7 @@ function onTSemicircleClick() {
 }
 
 function onTAngleBisectorClick() {
-    //alert("onTCircle3PointsClick");
+    //Alert("onTCircle3PointsClick");
 	
     var p0, p1, p2;
 	var slen = SELECTED_OBJECTS.length;
@@ -201,7 +201,7 @@ function onTAngleBisectorClick() {
 }
 
 function onTAngleClick(sectype) {
-    //alert("onTAngleClick");
+    //Alert("onTAngleClick");
     var p0, p1, p2, p7, gX, gY, bs;
     var p1p0, p1p0seg, p1p0X, p1p0Y, obj;
 	var slen = SELECTED_OBJECTS.length;
@@ -237,7 +237,7 @@ function onTAngleClick(sectype) {
 }
 
 function onTParallelClick() {
-    //alert("onTParallelClick");
+    //Alert("onTParallelClick");
     var a0, a1, p0, p1;
 	var slen = SELECTED_OBJECTS.length;
     if (slen < 2)
@@ -263,7 +263,7 @@ function onTParallelClick() {
 }
 
 function onTPerpendicularClick() {
-    //alert("onTPerpendicularClick");
+    //Alert("onTPerpendicularClick");
     var a0, a1, p0, p1;
 	var slen = SELECTED_OBJECTS.length;
     if (slen < 2)
@@ -291,7 +291,7 @@ function onTPerpendicularClick() {
 }
 
 function onTCircle3PointsClick() {
-    //alert("onTCircle3PointsClick");
+    //Alert("onTCircle3PointsClick");
     var p0, p1, p2;
 	var slen = SELECTED_OBJECTS.length;
     if (slen < 3)
@@ -311,7 +311,7 @@ function onTCircle3PointsClick() {
 }
 
 function onTBezierClick() {
-    //alert("onTBezierClick");
+    //Alert("onTBezierClick");
     var p0, p1, p2, p3;
 	var slen = SELECTED_OBJECTS.length;
     if (slen < 4)
@@ -336,7 +336,7 @@ function onTBezierClick() {
 
 
 function onTConic3PClick(conictype) {
-    //alert("onTCircle3PointsClick");
+    //Alert("onTCircle3PointsClick");
 	var obj;
     var p0, p1, p2;
 	var slen = SELECTED_OBJECTS.length;
@@ -364,7 +364,7 @@ function onTConic3PClick(conictype) {
 	}
 
 	//var attr1str = objToString(obj.visProp);
-	//alert(attr1str);
+	//Alert(attr1str);
     
 }
 
@@ -396,7 +396,7 @@ function onTRectangleClick() {
 }
 
 function onTConic5PClick() {
-    //alert("onTConic5PClick");
+    //Alert("onTConic5PClick");
     var p0, p1, p2, p3, p4;
 	var slen = SELECTED_OBJECTS.length;
     if (slen < 5)
@@ -421,7 +421,7 @@ function onTConic5PClick() {
 
 
 function onTPolygonClick() {
-    //alert("onTPolygonClick");
+    //Alert("onTPolygonClick");
     var p0,v0;
     var found="false", el;
     var V = [];
@@ -478,7 +478,7 @@ function onTTextClick(x0,y0,textstr) {
 }
 
 function onTImageClick() {
-	//alert("onTImageClick");
+	//Alert("onTImageClick");
 	var urlImg = "http://jsxgraph.uni-bayreuth.de/distrib/images/uccellino.jpg";
 	//var urlImg = "file:\/\/C:\/Users\/nlk\/DEVELOP_HTML\/Geometria\/images\/image.svg";
 	var im = mainboard.create('image',[urlImg, [-1,-1], [3,3] ]);
@@ -601,7 +601,7 @@ function onToolClick(tid) {
             break;
     } // end select
 	} catch (err) {
-		alert("Exception caught " + err);
+		Alert("Exception caught " + err);
 	}
 
 }
@@ -639,7 +639,7 @@ var onboardmousedown = function(e) {
     var hittonobject = false;
 	var hittedobject = null;
     var i, coords, el, hel;
-//alert("00");	
+//Alert("00");	
 	if (e[JXG.touchProperty]) {
         // index of the finger that is used to extract the coordinates
         i = 0;
@@ -672,12 +672,12 @@ var onboardmousedown = function(e) {
 }
 
 var onboardmouseup = function(e) {
-	//alert("onboardmouseup");
+	//Alert("onboardmouseup");
 }
 
 var onobjectmousedown = function(e) {
-    alert(obj.elType + " id:" + obj.id + " attrs:" + obj.getAttributes());
-    //alert("Great on onobjectmousedown");
+    Alert(obj.elType + " id:" + obj.id + " attrs:" + obj.getAttributes());
+    //Alert("Great on onobjectmousedown");
 }
 
 var onboardrightmouseclick = function(e) {
@@ -694,7 +694,7 @@ var onboardrightmouseclick = function(e) {
 	hittedobject = getHittedObject(coords.scrCoords[1], coords.scrCoords[2]);
 	if (hittedobject && hittedobject !== "null" && hittedobject !== "undefined" ){
 		hittonobject = true;
-		// alert(hittedobject.id);
+		// Alert(hittedobject.id);
 	}
 	
 	if (!hittonobject)
