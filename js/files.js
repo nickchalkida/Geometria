@@ -97,7 +97,7 @@ function GetSVGDrawLineString(obj, P0, P1) {
 
 function GetSVGSaveElements() {
     var el, obj, eltype, Flag;
-    var commandstr, svgstr, pathstr;
+    var commandstr, svgstr, pathstr, txtstr;
 	var parentids, objattrs, objvisible;
 	var P0, P1, P2, P3, P4, BI;
 	var PP0, PP1, PP2, PP3, PP4, PP7, P0P1;
@@ -148,8 +148,11 @@ function GetSVGSaveElements() {
 			svgstr += commandstr;
 			
 			//<text x="20" y="40">Example SVG text 1</text>
-			commandstr = "<text x=\"" + txneocx  + "\" y=\"" + txneocy + "\">" + obj.getName() + "</text>\r\n";
-			svgstr += commandstr;
+			txtstr = obj.getName();
+			if (txtstr != "") {
+			    commandstr = "<text x=\"" + txneocx  + "\" y=\"" + txneocy + "\">" + txtstr + "</text>\r\n";
+			    svgstr += commandstr;
+			}
 		break;
 		case "segment" : 
 		case "line" : 
