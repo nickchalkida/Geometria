@@ -278,7 +278,7 @@ function StoreMainboardAction(actype, creobj, eltyp) {
     var par = creobj.getParents();
     var attrs = creobj.getAttributes();
     
-    //alert(objToString(attrs));
+    //alert(objToString(par));
 
     writelog("storing ... " + actype);
 	var action = {
@@ -596,6 +596,7 @@ function RestoreMainboardState(stateindex) {
 		}
 		if (action.actiontype=="modify") {
             obj = findObjectInList(action.createdobject.id,mainboard.objects);
+            obj.setParents(clone(action.parents));
             obj.setAttribute(clone(action.attributes));
 			continue;
 		}
