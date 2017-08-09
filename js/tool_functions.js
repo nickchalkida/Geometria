@@ -25,9 +25,12 @@
 
 function findObjectInList(objid, objlist) {
     var el, obj;
+    if (!JXG.exists(objid) || !JXG.exists(objlist))
+        return null;
+    
     for (el in objlist) {
 		obj = objlist[el];
-		if (obj.id == objid) {
+		if (obj.id === objid) {
 		    return obj;
 		}
     }
@@ -279,20 +282,21 @@ function StoreMainboardAction(actype, creobj, eltyp) {
     var attrs = creobj.getAttributes();
     var parcoords = []; var pobj, tcoord;
     parcoords.length = 0;
-
-    writelog("\r\nStoring ... " + actype + " for " + creobj.id + "\r\n");
-    writelog("Parents\r\n" + objToString(par) + "\r\n");
-    
     for (var i=0; i<par.length; i++) {
         pobj = findObjectInList(par[i], mainboard.objects);
         if (pobj != null) {
             tcoord = [pobj.X(),pobj.Y()];
-            parcoords.push(tcoord);
+        } else {
+            tcoord = [NaN,NaN];
         }
+        parcoords.push(tcoord);
     }
     
+    writelog("\r\n" + actype + " " + eltyp + " for " + creobj.id + "\r\n");
+    writelog("Parents\r\n" + objToString(par) + "\r\n");
+    if (parcoords.length>0) {
     writelog("Parent Positions\r\n" + objToString(parcoords) + "\r\n");
-    writelog("Attributes\r\n" + objToString(attrs) + "\r\n");
+    }
 
 	var action = {
 			actiontype:actype, 
@@ -303,8 +307,6 @@ function StoreMainboardAction(actype, creobj, eltyp) {
 			attributes:attrs};
             
 	MAINBOARD_STORED_ACTIONS.push(action);
-    //Alert(JXG.Dump.toJavaScript(mainboard));
-    //mainboard.showXML();
 }
 
 function UnDraftBoard() {
@@ -324,18 +326,9 @@ function UnDraftBoard() {
 
 
 function boardCreate(eltyp, par, attrs) {
-    var obj=null, attrstr;
+    var obj, attrstr;
 	
 	obj = boardCreateWithoutStore(eltyp, par, attrs);
-    
-	//writelog("Creating object " + eltyp);
-    //attrstr = objToString(obj);
-	//writelog(attrstr + "\r\n");
-    
-    //writelog("Object Visual Properties");
-    //attrstr = objToString(obj.visProp);
-	//writelog(attrstr + "\r\n");
-
 	StoreMainboardAction("create", obj, eltyp);
 
     SynchronizeObjects();
@@ -615,6 +608,9 @@ function RestoreMainboardState(stateindex) {
 		}
 		if (action.actiontype=="modify") {
             obj = findObjectInList(action.createdobject.id,mainboard.objects);
+            if (obj == null)
+                continue;
+            
             newpars = clone(action.parents);
             newatrs = clone(action.attributes);
             
@@ -633,8 +629,6 @@ function RestoreMainboardState(stateindex) {
 
 	    try {
 			
-		objname = obj.getName();
-		//remtype = obj.elType;
 		remtype = action.objtype;
 		if (remtype=='bezier') {
 			parentids = action.parents;
@@ -655,7 +649,7 @@ function RestoreMainboardState(stateindex) {
             // Also set parent positions
             for (var i=0; i<newpars.length; i++) {
                 np = findObjectInList(newpars[i],mainboard.objects);
-                if (np != null) {
+                if (!isNaN(np) && np != null) {
                     np.setPosition(JXG.COORDS_BY_USER,action.parpos[i]);
                 }
             }
@@ -788,7 +782,7 @@ function ApplyObjectChanges() {
         
         if (CUR_OBJECT_EDITING.label === "defined")
             labelobj = findObjectInList(CUR_OBJECT_EDITING.label.id,mainboard.objects);
-        if (labelobj != null) {
+        if (!isNaN(labelobj) && labelobj != null) {
             labelobj.showElement();
             labelobj.setAttribute({"visible":true});
         }
@@ -796,7 +790,7 @@ function ApplyObjectChanges() {
         //Alert(CUR_OBJECT_EDITING.label.id);
         if (CUR_OBJECT_EDITING.label === "defined")
             labelobj = findObjectInList(CUR_OBJECT_EDITING.label.id,mainboard.objects);
-        if (labelobj != null) {
+        if (!isNaN(labelobj) && labelobj != null) {
             labelobj.hideElement();
             labelobj.setAttribute({"visible":false});
         }
