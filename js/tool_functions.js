@@ -278,6 +278,20 @@ function StoreMainboardAction(actype, creobj, eltyp) {
     }
  	STORED_STATE_INDEX++;
     
+    //var textstr = JXG.Dump.toJavaScript(mainboard);
+    var textstr = JXG.Dump.toJessie(mainboard);
+    //alert(textstr);
+    MAINBOARD_STORED_ACTIONS.push(textstr);
+}
+
+function StoreMainboardActionOLD(actype, creobj, eltyp) {
+    // Before storing clean MAINBOARD_STORED_ACTIONS
+    // above STORED_STATE_INDEX
+    while (MAINBOARD_STORED_ACTIONS.length > STORED_STATE_INDEX+1) {
+        MAINBOARD_STORED_ACTIONS.pop();
+    }
+ 	STORED_STATE_INDEX++;
+    
     var par = creobj.getParents();
     var attrs = creobj.getAttributes();
     var parcoords = []; var pobj, tcoord;
@@ -553,6 +567,10 @@ function NewBoard() {
 	JXG.Options.text.useMathJax = true;
 	JXG.Options.renderer = 'canvas';
     mainboard = JXG.JSXGraph.initBoard('mainbox', {boundingbox: [-10,10,10,-10], axis: true, grid:true, showCopyright:false});   
+    mainboard.jc = new JXG.JessieCode();
+    mainboard.jc.use(mainboard);
+
+	//StoreMainboardAction("init", null, "");
 
     for (el in mainboard.objects) {
         obj = mainboard.objects[el];
@@ -582,6 +600,31 @@ function NewFile() {
 }
 
 function RestoreMainboardState(stateindex) {
+    if (stateindex > MAINBOARD_STORED_ACTIONS.length - 1)
+        return;
+
+    NewBoard();
+    
+    //mainboard = JXG.JSXGraph.initBoard('mainbox', {boundingbox: [-10,10,10,-10], axis: true, grid:true, showCopyright:false});   
+    //mainboard.jc = new JXG.JessieCode();
+    //mainboard.jc.use(mainboard);
+
+    var scriptstr;
+    
+    if (stateindex >=0)
+        scriptstr = MAINBOARD_STORED_ACTIONS[stateindex];
+    else
+        scriptstr = "";
+     
+    try {
+        mainboard.jc.parse(scriptstr);
+    } catch (err) {
+        alert("Exception caught parsing Jessie Code");
+    }
+    SynchronizeObjects();
+}
+
+function RestoreMainboardStateOLD(stateindex) {
     var newmainstate;
     var obj, nobj, lastobj=null;
 	var N0,N1,N2,N3;
