@@ -270,7 +270,7 @@ function boardCreateWithoutStore(eltyp, par, attrs) {
     return obj;
 }
 
-function StoreMainboardAction(actype, creobj, eltyp) {
+function StoreMainboardActionALT(actype, creobj, eltyp) {
     // Before storing clean MAINBOARD_STORED_ACTIONS
     // above STORED_STATE_INDEX
     while (MAINBOARD_STORED_ACTIONS.length > STORED_STATE_INDEX+1) {
@@ -284,7 +284,7 @@ function StoreMainboardAction(actype, creobj, eltyp) {
     MAINBOARD_STORED_ACTIONS.push(textstr);
 }
 
-function StoreMainboardActionOLD(actype, creobj, eltyp) {
+function StoreMainboardAction(actype, creobj, eltyp) {
     // Before storing clean MAINBOARD_STORED_ACTIONS
     // above STORED_STATE_INDEX
     while (MAINBOARD_STORED_ACTIONS.length > STORED_STATE_INDEX+1) {
@@ -599,15 +599,11 @@ function NewFile() {
 	NewBoard();
 }
 
-function RestoreMainboardState(stateindex) {
+function RestoreMainboardStateALT(stateindex) {
     if (stateindex > MAINBOARD_STORED_ACTIONS.length - 1)
         return;
 
     NewBoard();
-    
-    //mainboard = JXG.JSXGraph.initBoard('mainbox', {boundingbox: [-10,10,10,-10], axis: true, grid:true, showCopyright:false});   
-    //mainboard.jc = new JXG.JessieCode();
-    //mainboard.jc.use(mainboard);
 
     var scriptstr;
     
@@ -624,7 +620,7 @@ function RestoreMainboardState(stateindex) {
     SynchronizeObjects();
 }
 
-function RestoreMainboardStateOLD(stateindex) {
+function RestoreMainboardState(stateindex) {
     var newmainstate;
     var obj, nobj, lastobj=null;
 	var N0,N1,N2,N3;
