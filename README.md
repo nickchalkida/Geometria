@@ -6,7 +6,7 @@
 ----------------------------------------- | ------------------------------------------------------------------------------
 Top Panel Tools                      | 
 ----------------------------------------- | ------------------------------------------------------------------------------
-![Image](../images/save.svg)                | Select the file extesion you would like to save your construction. Then press save in order to download your construction as a file of the selected type.
+![Image](../../images/save.svg)                | Select the file extesion you would like to save your construction. Then press save in order to download your construction as a file of the selected type.
 ----------------------------------------- | ------------------------------------------------------------------------------
 
 
