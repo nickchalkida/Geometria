@@ -165,8 +165,12 @@ function RGBColorToTikzColor(rgbcol) {
 	var r0str = rgbcol.substring(1, 3); 
 	var g0str = rgbcol.substring(3, 5); 
 	var b0str = rgbcol.substring(5, 7);
+    
+    if (!r0str) r0str="0";
+    if (!g0str) g0str="0";
+    if (!b0str) b0str="0";
 
-	return "{rgb, 255:red,"+parseInt(r0str, 16) + ";green,"+parseInt(g0str, 16)+";blue,"+parseInt(b0str, 16)+"}";
+	return "{rgb, 255:red," + parseInt(r0str, 16) + ";green," + parseInt(g0str, 16) + ";blue," + parseInt(b0str, 16)+"}";
 }
 
 function CalcFunction() {

@@ -78,7 +78,7 @@ function GetSVGDrawLineString(obj, P0, P1) {
 	
 	commandstr  = "<path d=\"";
 	// Add path components
-	pathstr = " M " + PP0.x + " " + PP0.y + "L " + PP1.x + " " + PP1.y; 
+	pathstr = " M " + PP0.x.toFixed(5) + " " + PP0.y.toFixed(5) + "L " + PP1.x.toFixed(5) + " " + PP1.y.toFixed(5); 
 	commandstr += pathstr;
 	commandstr += "\" "; // end path
 
@@ -133,8 +133,8 @@ function GetSVGSaveElements() {
 			txneocx = neocx + 10;
 			txneocy = neocy - 10;
 			
-			commandstr  = "<circle cx=\"" + neocx + "\" ";
-			commandstr += " cy=\"" + neocy + "\" ";
+			commandstr  = "<circle cx=\"" + neocx.toFixed(5) + "\" ";
+			commandstr += " cy=\"" + neocy.toFixed(5) + "\" ";
 			commandstr += " r=\"" + obj.getAttribute("size") + "\" ";
 			if (obj.getAttribute("fillOpacity")!=0) {
 			commandstr += " fill=\"" + obj.getAttribute("fillColor") + "\" ";
@@ -150,7 +150,7 @@ function GetSVGSaveElements() {
 			//<text x="20" y="40">Example SVG text 1</text>
 			txtstr = obj.getName();
 			if (txtstr != "") {
-			    commandstr = "<text x=\"" + txneocx  + "\" y=\"" + txneocy + "\">" + txtstr + "</text>\r\n";
+			    commandstr = "<text x=\"" + txneocx.toFixed(5)  + "\" y=\"" + txneocy.toFixed(5) + "\">" + txtstr + "</text>\r\n";
 			    svgstr += commandstr;
 			}
 		break;
@@ -216,9 +216,9 @@ function GetSVGSaveElements() {
 			neocx = ocx + trCoords(obj.center.X());
 			neocy = ocy - trCoords(obj.center.Y());
 
-			commandstr  = "<circle cx=\"" + neocx + "\" ";
-			commandstr += " cy=\"" + neocy + "\" ";
-			commandstr += " r=\"" + trCoords(obj.getRadius()) + "\" ";
+			commandstr  = "<circle cx=\"" + neocx.toFixed(5) + "\" ";
+			commandstr += " cy=\"" + neocy.toFixed(5) + "\" ";
+			commandstr += " r=\"" + trCoords(obj.getRadius()).toFixed(5) + "\" ";
 			if (obj.getAttribute("fillOpacity")!=0) {
 			commandstr += " fill=\"" + obj.getAttribute("fillColor") + "\" ";
 			commandstr += " fill-opacity=\"" + obj.getAttribute("fillOpacity") + "\" ";
@@ -259,9 +259,9 @@ function GetSVGSaveElements() {
 
 			commandstr  = "<path d=\"";
 			// Add path components
-			pathstr = " M " + PP0.x + " " + PP0.y + "L " + PP1.x + " " + PP1.y 
-					+ " A " + trCoords(obj.Radius()) + " " + trCoords(obj.Radius()) + " 0 " + Flag + " 0 " 
-					+ PP7.x + " " + PP7.y + " " + " Z";
+			pathstr = " M " + PP0.x.toFixed(5) + " " + PP0.y.toFixed(5) + "L " + PP1.x.toFixed(5) + " " + PP1.y.toFixed(5) 
+					+ " A " + trCoords(obj.Radius()).toFixed(5) + " " + trCoords(obj.Radius()).toFixed(5) + " 0 " + Flag + " 0 " 
+					+ PP7.x.toFixed(5) + " " + PP7.y.toFixed(5) + " " + " Z";
 			commandstr += pathstr;
 			commandstr += "\" "; // end path
 
@@ -290,13 +290,13 @@ function GetSVGSaveElements() {
 			neocx = ocx + trCoords(objattrs.CenterX);
 			neocy = ocy - trCoords(objattrs.CenterY);
 
-			commandstr  = "<ellipse cx=\"" + neocx + "\" ";
-			commandstr += " cy=\"" + neocy + "\" ";
-			commandstr += " rx=\"" + trCoords(objattrs.AxisA/2) + "\" ";
-			commandstr += " ry=\"" + trCoords(objattrs.AxisB/2) + "\" ";
+			commandstr  = "<ellipse cx=\"" + neocx.toFixed(5) + "\" ";
+			commandstr += " cy=\"" + neocy.toFixed(5) + "\" ";
+			commandstr += " rx=\"" + trCoords(objattrs.AxisA/2).toFixed(5) + "\" ";
+			commandstr += " ry=\"" + trCoords(objattrs.AxisB/2).toFixed(5) + "\" ";
 			
 			elangle = -1 * RadVectorSlope(P0,P1) * (180 / Math.PI);
-			commandstr += " transform=\"rotate(" + elangle + "," + neocx + "," + neocy + ")\" ";
+			commandstr += " transform=\"rotate(" + elangle + "," + neocx.toFixed(5) + "," + neocy.toFixed(5) + ")\" ";
 
 			if (obj.getAttribute("fillOpacity")!=0) {
 			commandstr += " fill=\"" + obj.getAttribute("fillColor") + "\" ";
@@ -342,9 +342,9 @@ function GetSVGSaveElements() {
 
 			commandstr  = "<path d=\"";
 			// Add path components
-			pathstr = " M " + PP1.x + " " + PP1.y 
-					+ " A " + trCoords(obj.Radius()) + " " + trCoords(obj.Radius()) + " 0 " + Flag + " 0 " 
-					+ PP7.x + " " + PP7.y + " ";
+			pathstr = " M " + PP1.x.toFixed(5) + " " + PP1.y.toFixed(5) 
+					+ " A " + trCoords(obj.Radius()).toFixed(5) + " " + trCoords(obj.Radius()).toFixed(5) + " 0 " + Flag + " 0 " 
+					+ PP7.x.toFixed(5) + " " + PP7.y.toFixed(5) + " ";
 			commandstr += pathstr;
 			commandstr += "\" "; // end path
 
@@ -371,11 +371,11 @@ function GetSVGSaveElements() {
 			for (var i=1; i<parentids.length; i++) {
 				P0 = mainboard.objects[parentids[i]];
 				PP0 = trPoint(P0);
-				pathstr += " L " + PP0.x + " " + PP0.y + " ";
+				pathstr += " L " + PP0.x.toFixed(5) + " " + PP0.y.toFixed(5) + " ";
 			}
 			P0 = mainboard.objects[parentids[0]];
 			PP0 = trPoint(P0);
-			pathstr += " L " + PP0.x + " " + PP0.y + " ";
+			pathstr += " L " + PP0.x.toFixed(5) + " " + PP0.y.toFixed(5) + " ";
 			
 			// Add path components
 			commandstr += pathstr;
@@ -408,10 +408,10 @@ function GetSVGSaveElements() {
 			PP2 = trPoint(P2);
 			PP3 = trPoint(P3);
 			
-			pathstr  = " M " + PP0.x + " " + PP0.y + " ";
-			pathstr += " C " + PP1.x + " " + PP1.y + ", ";
-			pathstr +=         PP2.x + " " + PP2.y + ", ";
-			pathstr +=         PP3.x + " " + PP3.y + "  ";
+			pathstr  = " M " + PP0.x.toFixed(5) + " " + PP0.y.toFixed(5) + " ";
+			pathstr += " C " + PP1.x.toFixed(5) + " " + PP1.y.toFixed(5) + ", ";
+			pathstr +=         PP2.x.toFixed(5) + " " + PP2.y.toFixed(5) + ", ";
+			pathstr +=         PP3.x.toFixed(5) + " " + PP3.y.toFixed(5) + "  ";
 			
 			// Add path components
 			commandstr += pathstr;
@@ -492,12 +492,12 @@ function GetSaveTikzDrawPoints() {
 	        commandstr += "draw=" + RGBColorToTikzColor(obj.getAttribute("strokeColor")) + ", ";
 	        commandstr += "fill=" + RGBColorToTikzColor(obj.getAttribute("fillColor")) + ", ";
 	        commandstr += "fill opacity="+obj.getAttribute("fillOpacity")+"] ";
-	        commandstr += "(" + obj.X() + "," + obj.Y() + ") circle (" + obj.getAttribute("size")*0.75 + "pt);\r\n";
+	        commandstr += "(" + obj.X().toFixed(5) + "," + obj.Y().toFixed(5) + ") circle (" + obj.getAttribute("size")*0.75 + "pt);\r\n";
 			tikzstr += commandstr;
 
             // \node [label={[xshift=15pt, yshift=2pt] {a^2 \cdot b^2 \cdot c^2 } \end pgf } ] at (-4.4,3.7) {};
 			//commandstr = "\\node [label={[xshift=5pt, yshift=2pt] {" + objname + "} \\end pgf}] " + " at (" + obj.X() + "," + obj.Y() + "){};\r\n";
-			commandstr = "\\node [label={right:{" + RemoveDSign(objname) + "} \\end pgf}] " + " at (" + obj.X() + "," + obj.Y() + "){};\r\n";
+			commandstr = "\\node [label={right:{" + RemoveDSign(objname) + "} \\end pgf}] " + " at (" + obj.X().toFixed(5) + "," + obj.Y().toFixed(5) + "){};\r\n";
 			tikzstr += commandstr;
 		break;
 		default:;
@@ -519,7 +519,7 @@ function GetTikzDrawLineString(obj, P0, P1) {
 	    commandstr += "fill=" + RGBColorToTikzColor(obj.getAttribute("fillColor")) + ", ";
 	    commandstr += "fill opacity="+obj.getAttribute("fillOpacity")+"] ";
 	}
-	commandstr += "(" + P0.X() + "," + P0.Y() + ") -- (" + P1.X() + "," + P1.Y() + ");\r\n";
+	commandstr += "(" + P0.X().toFixed(5) + "," + P0.Y().toFixed(5) + ") -- (" + P1.X().toFixed(5) + "," + P1.Y().toFixed(5) + ");\r\n";
 	return commandstr;
 }
 
@@ -628,7 +628,7 @@ function GetSaveTikzDrawText() {
 		switch (eltype) {
 		case "text" :
 		// Not correct
-			commandstr += "\\node [label={left:" + objname + "}] " + " at (" + obj.X() + "," + obj.Y() + "){};\r\n";
+			commandstr += "\\node [label={left:" + objname + "}] " + " at (" + obj.X().toFixed(5) + "," + obj.Y().toFixed(5) + "){};\r\n";
 			tikzstr += commandstr;
 		break;
 		default:;
@@ -667,7 +667,7 @@ function GetSaveDrawTikzShapes() {
 	        commandstr += "fill opacity="+obj.getAttribute("fillOpacity")                + ", ";
 	        commandstr += "fill=" + RGBColorToTikzColor(obj.getAttribute("fillColor")) ; 
 			}
-	        commandstr += "] (" + obj.center.X() + "," + obj.center.Y() + ") circle (" + obj.getRadius() + "cm);\r\n";
+	        commandstr += "] (" + obj.center.X().toFixed(5) + "," + obj.center.Y().toFixed(5) + ") circle (" + obj.getRadius().toFixed(5) + "cm);\r\n";
 			tikzstr += commandstr;
 		break;
 		case "sector" :
@@ -690,8 +690,8 @@ function GetSaveDrawTikzShapes() {
 			}
 
 			// (0,0) -- (3.5,0)  arc (0:40:3.5cm) -- cycle ;
-			commandstr += "] (" + P0.X() + "," + P0.Y() + ") -- ("  + P1.X() + "," + P1.Y() + ") --";
-	        commandstr += " ++(0,0) arc (" + objattrs.arotation + ":" + objattrs.brotation + ":" + obj.Radius() + "cm) -- cycle;\r\n";
+			commandstr += "] (" + P0.X().toFixed(5) + "," + P0.Y().toFixed(5) + ") -- ("  + P1.X().toFixed(5) + "," + P1.Y().toFixed(5) + ") --";
+	        commandstr += " ++(0,0) arc (" + objattrs.arotation.toFixed(5) + ":" + objattrs.brotation.toFixed(5) + ":" + obj.Radius().toFixed(5) + "cm) -- cycle;\r\n";
 			
 			tikzstr += commandstr;
 		break;
@@ -709,12 +709,12 @@ function GetSaveDrawTikzShapes() {
 	        commandstr += "line width="+obj.getAttribute("strokeWidth")*0.75+"pt, ";
 	        commandstr += "draw=" + RGBColorToTikzColor(obj.getAttribute("strokeColor")) + ", ";
 			// rotate around={45:(5,5)}
-			commandstr += "rotate around={" + objattrs.rotation+":(" + objattrs.CenterX + "," + objattrs.CenterY + ")}, ";
+			commandstr += "rotate around={" + objattrs.rotation.toFixed(5) + ":(" + objattrs.CenterX.toFixed(5) + "," + objattrs.CenterY.toFixed(5) + ")}, ";
 			if (obj.getAttribute("fillOpacity")!=0) {
 	        commandstr += "fill opacity="+obj.getAttribute("fillOpacity")                + ", ";
 	        commandstr += "fill=" + RGBColorToTikzColor(obj.getAttribute("fillColor")) ; 
 			}
-	        commandstr += "] (" + objattrs.CenterX + "," + objattrs.CenterY + ") ellipse (" + objattrs.AxisA/2 + "cm and " + objattrs.AxisB/2 + "cm);\r\n";
+	        commandstr += "] (" + objattrs.CenterX.toFixed(5) + "," + objattrs.CenterY.toFixed(5) + ") ellipse (" + (objattrs.AxisA/2).toFixed(5) + "cm and " + (objattrs.AxisB/2).toFixed(5) + "cm);\r\n";
 			tikzstr += commandstr;
 		break;
 		case "semicircle" :
@@ -747,12 +747,12 @@ function GetSaveDrawTikzShapes() {
 			
 	        var rotation = Math.atan( klisi ) * (180 / Math.PI);
 			
-			commandstr += "rotate around={" + rotation + ":(" + centerX + "," + centerY + ")}, ";
+			commandstr += "rotate around={" + rotation.toFixed(5) + ":(" + centerX.toFixed(5) + "," + centerY.toFixed(5) + ")}, ";
 			if (obj.getAttribute("fillOpacity")!=0) {
 	        commandstr += "fill opacity="+obj.getAttribute("fillOpacity")                + ", ";
 	        commandstr += "fill=" + RGBColorToTikzColor(obj.getAttribute("fillColor")) ; 
 			}
-	        commandstr += "] (" + centerXD + "," + centerY + ") arc (0:"+sign+"180:" + radius + "cm);\r\n";
+	        commandstr += "] (" + centerXD.toFixed(5) + "," + centerY.toFixed(5) + ") arc (0:"+sign+"180:" + radius.toFixed(5) + "cm);\r\n";
 			tikzstr += commandstr;
 
 			// correct side effect
@@ -765,10 +765,10 @@ function GetSaveDrawTikzShapes() {
 			pathstr="";
 			for (var i=0; i<parentids.length; i++) {
 				P0 = mainboard.objects[parentids[i]];
-				pathstr += "(" + P0.X() + "," + P0.Y() + ") -- ";
+				pathstr += "(" + P0.X().toFixed(5) + "," + P0.Y().toFixed(5) + ") -- ";
 			}
 			P0 = mainboard.objects[parentids[0]];
-			pathstr += "(" + P0.X() + "," + P0.Y() + ")";
+			pathstr += "(" + P0.X().toFixed(5) + "," + P0.Y().toFixed(5) + ")";
 			//Alert(pathstr);
 
 			commandstr  = "\\draw[";
@@ -791,10 +791,10 @@ function GetSaveDrawTikzShapes() {
 			P2 = mainboard.objects[parentids[2]];
 			P3 = mainboard.objects[parentids[3]];
 			// (0,0) .. controls (1,1) and (2,-1) .. (3,0)
-			pathstr  = "(" + P0.X() + "," + P0.Y() + ") .. controls ";
-			pathstr += "(" + P1.X() + "," + P1.Y() + ") and ";
-			pathstr += "(" + P2.X() + "," + P2.Y() + ") .. ";
-			pathstr += "(" + P3.X() + "," + P3.Y() + ") ";
+			pathstr  = "(" + P0.X().toFixed(5) + "," + P0.Y().toFixed(5) + ") .. controls ";
+			pathstr += "(" + P1.X().toFixed(5) + "," + P1.Y().toFixed(5) + ") and ";
+			pathstr += "(" + P2.X().toFixed(5) + "," + P2.Y().toFixed(5) + ") .. ";
+			pathstr += "(" + P3.X().toFixed(5) + "," + P3.Y().toFixed(5) + ") ";
 
 			commandstr  = "\\draw[";
 	        commandstr += "line width="+obj.getAttribute("strokeWidth")*0.75+"pt, ";
@@ -817,7 +817,7 @@ function GetSaveDrawTikzShapes() {
 
 function SaveTikz() {   	
 	//var tikzstr = "\\begin{tikzpicture}\r\n"
-	var tikzstr = "\\tikz{\r\n";
+	var tikzstr = "\\tikz{\r\n\\clip (-9, -9) rectangle (10, 10);\r\n";
 
 	tikzstr += GetSaveDrawTikzShapes();
 	tikzstr += GetSaveTikzDrawLines();
