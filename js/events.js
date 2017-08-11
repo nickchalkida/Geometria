@@ -473,8 +473,8 @@ function onTIncircleClick() {
 
 function onTTextClick(x0,y0,textstr) {
 	
-	var p = mainboard.create('point',[x0,y0],{name:textstr, size:2});
-    var txt = boardCreate('text', [x0,y0,textstr], {anchor: p});
+	var p = mainboard.create('point',[x0,y0],{name:textstr, size:2, useMathJax:true});
+    //var txt = boardCreate('text', [x0,y0,textstr], {anchor:p,useMathJax:true});
 }
 
 function onTImageClick() {
@@ -691,6 +691,10 @@ var onboardmousedown = function(e) {
             onToolClick(CUR_TOOL_ID);
         } 
     } else { // There is no hit
+        if (CUR_TOOL_ID == 'TText') {
+        onTTextClick(coords.usrCoords[1], coords.usrCoords[2], document.getElementById("idTextIn").value);
+        } else {
+
         //obj = mainboard.create('point', [coords.usrCoords[1], coords.usrCoords[2]]);
         obj = boardCreateWithoutStore('point', [coords.usrCoords[1], coords.usrCoords[2]]);
         StoreMainboardAction("create", obj, obj.elType);
@@ -699,6 +703,7 @@ var onboardmousedown = function(e) {
             obj.setAttribute({"fillColor":"#888888","strokeColor":"#888888"});
             SELECTED_OBJECTS.push(obj);
             onToolClick(CUR_TOOL_ID);
+        }
         }
     }
     
