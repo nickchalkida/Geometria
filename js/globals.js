@@ -68,4 +68,9 @@ var DOM_EDObjStrokeWidth;
 var DOM_logarea;
 var LOG_ENABLED;
 
+var BOARD_DEF_FONT_SIZE     = 18;
+var BOARD_DEF_POINT_SIZE    = 2;
+var POINT_DEF_FILL_COLOR    = "#ff0000";
+var POINT_DEF_STROKE_COLOR  = "#ff0000";
+
 

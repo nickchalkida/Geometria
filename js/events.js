@@ -685,8 +685,9 @@ var onboardmousedown = function(e) {
         else if (CUR_TOOL_ID == 'TPoint' && (isLikeLine(hittedobject) || isLikeCurve(hittedobject))) {
             boardCreate('glider', [coords.usrCoords[1], coords.usrCoords[2],hittedobject]);
         } else {
-            if (isLikePoint(hittedobject))
-                hittedobject.setAttribute({"fillColor":"#888888","strokeColor":"#888888"});
+            if (isLikePoint(hittedobject)) {
+                hittedobject.setAttribute({"fillColor":"#AAAAAA","strokeColor":"#AAAAAA"});
+            }
             SELECTED_OBJECTS.push(hittedobject);
             onToolClick(CUR_TOOL_ID);
         } 
@@ -700,7 +701,7 @@ var onboardmousedown = function(e) {
         StoreMainboardAction("create", obj, obj.elType);
 
         if (CUR_TOOL_ID != 'TPoint') {
-            obj.setAttribute({"fillColor":"#888888","strokeColor":"#888888"});
+            obj.setAttribute({"fillColor":"#AAAAAA","strokeColor":"#AAAAAA"});
             SELECTED_OBJECTS.push(obj);
             onToolClick(CUR_TOOL_ID);
         }

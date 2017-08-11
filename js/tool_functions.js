@@ -334,7 +334,9 @@ function UnDraftBoard() {
         mainboard.update(obj);
         //obj.setAttribute({draft: false});
         if (isLikePoint(obj)) {
-            obj.setAttribute({"fillColor":"#ff0000","strokeColor":"#ff0000"});
+            var siz = obj.getAttribute("size");
+            if (siz == BOARD_DEF_POINT_SIZE)
+            obj.setAttribute({"fillColor":POINT_DEF_FILL_COLOR,"strokeColor":POINT_DEF_STROKE_COLOR});
         }
         
     }
@@ -513,6 +515,16 @@ function Get_DOM_Globals() {
     
     DOM_logarea          = document.getElementById("logarea");
     LOG_ENABLED          = (DOM_logarea==null)?false:true;
+    
+    BOARD_DEF_FONT_SIZE     = 18;
+    BOARD_DEF_POINT_SIZE    = 2;
+    POINT_DEF_FILL_COLOR    = "#ff0000";
+    POINT_DEF_STROKE_COLOR  = "#ff0000";
+
+    JXG.Options.text.fontSize     = BOARD_DEF_FONT_SIZE;
+    JXG.Options.point.size        = BOARD_DEF_POINT_SIZE;
+    JXG.Options.point.fillcolor   = POINT_DEF_FILL_COLOR;
+    JXG.Options.point.strokecolor = POINT_DEF_STROKE_COLOR;
 
 }
 
@@ -585,9 +597,8 @@ function NewBoard() {
 	JXG.Options.text.useMathJax = true;
 	JXG.Options.renderer = 'canvas';
     mainboard = JXG.JSXGraph.initBoard('mainbox', {boundingbox: [-10,10,10,-10], axis: true, grid:true, showCopyright:false});   
-    mainboard.jc = new JXG.JessieCode();
-    mainboard.jc.use(mainboard);
-
+    //mainboard.jc = new JXG.JessieCode();
+    //mainboard.jc.use(mainboard);
 	//StoreMainboardAction("init", null, "");
 
     for (el in mainboard.objects) {
@@ -609,11 +620,6 @@ function NewFile() {
     MAINBOARD_STORED_ACTIONS.length=0;
     STORED_STATE_INDEX = -1;
 	
-    JXG.Options.text.fontSize     = 18;
-    JXG.Options.point.size        = 2;
-    JXG.Options.point.fillcolor   = "#ff0000";
-    JXG.Options.point.strokecolor = "#ff0000";
-    
 	NewBoard();
 }
 
