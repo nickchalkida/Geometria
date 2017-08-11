@@ -639,19 +639,27 @@ var onboardmousedown = function(e) {
     var hittonobject = false;
 	var hittedobject = null;
     var i, coords, el, hel;
-//Alert("00");	
+
 	if (e[JXG.touchProperty]) {
         // index of the finger that is used to extract the coordinates
         i = 0;
     }
     coords = getMouseCoords(e, i);
-
-
+    hittonobject = false;
 	hittedobject = getHittedObject(coords.scrCoords[1], coords.scrCoords[2]);
 	if (hittedobject && hittedobject !== "null" && hittedobject !== "undefined" ){
 		hittonobject = true;
 		DisplayObjectToEdit(hittedobject);
 	}
+    
+    //hittonobject = false; hittedobject=null;
+    //var allobjunder = mainboard.getAllObjectsUnderMouse(e);
+    //for (var i=0; i<allobjunder.length; i++) {
+    //   hittedobject = allobjunder[i];
+    //   DisplayObjectToEdit(hittedobject);
+    //}
+
+    /*
 	if (hittonobject == true && CUR_TOOL_ID != 'TPoint' && CUR_TOOL_ID != 'TText') {
 		var obj = hittedobject;
         obj.setAttribute({
@@ -668,17 +676,43 @@ var onboardmousedown = function(e) {
     } else {
         UnDraftBoard();
     }
+    */
+
+    if (CUR_TOOL_ID == "TSelect") {
+        UnDraftBoard();
+    } else if (hittonobject == true) {
+        if (hittedobject.elType=='text') {}
+        else if (CUR_TOOL_ID == 'TPoint' && (isLikeLine(hittedobject) || isLikeCurve(hittedobject))) {
+            boardCreate('glider', [coords.usrCoords[1], coords.usrCoords[2],hittedobject]);
+        } else {
+            if (isLikePoint(hittedobject))
+                hittedobject.setAttribute({"fillColor":"#888888","strokeColor":"#888888"});
+            SELECTED_OBJECTS.push(hittedobject);
+            onToolClick(CUR_TOOL_ID);
+        } 
+    } else { // There is no hit
+        //obj = mainboard.create('point', [coords.usrCoords[1], coords.usrCoords[2]]);
+        obj = boardCreateWithoutStore('point', [coords.usrCoords[1], coords.usrCoords[2]]);
+        StoreMainboardAction("create", obj, obj.elType);
+
+        if (CUR_TOOL_ID != 'TPoint') {
+            obj.setAttribute({"fillColor":"#888888","strokeColor":"#888888"});
+            SELECTED_OBJECTS.push(obj);
+            onToolClick(CUR_TOOL_ID);
+        }
+    }
+    
     return true;
 }
 
-var onboardmouseup = function(e) {
+//var onboardmouseup = function(e) {
 	//Alert("onboardmouseup");
-}
+//}
 
-var onobjectmousedown = function(e) {
-    Alert(obj.elType + " id:" + obj.id + " attrs:" + obj.getAttributes());
+//var onobjectmousedown = function(e) {
+    //Alert(obj.elType + " id:" + obj.id + " attrs:" + obj.getAttributes());
     //Alert("Great on onobjectmousedown");
-}
+//}
 
 var onboardrightmouseclick = function(e) {
     var hittonobject = false;

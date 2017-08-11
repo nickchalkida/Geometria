@@ -332,7 +332,11 @@ function UnDraftBoard() {
 	for (var el in mainboard.objects) {
         var obj = mainboard.objects[el];
         mainboard.update(obj);
-        obj.setAttribute({draft: false});
+        //obj.setAttribute({draft: false});
+        if (isLikePoint(obj)) {
+            obj.setAttribute({"fillColor":"#ff0000","strokeColor":"#ff0000"});
+        }
+        
     }
 	mainboard.updateRenderer();
     SELECTED_OBJECTS.length=0;
@@ -419,6 +423,16 @@ function isLikeLine(obj) {
 		obj.elType === 'bisector' ||
 		obj.elType === 'semiline' ||
 		obj.elType === 'axis')
+		return true;
+	return false;
+}
+
+function isLikeCurve(obj) {
+	if (obj.elType === 'circle' ||
+		obj.elType === 'incircle' ||
+		obj.elType === 'circumcircle' ||
+		obj.elType === 'ellipse' ||
+		obj.elType === 'semicircle')
 		return true;
 	return false;
 }
@@ -631,7 +645,7 @@ function RestoreMainboardState(stateindex) {
     var objname, remtype, parentids;
 	var action, optstr;
     var newpars, newatrs;
-    
+
     if (stateindex > MAINBOARD_STORED_ACTIONS.length - 1)
         return;
     NewBoard();
@@ -642,7 +656,7 @@ function RestoreMainboardState(stateindex) {
  
         if (!JXG.exists(action))
             continue;
-        
+
 		// Object to be recreated
 		obj = action.createdobject;
 		if (action.actiontype=="delete") {
