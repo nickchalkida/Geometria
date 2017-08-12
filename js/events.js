@@ -63,6 +63,11 @@ function onTSegmentClick() {
 
     p1 = SELECTED_OBJECTS.pop();
     p0 = SELECTED_OBJECTS.pop();
+    
+    if (p0.X()==p1.X() && p0.Y()==p1.Y()) {
+        return;
+    }
+    
 
     boardCreate('segment', [p0, p1], getDrawAttrs());
 
@@ -79,6 +84,10 @@ function onTMeasureClick() {
 
     p1 = SELECTED_OBJECTS.pop();
     p0 = SELECTED_OBJECTS.pop();
+
+    if (p0.X()==p1.X() && p0.Y()==p1.Y()) {
+        return;
+    }
 
     //var tape = board.create('tapemeasure', [[1, 2], [4, 2]], {name:'dist'});
     boardCreate('tapemeasure', [[p0.X(), p0.Y()], [p1.X(), p1.Y()]], {name:'dist'});
@@ -98,6 +107,10 @@ function onTLineClick() {
     p1 = SELECTED_OBJECTS.pop();
     p0 = SELECTED_OBJECTS.pop();
 
+    if (p0.X()==p1.X() && p0.Y()==p1.Y()) {
+        return;
+    }
+
     boardCreate('line', [p0, p1], getDrawAttrs());
 
 }
@@ -114,6 +127,10 @@ function onTSemiLineClick() {
 
     p1 = SELECTED_OBJECTS.pop();
     p0 = SELECTED_OBJECTS.pop();
+
+    if (p0.X()==p1.X() && p0.Y()==p1.Y()) {
+        return;
+    }
 
 	var attrs = getDrawAttrs();
 	var extattrs = {
@@ -684,7 +701,7 @@ var onboardmousedown = function(e) {
         if (hittedobject.elType=='text') {}
         else if (CUR_TOOL_ID == 'TPoint' && (isLikeLine(hittedobject) || isLikeCurve(hittedobject))) {
             boardCreate('glider', [coords.usrCoords[1], coords.usrCoords[2],hittedobject]);
-        } else {
+       } else {
             if (isLikePoint(hittedobject)) {
                 hittedobject.setAttribute({"fillColor":"#AAAAAA","strokeColor":"#AAAAAA"});
             }
@@ -699,6 +716,7 @@ var onboardmousedown = function(e) {
         //obj = mainboard.create('point', [coords.usrCoords[1], coords.usrCoords[2]]);
         obj = boardCreateWithoutStore('point', [coords.usrCoords[1], coords.usrCoords[2]]);
         StoreMainboardAction("create", obj, obj.elType);
+        SynchronizeObjects();
  
         if (CUR_TOOL_ID != 'TPoint') {
             obj.setAttribute({"fillColor":"#AAAAAA","strokeColor":"#AAAAAA"});
