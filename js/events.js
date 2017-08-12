@@ -699,7 +699,7 @@ var onboardmousedown = function(e) {
         //obj = mainboard.create('point', [coords.usrCoords[1], coords.usrCoords[2]]);
         obj = boardCreateWithoutStore('point', [coords.usrCoords[1], coords.usrCoords[2]]);
         StoreMainboardAction("create", obj, obj.elType);
-
+ 
         if (CUR_TOOL_ID != 'TPoint') {
             obj.setAttribute({"fillColor":"#AAAAAA","strokeColor":"#AAAAAA"});
             SELECTED_OBJECTS.push(obj);
@@ -711,15 +711,17 @@ var onboardmousedown = function(e) {
     return true;
 }
 
-//var onboardmouseup = function(e) {
+var onboardmouseup = function(e) {
 	//Alert("onboardmouseup");
-//}
+	return true;
+}
 
 //var onobjectmousedown = function(e) {
     //Alert(obj.elType + " id:" + obj.id + " attrs:" + obj.getAttributes());
     //Alert("Great on onobjectmousedown");
 //}
 
+/*
 var onboardrightmouseclick = function(e) {
     var hittonobject = false;
 	var hittedobject = null;
@@ -744,6 +746,7 @@ var onboardrightmouseclick = function(e) {
 	
 }
 
+*/
 
 
 

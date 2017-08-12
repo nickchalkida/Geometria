@@ -22,8 +22,55 @@
 
 *******************************************************************************/
 
-// A $( document ).ready() block.
-$( document ).ready(function() {
+
+function NewBoard() {
+    var el, obj, err;
+
+	//if (JXG.exists(mainboard))
+	try{
+	JXG.JSXGraph.freeBoard(mainboard);
+	} catch (err) {;};
+	
+	try{
+    mainboard = JXG.JSXGraph.initBoard('mainbox', {boundingbox: [-10,10,10,-10], axis: true, grid:true, showCopyright:false});   
+	} catch (err) {;};
+    //mainboard.jc = new JXG.JessieCode();
+    //mainboard.jc.use(mainboard);
+	//StoreMainboardAction("init", null, "");
+	//return;
+	
+	mainboard.on('mousedown', onboardmousedown);
+    //mainboard.on('down', onboardmousedown);
+	mainboard.on('mouseup', onboardmouseup);
+	//mainboard.on('up', onboardmouseup);
+	//mainbox.addEventListener("contextmenu", onboardrightmouseclick);
+
+	Get_DOM_Globals();
+	GetCurrentDrawParams();
+    
+    SELECTED_OBJECTS.length=0;
+    DOM_OBJECT_SELECTOR.length=0;
+	FILE_SELECTOR.selectedIndex=0;
+	fileSelectorChanged();
+
+    for (el in mainboard.objects) {
+        obj = mainboard.objects[el];
+		obj.setName("RootObj_"+obj.id);
+        ROOT_OBJECTS.push(obj);
+        if (obj.elType!='point') {
+        obj.showElement();
+        obj.visible = true;
+        obj.setAttribute({"visible":true});
+        }
+    } 
+     
+	ClearEditFields();
+	SynchronizeObjects();
+    
+}
+
+
+function NewFile() {
     //console.log( "ready!" );
 	FILL_CHECKED = $("#checkfill").val();
 	CUR_FILL_COLOR =  $("#fillcolor").val();
@@ -36,6 +83,15 @@ $( document ).ready(function() {
 	CUR_STROKE_WIDTH = $("#strokewidth").val();
 	//alert(STROKE_CHECKED);
 	
+    MAINBOARD_STORED_ACTIONS.length=0;
+    STORED_STATE_INDEX = -1;
+	NewBoard();
+
+}
+
+// A $( document ).ready() block.
+$( document ).ready(function() {
+	//NewFile();
 });
 
 $(document).on("change", "#fillcolor", function() {
@@ -62,6 +118,7 @@ $(document).on("change", "#strokewidth", function() {
     CUR_STROKE_WIDTH = $(this).val();
 });
 
+/*
 $(document).on("click", "#BoardWidthP", function() {
 	ReDo();
 	return;
@@ -98,5 +155,5 @@ $(document).on("click", "#BoardWidthM", function() {
 
     mainboard = JXG.JSXGraph.initBoard('mainbox', {boundingbox: [-10,10,10,-10], axis: true});
 });
-
+*/
 

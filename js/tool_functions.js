@@ -489,6 +489,15 @@ function DisplayObjectToEdit(disobj) {
 }
 
 function Get_DOM_Globals() {
+    BOARD_DEF_FONT_SIZE     = 18;
+    BOARD_DEF_POINT_SIZE    = 2;
+    POINT_DEF_FILL_COLOR    = "#ff0000";
+    POINT_DEF_STROKE_COLOR  = "#ff0000";
+
+    JXG.Options.text.fontSize     = BOARD_DEF_FONT_SIZE;
+    JXG.Options.point.size        = BOARD_DEF_POINT_SIZE;
+    JXG.Options.point.fillcolor   = POINT_DEF_FILL_COLOR;
+    JXG.Options.point.strokecolor = POINT_DEF_STROKE_COLOR;
 
     DOM_OBJECT_SELECTOR  = document.getElementById('objSelector');
 	FILE_SELECTOR        = document.getElementById('fileSelector');
@@ -505,27 +514,19 @@ function Get_DOM_Globals() {
 	DOM_EDHasLabelText   = document.getElementById("EDHasLabelText");
 
 	DOM_EDobjfillcolor   = document.getElementById("EDobjfillcolor");
-    DOM_EDobjfillcolor.value = JXG.Options.point.fillcolor;
+    DOM_EDobjfillcolor.value = POINT_DEF_FILL_COLOR;
 	DOM_EDfillopacity    = document.getElementById("EDfillopacity");
 
 	DOM_EDobjstrokecolor = document.getElementById("EDobjstrokecolor");
-    DOM_EDobjstrokecolor.value = JXG.Options.point.strokecolor;
+    DOM_EDobjstrokecolor.value = POINT_DEF_STROKE_COLOR;
 	DOM_EDstrokeopacity  = document.getElementById("EDstrokeopacity");
 	DOM_EDObjStrokeWidth = document.getElementById("EDObjStrokeWidth");
     
     DOM_logarea          = document.getElementById("logarea");
     LOG_ENABLED          = (DOM_logarea==null)?false:true;
     
-    BOARD_DEF_FONT_SIZE     = 18;
-    BOARD_DEF_POINT_SIZE    = 2;
-    POINT_DEF_FILL_COLOR    = "#ff0000";
-    POINT_DEF_STROKE_COLOR  = "#ff0000";
-
-    JXG.Options.text.fontSize     = BOARD_DEF_FONT_SIZE;
-    JXG.Options.point.size        = BOARD_DEF_POINT_SIZE;
-    JXG.Options.point.fillcolor   = POINT_DEF_FILL_COLOR;
-    JXG.Options.point.strokecolor = POINT_DEF_STROKE_COLOR;
-
+	JXG.Options.text.useMathJax   = true;
+	JXG.Options.renderer          = 'canvas';
 }
 
 function GetCurrentDrawParams() {
@@ -583,45 +584,7 @@ function Test() {
     //ShowArray(mainboard.objects);
 }
 
-function NewBoard() {
-    var el, obj;
 
-	Get_DOM_Globals();
-	GetCurrentDrawParams();
-
-    SELECTED_OBJECTS.length=0;
-    DOM_OBJECT_SELECTOR.length=0;
-	FILE_SELECTOR.selectedIndex=0;
-	fileSelectorChanged();
-
-	JXG.Options.text.useMathJax = true;
-	JXG.Options.renderer = 'canvas';
-    mainboard = JXG.JSXGraph.initBoard('mainbox', {boundingbox: [-10,10,10,-10], axis: true, grid:true, showCopyright:false});   
-    //mainboard.jc = new JXG.JessieCode();
-    //mainboard.jc.use(mainboard);
-	//StoreMainboardAction("init", null, "");
-
-    for (el in mainboard.objects) {
-        obj = mainboard.objects[el];
-		obj.setName("RootObj_"+obj.id);
-        ROOT_OBJECTS.push(obj);
-        if (obj.elType!='point') {
-        obj.showElement();
-        obj.visible = true;
-        obj.setAttribute({"visible":true});
-        }
-    }   
-	ClearEditFields();
-	SynchronizeObjects();
-    
-}
-
-function NewFile() {
-    MAINBOARD_STORED_ACTIONS.length=0;
-    STORED_STATE_INDEX = -1;
-	
-	NewBoard();
-}
 
 function RestoreMainboardStateALT(stateindex) {
     if (stateindex > MAINBOARD_STORED_ACTIONS.length - 1)
@@ -655,6 +618,9 @@ function RestoreMainboardState(stateindex) {
     if (stateindex > MAINBOARD_STORED_ACTIONS.length - 1)
         return;
     NewBoard();
+    //try {
+    //mainboard = JXG.JSXGraph.initBoard('mainbox', {boundingbox: [-10,10,10,-10], axis: true, grid:true, showCopyright:false});   
+    //} catch (err) {alert("RestoreMainboardState Error Initialize board");}
     
     // Recreate State
     for (var el=0; el<=stateindex; el++) {
@@ -739,8 +705,8 @@ function RestoreMainboardState(stateindex) {
 	}
 
     try {
-	//mainboard.updateRenderer();
-    mainboard.fullUpdate();
+	mainboard.updateRenderer();
+    //mainboard.fullUpdate();
 	} catch (err) {Alert("mainboard.updateRenderer 12 " + obj.id);}
     return lastobj;
 	
