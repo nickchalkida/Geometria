@@ -2,13 +2,9 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
 "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg width="768" height="768" version="1.1" xmlns="http://www.w3.org/2000/svg">
-<circle cx="576"  cy="76.80000000000001"  r="24"  fill="#000060"  fill-opacity="1"  stroke="#000060"  stroke-opacity="1"  stroke-width="2" />
-<text x="586" y="66.80000000000001"></text>
-<circle cx="76.80000000000001"  cy="576"  r="24"  fill="#000060"  fill-opacity="1"  stroke="#000060"  stroke-opacity="1"  stroke-width="2" />
-<text x="86.80000000000001" y="566"></text>
-<path d=" M 76.80000000000001 576L 576 76.80000000000001"  fill="#ffff00"  fill-opacity="0.5"  stroke="#000060"  stroke-opacity="1"  stroke-width="48" />
-<circle cx="460.8"  cy="192"  r="72"  fill="#ffff00"  fill-opacity="1"  stroke="#000000"  stroke-opacity="1"  stroke-width="12" />
-<text x="470.8" y="182"></text>
-<circle cx="192"  cy="460.8"  r="72"  fill="#ffff00"  fill-opacity="1"  stroke="#000000"  stroke-opacity="1"  stroke-width="12" />
-<text x="202" y="450.8"></text>
+<circle cx="76.80000"  cy="691.20000"  r="24"  fill="#000060"  fill-opacity="1"  stroke="#000060"  stroke-opacity="1"  stroke-width="2" />
+<circle cx="691.20000"  cy="76.80000"  r="24"  fill="#000060"  fill-opacity="1"  stroke="#000060"  stroke-opacity="1"  stroke-width="2" />
+<path d=" M 76.80000 691.20000L 691.20000 76.80000"  fill="#ffff00"  fill-opacity="0.5"  stroke="#000060"  stroke-opacity="1"  stroke-width="48" />
+<circle cx="230.40000"  cy="537.60000"  r="72"  fill="#ffff00"  fill-opacity="1"  stroke="#000000"  stroke-opacity="1"  stroke-width="12" />
+<circle cx="537.60000"  cy="230.40000"  r="72"  fill="#ffff00"  fill-opacity="1"  stroke="#000000"  stroke-opacity="1"  stroke-width="12" />
 </svg>
