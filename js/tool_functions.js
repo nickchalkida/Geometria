@@ -744,7 +744,7 @@ function ToggleAxis() {
     for (el in ROOT_OBJECTS) {
         obj = ROOT_OBJECTS[el];
 
-	    if (typeof obj !== 'undefined' || obj.elType=="point")
+	    if (typeof obj === 'undefined' || obj.elType=="point")
 		    continue;
 		    
         if (!obj.visible) {

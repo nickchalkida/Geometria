@@ -31,6 +31,16 @@ function NewBoard() {
 	JXG.JSXGraph.freeBoard(mainboard);
 	} catch (err) {;};
 	
+
+	Get_DOM_Globals();
+	GetCurrentDrawParams();
+    
+    SELECTED_OBJECTS.length=0;
+    ROOT_OBJECTS.length=0;
+    DOM_OBJECT_SELECTOR.length=0;
+	FILE_SELECTOR.selectedIndex=0;
+	fileSelectorChanged();
+
 	try{
     mainboard = JXG.JSXGraph.initBoard('mainbox', {boundingbox: [-10,10,10,-10], axis: true, grid:true, showCopyright:false});   
 	} catch (err) {;};
@@ -44,14 +54,7 @@ function NewBoard() {
 	mainboard.on('mouseup', onboardmouseup);
 	//mainboard.on('up', onboardmouseup);
 	//mainbox.addEventListener("contextmenu", onboardrightmouseclick);
-
-	Get_DOM_Globals();
-	GetCurrentDrawParams();
-    
-    SELECTED_OBJECTS.length=0;
-    DOM_OBJECT_SELECTOR.length=0;
-	FILE_SELECTOR.selectedIndex=0;
-	fileSelectorChanged();
+//alert("1");
 
     for (el in mainboard.objects) {
         obj = mainboard.objects[el];
@@ -61,7 +64,7 @@ function NewBoard() {
         obj.showElement();
         obj.visible = true;
         obj.setAttribute({"visible":true});
-        }
+        } 
     } 
      
 	ClearEditFields();
