@@ -91,7 +91,7 @@ function NewFile() {
 
 // A $( document ).ready() block.
 $( document ).ready(function() {
-	//NewFile();
+	NewFile();
 });
 
 $(document).on("change", "#fillcolor", function() {
