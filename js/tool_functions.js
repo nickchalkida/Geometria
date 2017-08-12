@@ -740,11 +740,13 @@ function ZoomOut() {
 
 function ToggleAxis() {
     var obj;
+    
     for (el in ROOT_OBJECTS) {
         obj = ROOT_OBJECTS[el];
 
-	if (obj.elType=="point")
-		continue;
+	    if (typeof obj !== 'undefined' || obj.elType=="point")
+		    continue;
+		    
         if (!obj.visible) {
             obj.showElement();
             obj.visible = true;
