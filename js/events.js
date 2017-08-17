@@ -243,10 +243,14 @@ function onTAngleClick(sectype) {
         gX = p1.X()+p1p0X/p1p0; gY = p1.Y()+p1p0Y/p1p0;
         p7 = boardCreate('glider', [gX, gY, p1p0seg],{visible:false, size:2});
         bs = boardCreate('bisector', [p7, p1, p2], {visible:false});
-        
         obj = boardCreate('sector', [p1, p7, p2], getDrawAttrs());
-        var tobj = mainboard.create('text', [gX, gY, function () {
-        return (JXG.Math.Geometry.angle(p7, p1, p2) * (180 / Math.PI)).toFixed(2);}],getDrawAttrs());
+        var tobj = mainboard.create('text', [gX, gY, 
+        function () {
+            var txtstr="";
+            if (!obj.hasLabel)
+                txtstr = (JXG.Math.Geometry.rad(p7, p1, p2) * (180 / Math.PI)).toFixed(2);
+            return txtstr;
+        }],getDrawAttrs());
         tobj.makeGlider(bs);
     } else {
         obj = boardCreate('sector', [p1, p0, p2], getDrawAttrs());
