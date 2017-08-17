@@ -811,20 +811,13 @@ function ApplyObjectChanges() {
         if (!CUR_OBJECT_EDITING.hasLabel) // create label
             CUR_OBJECT_EDITING.setLabel(CUR_OBJECT_EDITING.getName());
         
-        if (CUR_OBJECT_EDITING.label === "defined")
-            labelobj = findObjectInList(CUR_OBJECT_EDITING.label.id,mainboard.objects);
-        if (!isNaN(labelobj) && labelobj != null) {
-            labelobj.showElement();
-            labelobj.setAttribute({"visible":true});
-        }
+        CUR_OBJECT_EDITING.hasLabel = true;
+        CUR_OBJECT_EDITING.withLabel = true;
     } else {
         //Alert(CUR_OBJECT_EDITING.label.id);
-        if (CUR_OBJECT_EDITING.label === "defined")
-            labelobj = findObjectInList(CUR_OBJECT_EDITING.label.id,mainboard.objects);
-        if (!isNaN(labelobj) && labelobj != null) {
-            labelobj.hideElement();
-            labelobj.setAttribute({"visible":false});
-        }
+        CUR_OBJECT_EDITING.setLabel("");
+        CUR_OBJECT_EDITING.hasLabel = false;
+        CUR_OBJECT_EDITING.withLabel = false;
     }
 
 	CUR_OBJECT_EDITING.setAttribute({"fillColor":DOM_EDobjfillcolor.value});

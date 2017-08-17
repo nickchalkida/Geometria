@@ -31,16 +31,16 @@ var mainboard = []; // = JXG.JSXGraph.initBoard('mainbox', {boundingbox: [-10,10
 
 var MAINBOARD_STORED_ACTIONS = [];
 var STORED_STATE_INDEX;
-var HISTORY_SIZE=20;
+var HISTORY_SIZE = 20;
 
-var FILL_CHECKED;
-var CUR_FILL_COLOR;
-var CUR_FILL_OPACITY;
+var FILL_CHECKED       = true;
+var CUR_FILL_COLOR     = "#ffff00";
+var CUR_FILL_OPACITY   = 0.5;
 
-var STROKE_CHECKED;
-var CUR_STROKE_COLOR;
-var CUR_STROKE_OPACITY;
-var CUR_STROKE_WIDTH = 2;
+var STROKE_CHECKED     = true;
+var CUR_STROKE_COLOR   = "#000060";
+var CUR_STROKE_OPACITY = 1.0;
+var CUR_STROKE_WIDTH   = 2;
 
 var CUR_OBJECT_EDITING;
 var DOM_OBJECT_SELECTOR;
@@ -58,15 +58,15 @@ var DOM_EDVisibility;
 var DOM_EDHasLabel;
 var DOM_EDHasLabelText;
 
-var DOM_EDobjfillcolor;
-var DOM_EDfillopacity;
+var DOM_EDobjfillcolor   = "#ffff00";
+var DOM_EDfillopacity    = 0.5;
 
-var DOM_EDobjstrokecolor;
-var DOM_EDstrokeopacity;
-var DOM_EDObjStrokeWidth;
+var DOM_EDobjstrokecolor = "#000060";
+var DOM_EDstrokeopacity  = 1.0;
+var DOM_EDObjStrokeWidth = 2;
 
 var DOM_logarea;
-var LOG_ENABLED;
+var LOG_ENABLED = false;
 
 var BOARD_DEF_FONT_SIZE     = 18;
 var BOARD_DEF_POINT_SIZE    = 2;
