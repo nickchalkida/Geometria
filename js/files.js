@@ -100,7 +100,7 @@ function GetSVGSaveElements() {
     var commandstr, svgstr, pathstr, txtstr;
 	var parentids, objattrs, objvisible;
 	var P0, P1, P2, P3, P4, BI;
-	var PP0, PP1, PP2, PP3, PP4, PP7, P0P1;
+	var PP0, PP1, PP2, PP3, PP4, PP7, PPC, P0P1;
 	var theta1, theta2, phi0, SectorAngle, elangle;
 	var centerX, centerY, radius, centerXD, xP7, yP7, OP0;
 	var ocx=768/2, ocy=768/2; 
@@ -149,7 +149,7 @@ function GetSVGSaveElements() {
 			
 			//<text x="20" y="40">Example SVG text 1</text>
 			txtstr = obj.getName();
-			if (txtstr != "") {
+			if (txtstr != "" && txtstr.search("{")<0) {
 			    commandstr = "<text x=\"" + txneocx.toFixed(5)  + "\" y=\"" + txneocy.toFixed(5) + "\">" + txtstr + "</text>\r\n";
 			    svgstr += commandstr;
 			}
@@ -276,6 +276,13 @@ function GetSVGSaveElements() {
 			commandstr += " stroke-width=\"" + obj.getAttribute("strokeWidth") + "\" />\r\n";
 			svgstr += commandstr;
 
+            if (obj.withLabel && obj.hasLabel) {
+			txtstr = obj.getName(); //PPC = trPoint(obj.arc.center);
+			if (txtstr != "" && txtstr.search("{")<0) {
+			    commandstr = "<text x=\"" + ((PP1.x+PP7.x)/2).toFixed(5)  + "\" y=\"" + ((PP1.y+PP7.y)/2).toFixed(5) + "\">" + txtstr + "</text>\r\n";
+			    svgstr += commandstr;
+			}
+            }
 			break;
 		case "ellipse" :
 		    // commandstr = "\\draw[line width=0.5mm, draw=black, fill={rgb:red,1;green,2;blue,5}, fill opacity=0.2] (0,0) ellipse (6pt and 3pt);\n";
